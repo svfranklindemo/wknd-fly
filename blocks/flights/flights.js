@@ -3,10 +3,10 @@ import { isAuthorEnvironment } from '../../scripts/scripts.js';
 import { readBlockConfig } from '../../scripts/aem.js';
 import { dispatchCustomEvent } from '../../scripts/custom-events.js';
 
-const AUTHOR_GRAPHQL_BASE_For_Search = 'https://author-p159983-e1710854.adobeaemcloud.com/graphql/execute.json/wknd-fly/flight-details-list';
+const AUTHOR_GRAPHQL_BASE_For_Search = 'https://author-p189874-e1977911.adobeaemcloud.com/graphql/execute.json/wknd-fly/flight-details-list';
 const PUBLISH_GRAPHQL_BASE_For_Search = 'https://275323-918sangriatortoise.adobeioruntime.net/api/v1/web/dx-excshell-1/flight-details-list';
 
-const AUTHOR_GRAPHQL_BASE_For_Destination = 'https://author-p159983-e1710854.adobeaemcloud.com/graphql/execute.json/wknd-fly/flight-details-list';
+const AUTHOR_GRAPHQL_BASE_For_Destination = 'https://author-p189874-e1977911.adobeaemcloud.com/graphql/execute.json/wknd-fly/flight-details-list';
 const PUBLISH_GRAPHQL_BASE_For_Destination = 'https://275323-918sangriatortoise.adobeioruntime.net/api/v1/web/dx-excshell-1/flight-details-list';
 
 let selectButtonDataAttributes = {};
@@ -156,7 +156,7 @@ async function fetchFlightsFromGraphQL(from, to) {
   try {
     const url = isAuthor
       ? `${AUTHOR_GRAPHQL_BASE_For_Search};from=${encodeURIComponent(fromCode)};to=${encodeURIComponent(toCode)};ts=${Date.now()}`
-      : `${PUBLISH_GRAPHQL_BASE_For_Search}?environment=p159983-e1710854&endpoint=flight-details-list&from=${encodeURIComponent(fromCode)}&to=${encodeURIComponent(toCode)}&time=${Date.now()}`;
+      : `${PUBLISH_GRAPHQL_BASE_For_Search}?environment=p189874-e1977911&endpoint=flight-details-list&from=${encodeURIComponent(fromCode)}&to=${encodeURIComponent(toCode)}&time=${Date.now()}`;
     const response = await fetch(url, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
@@ -184,7 +184,7 @@ async function fetchFlightsForDestination(destination) {
   try {
     const url = isAuthor
       ? `${AUTHOR_GRAPHQL_BASE_For_Destination};to=${encoded};ts=${Date.now()}`
-      : `${PUBLISH_GRAPHQL_BASE_For_Destination}?environment=p159983-e1710854&endpoint=flight-details-list-for-destination-page&to=${encoded}&time=${Date.now()}`;
+      : `${PUBLISH_GRAPHQL_BASE_For_Destination}?environment=p189874-e1977911&endpoint=flight-details-list-for-destination-page&to=${encoded}&time=${Date.now()}`;
     const response = await fetch(url, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
