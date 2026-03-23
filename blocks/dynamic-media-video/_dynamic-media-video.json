@@ -1,0 +1,65 @@
+{
+  "definitions": [
+    {
+      "title": "Dynamic Media (Video)",
+      "id": "dynamic-media-video",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block",
+            "template": {
+              "name": "Dynamic Media (Video)",
+              "model": "dynamic-media-video"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "dynamic-media-video",
+      "fields": [
+        {
+          "component": "custom-asset-namespace:custom-asset",
+          "name": "video",
+          "label": "Video",
+          "configUrl": "/content/dam/config/video.config.json",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "name": "videoTitle",
+          "label": "Video Title / Alt Text",
+          "description": "Accessible title for the video",
+          "valueType": "string"
+        },
+        {
+          "component": "boolean",
+          "name": "autoplay",
+          "value": false,
+          "label": "Autoplay",
+          "description": "Automatically start playing the video when loaded (will be muted for browser compatibility)",
+          "valueType": "boolean"
+        },
+        {
+          "component": "boolean",
+          "name": "loop",
+          "value": false,
+          "label": "Loop",
+          "description": "Loop the video continuously",
+          "valueType": "boolean"
+        },
+        {
+          "component": "boolean",
+          "name": "muted",
+          "value": false,
+          "label": "Muted",
+          "description": "Start the video muted",
+          "valueType": "boolean"
+        }
+      ]
+    }
+  ],
+  "filters": []
+}

@@ -1,0 +1,247 @@
+name: ⚡ Sync with Template (Direct Merge - No Review)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write  # Added for fallback PR creation
+
+jobs:
+  sync-template-direct:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout current repository
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        fetch-depth: 0
+        ref: main  # Ensure we're working with main branch
+
+    - name: Configure Git
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        
+    - name: Ensure we're on main branch
+      run: |
+        # Switch to main branch and ensure it's up to date
+        git checkout main
+        git pull origin main
+
+    - name: Add template repository as remote
+      run: |
+        # Template repository: AEMXSC/RefDemoEDS
+        git remote add template https://github.com/AEMXSC/RefDemoEDS.git
+        # Fetch only the main branch from template
+        git fetch template main
+
+    - name: Check for updates
+      id: check-updates
+      run: |
+        git merge-tree $(git merge-base HEAD template/main) HEAD template/main > /tmp/merge_result
+       
+        if [ -s /tmp/merge_result ]; then
+          echo "has_updates=true" >> $GITHUB_OUTPUT
+        else
+          echo "has_updates=false" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Direct merge template updates
+      id: sync-changes
+      if: steps.check-updates.outputs.has_updates == 'true'
+      run: |
+        # Create an archive branch from current state before syncing
+        ARCHIVE_BRANCH="main-archive-$(date +%Y%m%d-%H%M%S)"
+        echo "Creating archive branch: $ARCHIVE_BRANCH"
+        git checkout -b "$ARCHIVE_BRANCH"
+        git push origin "$ARCHIVE_BRANCH"
+        
+        # Switch back to main for the sync
+        git checkout main
+        
+        # Define files to ignore during sync (add your custom files here)
+        IGNORE_FILES=(
+          "paths.json"
+          "fstab.yaml"
+          ".github/workflows"
+        )
+        
+        # Backup ignored files before merge
+        for file in "${IGNORE_FILES[@]}"; do
+          if [ -e "$file" ]; then
+            echo "Backing up: $file"
+            cp -r "$file" "$file.backup" 2>/dev/null || true
+          fi
+        done
+        
+        # Merge from template with strategy to prefer template changes
+        # Use -X theirs to automatically resolve conflicts by preferring template version
+        # This works well since we're syncing FROM the template TO the child
+        # Protected files are handled separately via backup/restore
+        if git merge template/main -X theirs --no-edit --allow-unrelated-histories; then
+          echo "✅ Merge completed successfully"
+          MERGE_STATUS="success"
+          
+          # Restore ignored files after merge
+          for file in "${IGNORE_FILES[@]}"; do
+            if [ -e "$file.backup" ]; then
+              echo "Restoring: $file"
+              rm -rf "$file" 2>/dev/null || true
+              mv "$file.backup" "$file" 2>/dev/null || true
+            fi
+          done
+          
+          # Check if restored files need to be committed
+          git add .
+          if ! git diff --cached --quiet; then
+            # There are changes to restored files, commit them
+            git commit -m "Restore custom files after template sync" || true
+          fi
+          
+          # Check if there are any actual changes compared to origin/main
+          # This prevents pushing empty commits when only protected files changed
+          if git diff --quiet origin/main HEAD; then
+            echo "ℹ️ No net changes after merge and restore - protected files were the only changes"
+            echo "No sync needed as all changes were in protected files"
+            echo "merge_status=no_changes" >> $GITHUB_OUTPUT
+            echo "archive_branch=$ARCHIVE_BRANCH" >> $GITHUB_OUTPUT
+          else
+            # Push directly to main (merge commit exists and has real changes)
+            git push origin main
+            
+            echo "merge_status=success" >> $GITHUB_OUTPUT
+            echo "archive_branch=$ARCHIVE_BRANCH" >> $GITHUB_OUTPUT
+          fi
+        else
+          echo "⚠️ Merge has conflicts - falling back to PR creation"
+          MERGE_STATUS="conflicts"
+          
+          # Abort the failed merge
+          git merge --abort
+          
+          # Create a new branch for the PR fallback
+          BRANCH_NAME="sync-template-$(date +%Y%m%d-%H%M%S)"
+          git checkout -b "$BRANCH_NAME"
+          
+          # Try merge again but commit with conflicts this time
+          git merge template/main --no-edit --allow-unrelated-histories || true
+          
+          # Add all files including conflicted ones
+          git add .
+          git commit -m "Template sync with conflicts - needs manual resolution" || true
+          
+          # Restore ignored files after merge
+          for file in "${IGNORE_FILES[@]}"; do
+            if [ -e "$file.backup" ]; then
+              echo "Restoring: $file"
+              rm -rf "$file" 2>/dev/null || true
+              mv "$file.backup" "$file" 2>/dev/null || true
+            fi
+          done
+          
+          # Add and commit the restored files
+          git add .
+          git commit -m "Restore custom files after template sync" || true
+          
+          # Push the branch
+          git push origin "$BRANCH_NAME"
+          
+          echo "merge_status=conflicts" >> $GITHUB_OUTPUT
+          echo "archive_branch=$ARCHIVE_BRANCH" >> $GITHUB_OUTPUT
+          echo "branch_name=$BRANCH_NAME" >> $GITHUB_OUTPUT
+        fi
+      continue-on-error: true
+
+    - name: Create fallback PR for conflicts
+      if: steps.check-updates.outputs.has_updates == 'true' && steps.sync-changes.outputs.merge_status == 'conflicts'
+      run: |
+        PR_TITLE="⚠️ Template Sync (Auto-Fallback - HAS CONFLICTS) - $(date +%Y-%m-%d)"
+        PR_BODY="This PR was automatically created because the direct merge encountered conflicts.
+        
+        **⚠️ MERGE CONFLICTS DETECTED**
+        
+        Direct merge failed, so this PR was created automatically for manual review.
+        
+        **Template commit:** \`${{ steps.check-updates.outputs.template_commit }}\`
+        **Sync date:** $(date -u +%Y-%m-%d\ %H:%M:%S\ UTC)
+        **Archive branch:** \`${{ steps.sync-changes.outputs.archive_branch }}\` (backup of state before sync)
+        
+        ## How to resolve conflicts:
+        1. Review the files with conflicts in the 'Files changed' tab
+        2. Click 'Resolve conflicts' button in GitHub UI
+        3. Edit the files to resolve conflicts
+        4. Mark as resolved and commit
+        5. Merge the PR
+        
+        ## What happened:
+        - ✅ Attempted direct merge with \`-X theirs\` strategy
+        - ❌ Conflicts detected that couldn't be auto-resolved
+        - 🔄 Automatically fell back to PR creation
+        - 💾 Archive branch created for safety"
+        
+        gh pr create \
+          --title "$PR_TITLE" \
+          --body "$PR_BODY" \
+          --base main \
+          --head "${{ steps.sync-changes.outputs.branch_name }}"
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Create summary
+      if: steps.check-updates.outputs.has_updates == 'true' && steps.sync-changes.outputs.merge_status == 'success'
+      run: |
+        echo "## ✅ Template Sync Completed Successfully" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "**Template commit:** \`${{ steps.check-updates.outputs.template_commit }}\`" >> $GITHUB_STEP_SUMMARY
+        echo "**Sync date:** $(date -u +%Y-%m-%d\ %H:%M:%S\ UTC)" >> $GITHUB_STEP_SUMMARY
+        echo "**Archive branch:** \`${{ steps.sync-changes.outputs.archive_branch }}\`" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "Changes have been directly merged to the main branch." >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "### Protected Files" >> $GITHUB_STEP_SUMMARY
+        echo "The following files were preserved during sync:" >> $GITHUB_STEP_SUMMARY
+        echo "- \`paths.json\`" >> $GITHUB_STEP_SUMMARY
+        echo "- \`fstab.yaml\`" >> $GITHUB_STEP_SUMMARY
+        echo "- \`.github/workflows/\`" >> $GITHUB_STEP_SUMMARY
+
+    - name: No net changes to sync
+      if: steps.check-updates.outputs.has_updates == 'true' && steps.sync-changes.outputs.merge_status == 'no_changes'
+      run: |
+        echo "## ℹ️ No Net Changes to Sync" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "**Template has updates but only to protected files.**" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "All changes were in protected files (\`paths.json\`, \`fstab.yaml\`, \`.github/workflows/\`)." >> $GITHUB_STEP_SUMMARY
+        echo "These files are preserved during sync to maintain your customizations." >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "Archive branch created: \`${{ steps.sync-changes.outputs.archive_branch }}\`" >> $GITHUB_STEP_SUMMARY
+
+    - name: Fallback PR created notification
+      if: steps.check-updates.outputs.has_updates == 'true' && steps.sync-changes.outputs.merge_status == 'conflicts'
+      run: |
+        echo "## ⚠️ Template Sync - Fallback to PR" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "**Direct merge encountered conflicts, automatically created PR instead.**" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "### What Happened" >> $GITHUB_STEP_SUMMARY
+        echo "1. ✅ Attempted direct merge with \`-X theirs\` strategy" >> $GITHUB_STEP_SUMMARY
+        echo "2. ❌ Conflicts detected that couldn't be auto-resolved" >> $GITHUB_STEP_SUMMARY
+        echo "3. 🔄 Automatically created PR for manual review" >> $GITHUB_STEP_SUMMARY
+        echo "4. 💾 Archive branch: \`${{ steps.sync-changes.outputs.archive_branch }}\`" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "### Next Steps" >> $GITHUB_STEP_SUMMARY
+        echo "1. Go to Pull Requests tab" >> $GITHUB_STEP_SUMMARY
+        echo "2. Find the PR titled '⚠️ Template Sync (Auto-Fallback - HAS CONFLICTS)'" >> $GITHUB_STEP_SUMMARY
+        echo "3. Review and resolve conflicts" >> $GITHUB_STEP_SUMMARY
+        echo "4. Merge when ready" >> $GITHUB_STEP_SUMMARY
+
+    - name: No updates available
+      if: steps.check-updates.outputs.has_updates == 'false'
+      run: |
+        echo "## ✅ Repository Up to Date" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "No updates available from template repository." >> $GITHUB_STEP_SUMMARY
+        echo "Current repository is already in sync with template." >> $GITHUB_STEP_SUMMARY
+

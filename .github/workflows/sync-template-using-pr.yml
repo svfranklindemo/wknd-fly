@@ -1,0 +1,165 @@
+name: 🔄 Sync with Template (Create PR for Review)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync-template:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout current repository
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        fetch-depth: 0
+        ref: main  # Ensure we're working with main branch
+
+    - name: Configure Git
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        
+    - name: Ensure we're on main branch
+      run: |
+        # Switch to main branch and ensure it's up to date
+        git checkout main
+        git pull origin main
+
+    - name: Add template repository as remote
+      run: |
+        # Template repository: AEMXSC/RefDemoEDS
+        git remote add template https://github.com/AEMXSC/RefDemoEDS.git
+        # Fetch only the main branch from template
+        git fetch template main
+
+    - name: Check for updates
+      id: check-updates
+      run: |
+        # Get the latest commit from template
+        TEMPLATE_LATEST=$(git rev-parse template/main)
+        CURRENT_LATEST=$(git rev-parse HEAD)
+        
+        echo "Template latest: $TEMPLATE_LATEST"
+        echo "Current latest: $CURRENT_LATEST"
+        
+        if [ "$TEMPLATE_LATEST" != "$CURRENT_LATEST" ]; then
+          echo "has_updates=true" >> $GITHUB_OUTPUT
+          echo "template_commit=$TEMPLATE_LATEST" >> $GITHUB_OUTPUT
+        else
+          echo "has_updates=false" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Create pull request with updates
+      id: sync-changes
+      if: steps.check-updates.outputs.has_updates == 'true'
+      run: |
+        # Create an archive branch from current state before syncing
+        ARCHIVE_BRANCH="main-archive-$(date +%Y%m%d-%H%M%S)"
+        echo "Creating archive branch: $ARCHIVE_BRANCH"
+        git checkout -b "$ARCHIVE_BRANCH"
+        git push origin "$ARCHIVE_BRANCH"
+        
+        # Switch back to main for the sync
+        git checkout main
+        
+        # Create a new branch for the sync
+        BRANCH_NAME="sync-template-$(date +%Y%m%d-%H%M%S)"
+        git checkout -b "$BRANCH_NAME"
+        
+        # Define files to ignore during sync (add your custom files here)
+        IGNORE_FILES=(
+          "paths.json"
+          "fstab.yaml"
+          ".github/workflows"
+        )
+        
+        # Backup ignored files before merge
+        for file in "${IGNORE_FILES[@]}"; do
+          if [ -e "$file" ]; then
+            echo "Backing up: $file"
+            cp -r "$file" "$file.backup" 2>/dev/null || true
+          fi
+        done
+        
+        # Merge from template with strategy to prefer template changes
+        # Use -X theirs to automatically resolve conflicts by preferring template version
+        # This works well since we're syncing FROM the template TO the child
+        # Protected files are handled separately via backup/restore
+        if git merge template/main -X theirs --no-edit --allow-unrelated-histories; then
+          echo "✅ Merge completed successfully"
+          MERGE_STATUS="success"
+        else
+          echo "⚠️ Merge failed - will create PR for manual resolution"
+          MERGE_STATUS="conflicts"
+          # Add all files including conflicted ones
+          git add .
+          git commit -m "WIP: Template sync with conflicts - needs manual resolution" || true
+        fi
+        
+        # Restore ignored files after merge
+        for file in "${IGNORE_FILES[@]}"; do
+          if [ -e "$file.backup" ]; then
+            echo "Restoring: $file"
+            rm -rf "$file" 2>/dev/null || true
+            mv "$file.backup" "$file" 2>/dev/null || true
+          fi
+        done
+        
+        # Check if restored files need to be committed
+        git add .
+        if ! git diff --cached --quiet; then
+          # There are changes to restored files, commit them
+          git commit -m "Restore custom files after template sync" || true
+        fi
+        
+        # Check if there are any actual changes compared to origin/main
+        # This prevents creating empty PRs when only protected files changed
+        if git diff --quiet origin/main HEAD; then
+          echo "ℹ️ No net changes after merge and restore - protected files were the only changes"
+          echo "Deleting branch as it would result in empty PR"
+          git checkout main
+          git branch -D "$BRANCH_NAME"
+          echo "merge_status=no_changes" >> $GITHUB_OUTPUT
+          echo "archive_branch=$ARCHIVE_BRANCH" >> $GITHUB_OUTPUT
+          exit 0
+        fi
+        
+        # Push the branch (merge commit exists and has real changes)
+        git push origin "$BRANCH_NAME"
+        
+        # Store merge status and branch name for PR creation
+        echo "merge_status=$MERGE_STATUS" >> $GITHUB_OUTPUT
+        echo "archive_branch=$ARCHIVE_BRANCH" >> $GITHUB_OUTPUT
+        echo "branch_name=$BRANCH_NAME" >> $GITHUB_OUTPUT
+        
+        # Create pull request using GitHub CLI with appropriate message
+        PR_TITLE="🔄 Sync template repository - $(date +%Y-%m-%d)"
+        if [ "$MERGE_STATUS" = "conflicts" ]; then
+          PR_TITLE="⚠️ Sync template repository (HAS CONFLICTS) - $(date +%Y-%m-%d)"
+        fi
+        
+        gh pr create \
+          --title "$PR_TITLE" \
+          --body "This PR syncs the latest changes from the template repository from commit ${{ steps.check-updates.outputs.template_commit }}. Sync date: $(date -u +%Y-%m-%d\ %H:%M:%S\ UTC). Archive branch: $ARCHIVE_BRANCH" \
+          --base main \
+          --head "$BRANCH_NAME"
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: No updates available
+      if: steps.check-updates.outputs.has_updates == 'false'
+      run: |
+        echo "✅ No updates available from template repository"
+        echo "Current repository is up to date with template."
+
+    - name: No net changes to sync
+      if: steps.check-updates.outputs.has_updates == 'true' && steps.sync-changes.outputs.merge_status == 'no_changes'
+      run: |
+        echo "ℹ️ Template has updates but only to protected files"
+        echo "No PR created as all changes were in protected files (.github/workflows, paths.json, fstab.yaml)"
+        echo "Archive branch created: ${{ steps.sync-changes.outputs.archive_branch }}"

@@ -1,0 +1,166 @@
+{
+  "definitions": [
+    {
+      "title": "Button",
+      "id": "button",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/button/v1/button",
+            "template": {
+              "model": "button"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "button",
+      "fields": [
+        {
+          "component": "aem-content",
+          "name": "link",
+          "label": "Link"
+        },
+        {
+          "component": "text",
+          "name": "linkText",
+          "label": "Text"
+        },
+        {
+          "component": "text",
+          "name": "linkTitle",
+          "label": "Title"
+        },
+        {
+          "component": "select",
+          "name": "linkType",
+          "label": "Type",
+          "options": [
+            {
+              "name": "default",
+              "value": ""
+            },
+            {
+              "name": "primary",
+              "value": "primary"
+            },
+            {
+              "name": "secondary",
+              "value": "secondary"
+            },
+            { "name": "CTA", "value": "cta" },
+            { "name": "negative", "value": "negative" },
+            { "name": "link", "value": "link" },
+            { "name": "custom", "value": "custom" }
+          ]
+        },
+        {
+          "component": "select",
+          "name": "alignment",
+          "label": "Alignment",
+          "options": [
+            { "name": "Left", "value": "left" },
+            { "name": "Center", "value": "center" },
+            { "name": "Right", "value": "right" }
+          ]
+        },
+        {
+          "component": "boolean",
+          "name": "textUppercase",
+          "label": "Text Uppercase",
+          "value": "true",
+          "valueType": "boolean"
+        },
+        {
+          "component": "text",
+          "name": "eventType",
+          "label": "Event Type",
+          "value": "",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "name": "webhookUrl",
+          "label": "Webhook URL",
+          "value": "",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "name": "formId",
+          "label": "Form ID",
+          "value": "",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "name": "data",
+          "label": "Custom Data",
+          "value": "",
+          "valueType": "string",
+          "description": "Comma-separated key,value pairs"
+        },
+        {
+          "component": "text",
+          "name": "backgroundColor",
+          "label": "Background Color",
+          "value": "",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "name": "backgroundColorOnHover",
+          "label": "Background Color on Hover",
+          "value": "",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "name": "textColor",
+          "label": "Text Color",
+          "value": "",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "name": "textColorOnHover",
+          "label": "Text Color on Hover",
+          "value": "",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "name": "borderColor",
+          "label": "Border Color",
+          "value": "",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "name": "borderColorOnHover",
+          "label": "Border Color on Hover",
+          "value": "",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "name": "borderWidth",
+          "label": "Border Width",
+          "value": "",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "name": "customStyles",
+          "label": "Custom Styles",
+          "value": "",
+          "valueType": "string",
+          "description": "Custom CSS styles"
+        }
+      ]
+    }
+  ]
+}

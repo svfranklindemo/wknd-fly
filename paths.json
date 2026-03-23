@@ -1,0 +1,22 @@
+{
+  "mappings": [
+    "/content/wknd-sky/language-masters/en:/",
+    "/content/wknd-sky/language-masters/en/:/en/",
+    "/content/wknd-sky/language-masters/fr/:/fr/",
+    "/content/wknd-sky/language-masters/fr:/fr",
+    "/content/wknd-sky/language-masters/es/:/es/",
+    "/content/wknd-sky/language-masters/es:/es",
+    "/content/wknd-sky/language-masters/ja/:/ja/",
+    "/content/wknd-sky/language-masters/ja:/ja",
+    "/content/wknd-sky/language-masters/de/:/de/",
+    "/content/wknd-sky/language-masters/de:/de",
+    "/content/wknd-sky/configuration:/.helix/config.json",
+    "/content/wknd-sky/metadata:/metadata.json",
+    "/content/wknd-sky/redirects:/redirects.json",
+    "/content/wknd-sky/placeholders:/placeholders.json"
+  ],
+  "includes": [
+    "/content/wknd-sky/",
+    "/content/dam/wknd-sky/"
+  ]
+}

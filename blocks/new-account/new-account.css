@@ -1,0 +1,227 @@
+/* New Account block – 3-step wizard, same L&F as reference: teal Next/Submit, grey Back, dots + "n/3 step". Back visible on all steps including step 1. */
+:root {
+  --new-account-teal: #0d9488;
+  --new-account-teal-hover: #0f766e;
+  --new-account-grey: #e5e7eb;
+  --new-account-grey-border: #d1d5db;
+  --new-account-label: #374151;
+}
+
+main > .section:has(.new-account-block) > div {
+  max-width: 720px;
+}
+
+.new-account-block {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0 2rem 2rem;
+  font-family: var(--body-font-family, system-ui, sans-serif);
+  box-sizing: border-box;
+  background: #fff;
+}
+
+.new-account-block .new-account-heading {
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111;
+}
+
+.new-account-block .new-account-wrapper {
+  width: 100%;
+  min-width: 0;
+}
+
+/* Progress dots below title; wizard uses display:contents */
+.new-account-block form {
+  display: flex;
+  flex-direction: column;
+}
+
+.new-account-block .new-account-wizard.wizard {
+  display: contents;
+}
+
+/* Progress dots: inactive = outline, active = teal filled */
+.new-account-block .new-account-wizard .wizard-menu-items,
+.new-account-block .wizard-menu-items {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding-bottom: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.new-account-block .new-account-wizard .wizard-menu-item,
+.new-account-block .wizard-menu-item {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid var(--new-account-grey-border);
+  padding: 0;
+  margin: 0;
+  text-indent: -9999px;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.new-account-block .new-account-wizard .wizard-menu-item::before,
+.new-account-block .wizard-menu-item::before {
+  display: none !important;
+}
+
+.new-account-block .new-account-wizard .wizard-menu-active-item,
+.new-account-block .wizard-menu-active-item {
+  background: var(--new-account-teal);
+  border-color: var(--new-account-teal);
+}
+
+.new-account-block .new-account-step-label {
+  font-size: 0.875rem;
+  color: var(--new-account-label);
+  margin: 0 1rem;
+  flex: 0 0 auto;
+  order: 2;
+}
+
+/* Back visible on all steps (override form.css hide on first step) */
+.new-account-block form .wizard > .current-wizard-step.panel-wrapper:first-of-type ~ .wizard-button-wrapper > .wizard-button-prev {
+  display: flex;
+}
+
+.new-account-block .new-account-wizard .wizard-button-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--new-account-grey);
+}
+
+.new-account-block .new-account-wizard .wizard-button-wrapper > .field-wrapper {
+  width: auto;
+  flex: 0 0 auto;
+}
+
+.new-account-block .new-account-wizard .wizard-button-prev,
+.new-account-block .new-account-wizard [id*="wizard-button-prev"] {
+  order: 1;
+}
+
+.new-account-block .new-account-wizard .wizard-button-prev button,
+.new-account-block .new-account-wizard [id*="wizard-button-prev"] button {
+  padding: 0.75rem 1.5rem;
+  background: var(--new-account-grey) !important;
+  color: var(--new-account-label) !important;
+  border: 1px solid var(--new-account-grey-border) !important;
+  border-radius: 9999px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  width: auto !important;
+}
+
+.new-account-block .new-account-wizard .wizard-button-next,
+.new-account-block .new-account-wizard [id*="wizard-button-next"] {
+  order: 3;
+}
+
+.new-account-block .new-account-wizard .wizard-button-wrapper > .submit-wrapper {
+  order: 3;
+  width: auto !important;
+  flex: 0 0 auto;
+  margin-top: 0;
+  display: none;
+}
+
+.new-account-block .new-account-wizard .current-wizard-step.panel-wrapper:last-of-type ~ .wizard-button-wrapper > .submit-wrapper {
+  display: flex;
+}
+
+.new-account-block .new-account-wizard .wizard-button-next button,
+.new-account-block .new-account-wizard [id*="wizard-button-next"] button {
+  padding: 0.75rem 1.5rem !important;
+  background: var(--new-account-teal) !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 9999px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  width: auto !important;
+}
+
+.new-account-block .new-account-wizard .wizard-button-next button:hover,
+.new-account-block .new-account-wizard [id*="wizard-button-next"] button:hover {
+  background: var(--new-account-teal-hover) !important;
+}
+
+.new-account-block .new-account-wizard input[type="text"],
+.new-account-block .new-account-wizard input[type="email"],
+.new-account-block .new-account-wizard select {
+  width: 100%;
+  max-width: 100%;
+  padding: 0.625rem 0.875rem;
+  border: 1px solid var(--new-account-grey-border);
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+  background: #fff;
+  box-sizing: border-box;
+}
+
+.new-account-block .new-account-wizard .field-label {
+  font-weight: 600;
+  color: var(--new-account-label);
+  font-size: 0.9375rem;
+  margin-bottom: 0.25rem;
+}
+
+.new-account-block .new-account-wizard .panel-wrapper {
+  gap: 1.25rem;
+}
+
+.new-account-block .new-account-wizard .submit-wrapper {
+  max-width: none;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.new-account-block .new-account-wizard .submit-wrapper button,
+.new-account-block .new-account-submit-btn {
+  width: auto !important;
+  padding: 0.75rem 1.5rem !important;
+  background: var(--new-account-teal) !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 9999px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.new-account-block .new-account-wizard .submit-wrapper button:hover,
+.new-account-block .new-account-submit-btn:hover {
+  background: var(--new-account-teal-hover) !important;
+}
+
+.new-account-block .new-account-success-msg {
+  margin: 0 0 0.5rem 0;
+  padding: 0.75rem 1rem;
+  background: #e8f5e9;
+  color: #2e7d32;
+  border-radius: 6px;
+  font-size: 0.9375rem;
+  font-weight: 500;
+}
+
+@media (max-width: 600px) {
+  .new-account-block {
+    padding: 0 1rem 2rem;
+  }
+}

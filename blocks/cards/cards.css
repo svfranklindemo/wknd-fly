@@ -1,0 +1,607 @@
+/*.section.cards-container > div > p::after {
+  content: "----------";
+  color: transparent;
+  margin-left: 20px;
+  height: .2px;
+  width: 76px;
+  margin-top: 20px;
+  background: linear-gradient(
+    to bottom,
+    transparent 8px,
+    #008edd 9px,
+    #a2cf42 1px,
+    transparent 10px
+  );
+}*/
+
+.card-link .cards a:any-link {
+  text-decoration: none;
+}
+
+.cards > ul > li img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover; /* Cover (default) */
+  min-height: 255px;
+  max-height: 255px;
+  overflow: hidden;
+  transition: transform 0.4s ease;
+  transform-origin: 50% 50%;
+}
+
+/* Card image style options: Contain, Fill, None, Scale Down (Cover is default above) */
+.cards > ul > li .cards-card-image.contain img,
+.cards > ul > li .cards-card-image.contain picture img {
+  object-fit: contain;
+}
+
+.cards > ul > li .cards-card-image.fill img,
+.cards > ul > li .cards-card-image.fill picture img {
+  object-fit: fill;
+}
+
+.cards > ul > li .cards-card-image.none img,
+.cards > ul > li .cards-card-image.none picture img {
+  object-fit: none;
+}
+
+.cards > ul > li .cards-card-image.scale-down img,
+.cards > ul > li .cards-card-image.scale-down picture img {
+  object-fit: scale-down;
+}
+
+.card-link .cards li:hover img{
+  transform: scale(1.1); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+  width: 100%;
+}
+
+.cards > ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-gap: 16px;
+}
+
+.cards > ul > li {
+  border: 1px solid var(--accent-background-color);
+  background-color: var(--accent-background-color);
+  overflow: hidden;
+}
+
+.cards .cards-card-body {
+  margin: 16px;
+  padding: 0 0 5px;
+}
+
+.cards .cards-card-body ul {
+  list-style: disc;
+}
+
+.cards .cards-card-body p > strong,
+.cards .cards-card-body h2 {
+  line-height: 30px;
+  font-size: var(--heading-font-size-m);
+  font-weight: 500;
+}
+
+.cards .cards-card-image {
+  line-height: 0;
+  background-color: transparent;
+}
+
+.cards.gradient .cards-card-image {
+  border-bottom: var(--border-bottom);
+  border-image-slice: var(--border-image-slice);
+  border-image-source: linear-gradient(to right, var(--gradient-border-start-color), var(--gradient-border-start-color) 0%, var(--gradient-border-end-color) 100%, var(--highlight-background-color) 2%);;
+  border-image-width: var(--border-image-width);
+}
+
+.cards .cards-card-body > *:first-child {
+  margin-top: 0;
+}
+
+
+
+/* Card Generic Styles*/
+.cards > ul {
+  display: flex;
+  gap: 20px;
+  padding: 10px 0;
+}
+.cards > ul > li {
+  background: var(--background-color) 0 0 no-repeat padding-box;
+  box-shadow: none;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  height: auto;
+  min-height: auto;
+  display: inline-flex;
+  flex: 1;
+  flex-direction: column;
+}
+.cards > ul > li .cards-card-image {
+  position: relative;
+  display: block;
+}
+.cards > ul > li .cards-card-body {
+  display: block;
+  background-color: var(--background-color);
+  padding: 20px;
+  box-sizing: border-box;
+  margin: 0;
+}
+
+/* When card has custom background color, body must not cover it */
+.cards > ul > li.cards-card--custom-bg .cards-card-body {
+  background-color: transparent;
+}
+.cards > ul > li .cards-card-body h1 {
+  margin: 0;
+  font-size: 26px;
+  line-height: 36px;
+}
+.cards > ul > li .cards-card-body p {
+  margin: 10px 0;
+  font-size: 18px;
+  line-height: 26px;
+}
+.cards > ul > li .cards-card-body p.button-container {
+  margin: 0;
+}
+
+
+
+/* Card Icon Cards – centered text, smaller image min-height */
+.cards > ul > li.icon-cards .cards-card-body h1,
+.cards > ul > li.icon-cards .cards-card-body h2,
+.cards > ul > li.icon-cards .cards-card-body h3,
+.cards > ul > li.icon-cards .cards-card-body h4,
+.cards > ul > li.icon-cards .cards-card-body p {
+  text-align: center;
+}
+
+.cards > ul > li.icon-cards img {
+  min-height: 100px;
+}
+
+/* Card Image Top */
+.cards > ul > li.image-top {
+  background: var(--background-color) 0 0 no-repeat padding-box;
+  box-shadow: 0 3px 20px #00000010;
+  border: 1px solid var(--light-color);
+  border-radius: 4px;
+  flex-direction: column;
+}
+.cards > ul > li.image-top .cards-card-body h1 {
+  margin: 0;
+  font-size: 22px;
+  line-height: 32px;
+}
+.cards > ul > li.image-top .cards-card-body p {
+  margin: 10px 0;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+
+/* Card Image Bottom */
+.cards > ul > li.image-bottom {
+  background: var(--background-color) 0 0 no-repeat padding-box;
+  box-shadow: 0 3px 20px #00000010;
+  border: 1px solid var(--light-color);
+  border-radius: 4px;
+  flex-direction: column-reverse;
+}
+.cards > ul > li.image-bottom .cards-card-body h1 {
+  margin: 0;
+  font-size: 22px;
+  line-height: 32px;
+}
+
+.cards > ul > li.image-bottom .cards-card-body p {
+  margin: 10px 0;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+
+/* Card Image Left – image 50% left, text 50% right. Hide config divs so only image + body are in the row. */
+.cards > ul > li.image-left {
+  background: var(--background-color) 0 0 no-repeat padding-box;
+  box-shadow: 0 3px 20px #00000010;
+  border: 1px solid var(--light-color);
+  border-radius: 4px;
+  flex-direction: row;
+  gap: 20px;
+}
+.cards > ul > li.image-left .cards-config {
+  display: none;
+}
+.cards > ul > li.image-left .cards-card-image {
+  flex: 0 0 50%;
+  display: block;
+  overflow: hidden;
+  min-height: 220px;
+}
+.cards > ul > li.image-left .cards-card-body {
+  /*flex: 0 0 50%;*/
+  padding: 0;
+  margin: 10px 20px;
+  display: inline-flex;
+  align-items: center;
+}
+.cards > ul > li.image-left .cards-card-body h1 {
+  margin: 0;
+  font-size: 22px;
+  line-height: 32px;
+}
+.cards > ul > li.image-left .cards-card-body p {
+  margin: 10px 0;
+  font-size: 16px;
+  line-height: 24px;
+}
+.cards > ul > li.image-left picture {
+  width: 100%;
+  display: block;
+  line-height: 0;
+  min-height: 220px;
+}
+.cards > ul > li.image-left img {
+  width: 100%;
+  height: 100%;
+  min-height: 220px;
+  display: block;
+  object-fit: contain;
+  object-position: center;
+}
+
+
+/* Card Image Right – text 50% left, image 50% right. Hide config divs so only image + body are in the row. */
+.cards > ul > li.image-right {
+  background: var(--background-color) 0 0 no-repeat padding-box;
+  box-shadow: 0 3px 20px #00000010;
+  border: 1px solid var(--light-color);
+  border-radius: 4px;
+  flex-direction: row-reverse;
+  gap: 20px;
+}
+.cards > ul > li.image-right .cards-config {
+  display: none;
+}
+.cards > ul > li.image-right .cards-card-image {
+  flex: 0 0 50%;
+  display: block;
+  overflow: hidden;
+  min-height: 220px;
+}
+.cards > ul > li.image-right .cards-card-body {
+  /*flex: 0 0 50%;*/
+  padding: 0;
+  margin: 10px 20px;
+  display: inline-flex;
+  align-items: center;
+}
+.cards > ul > li.image-right .cards-card-body h1 {
+  margin: 0;
+  font-size: 22px;
+  line-height: 32px;
+}
+.cards > ul > li.image-right .cards-card-body p {
+  margin: 10px 0;
+  font-size: 16px;
+  line-height: 24px;
+}
+.cards > ul > li.image-right picture {
+  width: 100%;
+  display: block;
+  line-height: 0;
+  min-height: 220px;
+}
+.cards > ul > li.image-right img {
+  width: 100%;
+  height: 100%;
+  min-height: 220px;
+  display: block;
+  object-fit: contain;
+  object-position: center;
+}
+
+
+
+/* Card Teaser Overlay */
+.cards > ul > li.teaser-overlay {
+  box-shadow: 0 3px 20px #00000010;
+  border: 1px solid var(--light-color);
+  border-radius: 4px;
+  flex-direction: column;
+  gap: 0;
+  position: relative;
+}
+.cards > ul > li.teaser-overlay .cards-card-image {
+  display: inline-flex;
+  flex-grow: 1;
+  flex-basis: 0;
+}
+.cards > ul > li.teaser-overlay .cards-card-body {
+  width: 100%;
+  height: 100%;
+  padding: 30px;
+  margin: 0;
+  flex-grow: 1;
+  flex-basis: 0;
+  align-items: center;
+  position: absolute;
+  background-color: rgba(0, 0, 0, .5);
+  color: var(--text-light);
+  display: block;
+  align-content: center;
+}
+.cards > ul > li.teaser-overlay .cards-card-body div[data-aue-type="richtext"] {
+  width: 50%;
+}
+.cards > ul > li.teaser-overlay .cards-card-body p.button-container a {
+  color: var(--text-light);
+}
+.cards > ul > li.teaser-overlay .cards-card-body p.button-container a::after {
+  color: var(--text-light);
+}
+.cards > ul > li.teaser-overlay .cards-card-body h1 {
+  margin: 0;
+  font-size: 22px;
+  line-height: 32px;
+
+}
+.cards > ul > li.teaser-overlay .cards-card-body p {
+  margin: 10px 0;
+  font-size: 16px;
+  line-height: 24px;
+}
+.cards > ul > li.teaser-overlay picture {
+  width: 100%;
+  height: 100%;
+}
+.cards > ul > li.teaser-overlay img {
+  width: 100%;
+  height: 100%;
+  max-height: initial;
+  object-fit: cover;
+  object-position: center;
+}
+
+
+
+/* Card Teaser Card */
+.cards > ul > li.teaser-card {
+  box-shadow: 0 3px 20px #00000010;
+  border: 1px solid var(--light-color);
+  border-radius: 4px;
+  flex-direction: column;
+  gap: 0;
+  position: relative;
+}
+.cards > ul > li.teaser-card .cards-card-image {
+  display: inline-flex;
+  flex-grow: 1;
+  flex-basis: 0;
+}
+.cards > ul > li.teaser-card .cards-card-body {
+  width: auto;
+  max-width: 50%;
+  height: auto;
+  padding: 20px;
+  margin: auto;
+  display: inline-flex;
+  flex-grow: 1;
+  flex-basis: 0;
+  position: absolute;
+  background-color: rgba(0, 0, 0, .5);
+  border-radius: 4px;
+  color: var(--text-light);
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  bottom: 40px;
+  left: 0;
+  right: 0;
+  display: block;
+    align-content: center;
+}
+.cards > ul > li.teaser-card .cards-card-body p.button-container a {
+  color: var(--text-light);
+}
+.cards > ul > li.teaser-card .cards-card-body p.button-container a::after {
+  color: var(--text-light);
+}
+.cards > ul > li.teaser-card .cards-card-body h1 {
+  margin: 0;
+  font-size: 22px;
+  line-height: 32px;
+}
+.cards > ul > li.teaser-card .cards-card-body p {
+  margin: 10px 0;
+  font-size: 16px;
+  line-height: 24px;
+}
+.cards > ul > li.teaser-card picture {
+  width: 100%;
+  height: 100%;
+}
+.cards > ul > li.teaser-card img {
+  width: 100%;
+  height: 100%;
+  max-height: initial;
+  object-fit: cover;
+  object-position: center;
+}
+
+.cards > ul > li.teaser-overlay  a.button{
+  padding: 14px 15px !important;
+}
+.cards > ul > li.teaser-card .cards-card-body a.button{
+   padding: 14px 15px !important;
+}
+
+
+/* Card Image Style - Compact Style */
+.cards > ul > li .cards-card-image.compact-style img {
+  width: 100%;
+  height: 150px;
+  min-height: 150px;
+  object-fit: cover;
+  object-position: center;
+}
+
+.cards > ul > li .cards-card-image.compact-style picture {
+  width: 100%;
+  height: 150px;
+  min-height: 150px;
+  display: block;
+}
+
+.cards > ul > li .cards-card-image.compact-style picture img {
+  width: 100%;
+  height: 150px;
+  min-height: 150px;
+  object-fit: cover;
+  object-position: center;
+}
+
+
+/* Responsive Styles */
+@media (width < 1024px) {
+
+  .cards-container .cards-wrapper {
+    padding: 0 5%;
+  }
+  .cards-container .cards-wrapper .cards > ul > li img {
+    min-height: initial;
+    max-height: initial;
+  }
+
+  .cards-container .cards-wrapper .cards > ul {
+    display: block;
+  }
+
+  .cards-container .cards-wrapper .cards > ul > li {
+    width: 100%;
+    margin: 15px 0;
+    flex-direction: column;
+  }
+
+  .cards-container .cards-wrapper .cards > ul > li .cards-card-body h1, 
+  .cards-container .cards-wrapper .cards > ul > li .cards-card-body h2, 
+  .cards-container .cards-wrapper .cards > ul > li .cards-card-body h3, 
+  .cards-container .cards-wrapper .cards > ul > li .cards-card-body h4, 
+  .cards-container .cards-wrapper .cards > ul > li .cards-card-body h5, 
+  .cards-container .cards-wrapper .cards > ul > li .cards-card-body h6 {
+    margin: 0; 
+    padding: 0;
+    font-size: 20px;
+  }
+  .cards > ul > li.teaser-overlay .cards-card-body{
+    width:100%;
+  }
+  .cards-container .cards-wrapper .cards > ul > li.teaser-overlay img{
+    min-height: 270px;
+  }
+  .cards > ul > li.teaser-overlay .cards-card-body div {
+    width: 100%;
+  }
+  .cards > ul > li.teaser-overlay .cards-card-body div[data-aue-type="richtext"]{
+    width: 100%;
+  }
+}
+
+
+@media (width < 768px) {
+
+  .cards-container .cards-wrapper {
+    padding: 0 4%;
+  }
+  
+}
+
+/*
+  --------------------------
+  Card block: Alignment, vertical alignment, selectable, section link (Oxygen2 Card-like)
+  Uncomment when ready to test with new card authoring fields.
+  --------------------------
+
+  Alignment */ 
+.cards > ul > li.cards-card--alignment-left,
+.cards > ul > li.cards-card--alignment-left .cards-card-body {
+  text-align: left;
+}
+
+.cards > ul > li.cards-card--alignment-center,
+.cards > ul > li.cards-card--alignment-center .cards-card-body {
+  text-align: center;
+}
+
+.cards > ul > li.cards-card--alignment-right,
+.cards > ul > li.cards-card--alignment-right .cards-card-body {
+  text-align: right;
+}
+
+/*
+.cards > ul > li.cards-card--verticalalignment-top .cards-card-body {
+  justify-content: flex-start;
+}
+
+.cards > ul > li.cards-card--verticalalignment-middle .cards-card-body {
+  justify-content: center;
+}
+
+.cards > ul > li.cards-card--verticalalignment-bottom .cards-card-body {
+  justify-content: flex-end;
+}*/
+
+ /* Selectable*/
+.cards > ul > li.cards-card--selectable {
+  cursor: pointer;
+  border: 2px solid transparent;
+}
+
+.cards > ul > li.cards-card--selected {
+  border: 2px solid var(--main-accent-color, #008edd);
+  border-radius: 4px;
+}
+
+   /*Section link (card clickable)*/
+.cards > ul > li[data-section-link] {
+  cursor: pointer;
+}
+
+  --------------------------
+*/
+
+/* Hide new button/CTA config fields so they don't appear in HTML */
+.cards [data-aue-prop="eventType"],
+.cards [data-aue-prop="webhookUrl"],
+.cards [data-aue-prop="formId"],
+.cards [data-aue-prop="data"],
+.cards [data-aue-prop="alignment"],
+.cards [data-aue-prop="textUppercase"],
+.cards [data-aue-prop="backgroundcolor"],
+.cards [data-aue-prop="backgroundColor"],
+.cards [data-aue-prop="backgroundColorOnHover"],
+.cards [data-aue-prop="textColor"],
+.cards [data-aue-prop="textColorOnHover"],
+.cards [data-aue-prop="borderColor"],
+.cards [data-aue-prop="borderColorOnHover"],
+.cards [data-aue-prop="borderWidth"],
+.cards [data-aue-prop="customStyles"] {
+  display: none !important;
+}
+.cards div:has(> [data-aue-prop="eventType"]),
+.cards div:has(> [data-aue-prop="webhookUrl"]),
+.cards div:has(> [data-aue-prop="formId"]),
+.cards div:has(> [data-aue-prop="data"]),
+.cards div:has(> [data-aue-prop="alignment"]),
+.cards div:has(> [data-aue-prop="backgroundcolor"]),
+.cards div:has(> [data-aue-prop="customStyles"]) {
+  display: none !important;
+}

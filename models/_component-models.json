@@ -1,0 +1,576 @@
+[
+  {
+    "id": "page-metadata",
+    "fields": [
+      {
+        "component": "tab",
+        "label": "Basic",
+        "name": "tab-basic"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "jcr:title",
+        "label": "Title",
+        "required": true
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "jcr:pagetitle",
+        "label": "Page Title",
+        "required": true
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "jcr:description",
+        "label": "Description",
+        "required": true
+      },
+      {
+        "component": "aem-tag",
+        "name": "cq:tags",
+        "label": "Tags",
+        "valueType": "string",
+        "rootPath": "/content/cq:tags/world-bank"
+      },
+      {
+          "component": "select",
+          "name": "theme",
+          "label": "Theme",
+          "options": [
+            {
+              "name": "default",
+              "value": ""
+            },
+            {
+              "name": "Mango Haze",
+              "value": "mango-haze"
+            },
+            {
+              "name": "Lavender Chill",
+              "value": "lavender-chill"
+            },
+             {
+              "name": "Meadow Light",
+              "value": "meadow-light"
+            }
+          ]
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "pageName",
+        "label": "Page Name",
+        "required": true
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "pageCategory",
+        "label": "Page Category",
+        "required": true
+      }
+    ]
+  },
+  {
+    "id": "image",
+    "fields": [
+      {
+        "component": "reference",
+        "name": "image",
+        "label": "Image",
+        "multi": false
+      },
+      {
+        "component": "text",
+        "name": "imageAlt",
+        "label": "Alt Text"
+      }
+    ]
+  },
+  {
+    "id": "title",
+    "fields": [
+      {
+        "component": "text",
+        "name": "title",
+        "label": "Title"
+      },
+      {
+        "component": "select",
+        "name": "titleType",
+        "label": "Title Type",
+        "options": [
+          {
+            "name": "h1",
+            "value": "h1"
+          },
+          {
+            "name": "h2",
+            "value": "h2"
+          },
+          {
+            "name": "h3",
+            "value": "h3"
+          },
+          {
+            "name": "h4",
+            "value": "h4"
+          },
+          {
+            "name": "h5",
+            "value": "h5"
+          },
+          {
+            "name": "h6",
+            "value": "h6"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "button",
+    "fields": [
+      {
+        "component": "aem-content",
+        "name": "link",
+        "label": "Link"
+      },
+      {
+        "component": "text",
+        "name": "linkText",
+        "label": "Text"
+      },
+      {
+        "component": "text",
+        "name": "linkTitle",
+        "label": "Title"
+      },
+      {
+        "component": "select",
+        "name": "linkType",
+        "label": "Type",
+        "options": [
+          { "name": "default", "value": "" },
+          { "name": "primary", "value": "primary" },
+          { "name": "secondary", "value": "secondary" },
+          { "name": "CTA", "value": "cta" },
+          { "name": "negative", "value": "negative" },
+          { "name": "link", "value": "link" },
+          { "name": "custom", "value": "custom" }
+        ]
+      },
+      {
+        "component": "select",
+        "name": "alignment",
+        "label": "Alignment",
+        "options": [
+          { "name": "Left", "value": "left" },
+          { "name": "Center", "value": "center" },
+          { "name": "Right", "value": "right" }
+        ]
+      },
+      {
+        "component": "boolean",
+        "name": "textUppercase",
+        "label": "Text Uppercase",
+        "value": "true",
+        "valueType": "boolean"
+      },
+      {
+        "component": "text",
+        "name": "eventType",
+        "label": "Event Type",
+        "value": "",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "name": "webhookUrl",
+        "label": "Webhook URL",
+        "value": "",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "name": "formId",
+        "label": "Form ID",
+        "value": "",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "name": "data",
+        "label": "Custom Data",
+        "value": "",
+        "valueType": "string",
+        "description": "Comma-separated key,value pairs"
+      },
+      {
+        "component": "text",
+        "name": "backgroundColor",
+        "label": "Background Color",
+        "value": "",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "name": "backgroundColorOnHover",
+        "label": "Background Color on Hover",
+        "value": "",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "name": "textColor",
+        "label": "Text Color",
+        "value": "",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "name": "textColorOnHover",
+        "label": "Text Color on Hover",
+        "value": "",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "name": "borderColor",
+        "label": "Border Color",
+        "value": "",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "name": "borderColorOnHover",
+        "label": "Border Color on Hover",
+        "value": "",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "name": "borderWidth",
+        "label": "Border Width",
+        "value": "",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "name": "customStyles",
+        "label": "Custom Styles",
+        "value": "",
+        "valueType": "string",
+        "description": "Custom CSS styles"
+      }
+    ]
+  },
+  {
+    "id": "section",
+    "fields": [
+      {
+        "component": "text",
+        "name": "name",
+        "label": "Section Name",
+        "description": "The label shown for this section in the Content Tree"
+      },
+      {
+        "component": "multiselect",
+        "name": "style",
+        "label": "Style",
+        "options": [
+          {
+            "name": "Highlight",
+            "value": "highlight"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "card",
+    "fields": [
+      {
+        "component": "reference",
+        "valueType": "string",
+        "name": "image",
+        "label": "Image",
+        "multi": false
+      },
+      {
+        "component": "richtext",
+        "name": "text",
+        "value": "",
+        "label": "Text",
+        "valueType": "string"
+      },
+      {
+        "component": "select",
+        "name": "imagestyle",
+        "label": "Image Style",
+        "valueType": "string",
+        "value": "",
+        "options": [
+          { "name": "default", "value": "" },
+          { "name": "Compact Style", "value": "compact-style" }
+        ]
+      },
+      {
+        "component": "select",
+        "name": "ctastyle",
+        "label": "CTA Style",
+        "valueType": "string",
+        "value": "button",
+        "options": [
+          { "name": "Primary Button", "value": "button" },
+          { "name": "Secondary Button", "value": "button-secondary" },
+          { "name": "Dark Button", "value": "button-dark" }
+        ]
+      },
+      {
+        "component": "aem-content",
+        "name": "link",
+        "label": "Section Link",
+        "description": "Optional link for entire card"
+      },
+      {
+        "component": "boolean",
+        "name": "selectable",
+        "label": "Selectable",
+        "value": "false",
+        "valueType": "boolean"
+      },
+      {
+        "component": "select",
+        "name": "alignment",
+        "label": "Alignment",
+        "options": [
+          { "name": "Left", "value": "left" },
+          { "name": "Center", "value": "center" },
+          { "name": "Right", "value": "right" }
+        ]
+      },
+      {
+        "component": "select",
+        "name": "verticalalignment",
+        "label": "Vertical Alignment",
+        "options": [
+          { "name": "Top", "value": "top" },
+          { "name": "Middle", "value": "middle" },
+          { "name": "Bottom", "value": "bottom" }
+        ]
+      },
+      {
+        "component": "text",
+        "name": "buttoneventtype",
+        "label": "Button Event Type",
+        "value": "",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "name": "buttonwebhookurl",
+        "label": "Button Webhook URL",
+        "value": "",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "name": "buttonformid",
+        "label": "Button Form ID",
+        "value": "",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "name": "buttondata",
+        "label": "Button Data",
+        "value": "",
+        "valueType": "string",
+        "description": "Comma-separated key,value pairs"
+      }
+    ]
+  },
+  {
+    "id": "columns",
+    "fields": [
+      {
+        "component": "text",
+        "valueType": "number",
+        "name": "columns",
+        "value": "",
+        "label": "Columns"
+      },
+      {
+        "component": "text",
+        "valueType": "number",
+        "name": "rows",
+        "value": "",
+        "label": "Rows"
+      }
+    ]
+  },
+  {
+    "id": "fragment",
+    "fields": [
+      {
+        "component": "aem-content",
+        "name": "reference",
+        "label": "Reference"
+      }
+    ]
+  },
+  {
+    "id": "hero",
+    "fields": [
+      {
+        "component": "reference",
+        "valueType": "string",
+        "name": "image",
+        "label": "Image",
+        "multi": false
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "imageAlt",
+        "label": "Alt",
+        "value": ""
+      },
+      {
+        "component": "richtext",
+        "name": "text",
+        "value": "",
+        "label": "Text",
+        "valueType": "string"
+      },
+      {
+        "component": "boolean",
+        "label": "Enable Underline in Title",
+        "description": "Enable underline in title",
+        "name": "enableunderline",
+        "value": "true",
+        "valueType": "boolean"
+      },
+      {
+        "component": "select",
+        "name": "herolayout",
+        "label": "Hero Layout Style",
+        "options": [
+          { "name": "Default", "value": "overlay" },
+          { "name": "Image Left", "value": "image-left" },
+          { "name": "Image Right", "value": "image-right" },
+          { "name": "Image Top", "value": "image-top" },
+          { "name": "Image Bottom", "value": "image-bottom" },
+          { "name": "Image-Background Text-Left", "value": "image-background-text-left" },
+          { "name": "Image-Background Text-Right", "value": "image-background-text-right" }
+        ]
+      },
+      {
+        "component": "select",
+        "name": "ctastyle",
+        "label": "CTA Style",
+        "options": [
+          { "name": "default", "value": "" },
+          { "name": "Button", "value": "button" },
+          { "name": "Button secondary", "value": "button-secondary" },
+          { "name": "Link", "value": "link" }
+        ]
+      },
+      {
+        "component": "select",
+        "name": "backgroundstyle",
+        "label": "Background Style",
+        "options": [
+          { "name": "Default", "value": "default" },
+          { "name": "Theme Dark", "value": "theme-dark" },
+          { "name": "Theme Light", "value": "theme-light" }
+        ]
+      },
+      {
+        "component": "select",
+        "name": "alignment",
+        "label": "Alignment",
+        "options": [
+          { "name": "Left", "value": "left" },
+          { "name": "Center", "value": "center" },
+          { "name": "Right", "value": "right" }
+        ]
+      },
+      {
+        "component": "select",
+        "name": "verticalalignment",
+        "label": "Vertical Alignment",
+        "options": [
+          { "name": "Top", "value": "top" },
+          { "name": "Middle", "value": "middle" },
+          { "name": "Bottom", "value": "bottom" }
+        ]
+      },
+      {
+        "component": "boolean",
+        "name": "isfullwidth",
+        "label": "Full Width",
+        "value": "false",
+        "valueType": "boolean"
+      },
+      {
+        "component": "text",
+        "name": "height",
+        "label": "Height",
+        "value": "",
+        "valueType": "string",
+        "description": "e.g. auto or 500px"
+      },
+      {
+        "component": "text",
+        "name": "color",
+        "label": "Text Color",
+        "value": "",
+        "valueType": "string",
+        "description": "e.g. #f9e322"
+      },
+      {
+        "component": "aem-content",
+        "name": "link",
+        "label": "Section Link",
+        "description": "Optional link for entire hero section"
+      },
+      {
+        "component": "text",
+        "name": "buttoneventtype",
+        "label": "Button Event Type",
+        "value": "",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "name": "buttonwebhookurl",
+        "label": "Button Webhook URL",
+        "value": "",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "name": "buttonformid",
+        "label": "Button Form ID",
+        "value": "",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "name": "buttondata",
+        "label": "Button Data",
+        "value": "",
+        "valueType": "string",
+        "description": "Comma-separated key,value pairs e.g. key1,value1,key2,value2"
+      }
+    ]
+  },
+  {
+    "...": "../blocks/*/_*.json#/models"
+  }
+]

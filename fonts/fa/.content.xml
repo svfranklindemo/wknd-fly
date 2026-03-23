@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0" xmlns:sling="http://sling.apache.org/jcr/sling/1.0"
+    jcr:primaryType="sling:OrderedFolder">
+    <jcr:content jcr:primaryType="nt:unstructured"/>
+    <fa-brands-400.eot/>
+    <fa-brands-400.ttf/>
+    <fa-brands-400.woff/>
+    <fa-brands-400.woff2/>
+    <fa-brands-400.svg/>
+    <fa-regular-400.eot/>
+    <fa-regular-400.svg/>
+    <fa-regular-400.woff/>
+    <fa-regular-400.woff2/>
+    <fa-regular-400.ttf/>
+    <fa-solid-900.eot/>
+    <fa-solid-900.ttf/>
+    <fa-solid-900.woff/>
+    <fa-solid-900.svg/>
+    <fa-solid-900.woff2/>
+</jcr:root>

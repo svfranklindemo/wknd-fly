@@ -1,0 +1,171 @@
+.tabs .tabs-list {
+  display: flex;
+  gap: 0;
+  max-width: 100%;
+  font-size: var(--body-font-size-xs);
+  overflow-x: auto;
+  border-bottom: 2px solid var(--light-color);
+  margin-bottom: 0;
+}
+
+@media (width >= 600px) {
+  .tabs .tabs-list {
+    font-size: var(--body-font-size-s);
+  }
+}
+
+@media (width >= 900px) {
+  .tabs .tabs-list {
+    font-size: var(--body-font-size-m);
+  }
+}
+
+.tabs .tabs-list button {
+  flex: 0 0 max-content;
+  margin: 0;
+  border: none;
+  border-bottom: 3px solid transparent;
+  border-radius: 0;
+  padding: 16px 24px;
+  background-color: transparent;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-weight: 600;
+  font-size: var(--body-font-size-s);
+  line-height: 1.4;
+  text-align: center;
+  text-overflow: unset;
+  overflow: unset;
+  white-space: nowrap;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+}
+
+.tabs .tabs-list button:hover {
+  background-color: var(--tab-background-color);
+  color: var(--link-hover-color);
+}
+
+.tabs .tabs-list button p {
+  margin: 0;
+}
+
+.tabs .tabs-list button[aria-selected='true'] {
+  border-bottom-color: var(--main-accent-color);
+  background-color: transparent;
+  color: var(--main-accent-color);
+  cursor: default;
+  font-weight: 700;
+}
+
+.tabs .tabs-list button[aria-selected='true']:hover {
+  background-color: var(--tab-background-color);
+}
+
+.tabs .tabs-panel {
+  margin-top: 0;
+  padding: 24px;
+  border: none;
+  overflow: auto;
+  background-color: var(--tab-background-color);
+}
+
+@media (width >= 768px) {
+  .tabs .tabs-panel {
+    padding: 32px 40px;
+  }
+}
+
+@media (width >= 1024px) {
+  .tabs .tabs-panel {
+    padding: 40px 48px;
+  }
+}
+
+.tabs .tabs-panel[aria-hidden='true'] {
+  display: none;
+}
+
+/* Card Style Tab Variant - Image Left, Text Right */
+.tabs.card-style-tab .tabs-panel {
+  padding: 0;
+  background-color: var(--background-color);
+  box-shadow: 0 3px 20px rgba(0, 0, 0, 0.06);
+  border-radius: 4px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  gap: 0;
+  min-height: 400px;
+}
+
+/* Ensure hidden panels remain hidden for card-style variant */
+.tabs.card-style-tab .tabs-panel[aria-hidden='true'] {
+  display: none !important;
+}
+
+.tabs.card-style-tab .tabs-panel .tabs-panel-image,
+.tabs.card-style-tab .tabs-panel picture {
+ /*flex: 0 0 50%;*/
+  display: flex;
+  overflow: hidden;
+}
+
+.tabs.card-style-tab .tabs-panel .tabs-panel-image img,
+.tabs.card-style-tab .tabs-panel .tabs-panel-image picture img,
+.tabs.card-style-tab .tabs-panel picture img {
+  width: 100%;
+  height: auto; /* keep aspect ratio; do not stretch to panel height */
+  object-fit: contain;
+  object-position: center;
+  display: block;
+  padding-top: 60px;
+  padding-bottom: 60px;
+}
+
+.tabs.card-style-tab .tabs-panel .tabs-panel-image p {
+  margin: 0;
+  width: 100%;
+  height: auto; /* allow image height to define wrapper height */
+  display: block;
+}
+
+.tabs.card-style-tab .tabs-panel .tabs-panel-content {
+  flex: 0 0 50%;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* When there is no image, let content take full width */
+.tabs.card-style-tab .tabs-panel.no-image .tabs-panel-content {
+  flex: 1 0 auto;
+}
+
+.tabs.card-style-tab .tabs-panel .tabs-panel-content > * {
+  margin: 0 0 16px 0;
+}
+
+.tabs.card-style-tab .tabs-panel .tabs-panel-content > *:last-child {
+  margin-bottom: 0;
+}
+
+@media (max-width: 767px) {
+  .tabs.card-style-tab .tabs-panel {
+    flex-direction: column;
+    min-height: auto;
+  }
+
+  .tabs.card-style-tab .tabs-panel .tabs-panel-image,
+  .tabs.card-style-tab .tabs-panel picture {
+    flex: 0 0 auto;
+    max-height: 300px;
+  }
+
+  .tabs.card-style-tab .tabs-panel .tabs-panel-content {
+    flex: 0 0 auto;
+    padding: 24px;
+  }
+}

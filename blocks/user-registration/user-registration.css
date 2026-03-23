@@ -1,0 +1,372 @@
+/* ============================================
+   User Registration Form Styling
+   ============================================ */
+
+main .user-registration {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 60px 40px;
+  background: #fff;
+}
+
+/* Ensure form element uses grid - form itself doesn't need grid, the fieldset does */
+main .user-registration form {
+  display: block;
+}
+
+main .user-registration .user-registration-form {
+  --form-columns: 12;
+  --form-button-background-color: #2874F0;
+  --form-button-background-hover-color: #0052cc;
+  --form-input-border-color: #cbd5e1;
+  --form-label-color: #1e293b;
+  --form-label-font-weight: 500;
+  --form-label-font-size: 16px;
+  --form-field-vert-gap: 24px;
+  --form-field-horz-gap: 24px;
+}
+
+/* Ensure panel (fieldset) uses grid layout */
+main .user-registration .panel-wrapper {
+  display: grid !important;
+  grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+  gap: 24px !important;
+  padding: 0 !important;
+  border: none !important;
+  margin: 0 !important;
+}
+
+/* Hide the label in heading wrappers (form creates both label and h2) */
+main .user-registration .heading-wrapper label {
+  display: none !important;
+}
+
+/* Heading wrapper should take full width and have no extra margin */
+main .user-registration .heading-wrapper {
+  grid-column: span 12 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Main heading - "Create an account" */
+main .user-registration h2#heading-create-account {
+  font-size: 2.25rem;
+  font-weight: 400;
+  margin: 0 0 40px;
+  padding: 0;
+  color: #1e293b;
+  line-height: 1.2;
+}
+
+/* Section headings - "LET US KNOW YOU BETTER" */
+main .user-registration h2#heading-better {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 40px 0 0;
+  padding: 0;
+  color: #1e293b;
+  letter-spacing: 0.05em;
+}
+
+/* Ensure heading wrappers in fieldset also span full width */
+main .user-registration .panel-wrapper > .heading-wrapper {
+  grid-column: span 12 !important;
+}
+
+/* Field labels */
+main .user-registration label {
+  color: #334155;
+  font-weight: 500;
+  font-size: 15px;
+  margin-bottom: 0;
+  display: inline-block;
+}
+
+/* Input fields and selects */
+main .user-registration input[type="text"],
+main .user-registration input[type="email"],
+main .user-registration select {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 15px;
+  color: #1e293b;
+  background: #fff;
+  transition: all 0.2s ease;
+  margin-top: 8px;
+  margin-bottom: 0;
+}
+
+main .user-registration input[type="text"]:focus,
+main .user-registration input[type="email"]:focus,
+main .user-registration select:focus {
+  outline: none;
+  border-color: #2874F0;
+  box-shadow: 0 0 0 3px rgba(40, 116, 240, 0.1);
+}
+
+main .user-registration input[type="text"]:hover,
+main .user-registration input[type="email"]:hover,
+main .user-registration select:hover {
+  border-color: #94a3b8;
+}
+
+/* Placeholder styling */
+main .user-registration input::placeholder {
+  color: #94a3b8;
+  font-size: 14px;
+}
+
+/* Field wrappers - ensure proper grid behavior */
+main .user-registration .field-wrapper {
+  margin: 0;
+}
+
+/* Explicit grid column spans */
+main .user-registration .field-wrapper.col-12,
+main .user-registration .field-wrapper[data-colspan="12"] {
+  grid-column: span 12 !important;
+}
+
+main .user-registration .field-wrapper.col-6,
+main .user-registration .field-wrapper[data-colspan="6"] {
+  grid-column: span 6 !important;
+}
+
+main .user-registration .checkbox-group-wrapper.col-12 {
+  grid-column: span 12 !important;
+}
+
+main .user-registration .submit-wrapper.col-12 {
+  grid-column: span 12 !important;
+}
+
+/* Loyalty program checkbox */
+main .user-registration .checkbox-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  padding: 16px 0;
+}
+
+main .user-registration .checkbox-wrapper label {
+  order: 2;
+  font-size: 15px;
+  color: #334155;
+  cursor: pointer;
+}
+
+main .user-registration .checkbox-wrapper input[type="checkbox"] {
+  order: 1;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  margin: 0;
+}
+
+/* Communication preferences */
+main .user-registration .checkbox-group-wrapper {
+  padding: 24px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: #f8fafc;
+  margin: 16px 0;
+  grid-column: span 12 !important;
+}
+
+main .user-registration .checkbox-group-wrapper legend {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1e293b;
+  padding: 0 !important;
+  margin: 0 0 16px !important;
+  float: none !important;
+  width: 100% !important;
+  border: none !important;
+}
+
+main .user-registration .checkbox-group-wrapper.horizontal {
+  display: flex !important;
+  flex-wrap: wrap;
+  gap: 32px;
+}
+
+main .user-registration .checkbox-group-wrapper.horizontal legend {
+  width: 100%;
+  flex: 0 0 100%;
+}
+
+main .user-registration .checkbox-group-wrapper.horizontal .checkbox-wrapper {
+  flex: 0 1 auto;
+  min-width: 100px;
+  padding: 0 !important;
+  margin: 0 !important;
+  background: transparent !important;
+  border: none !important;
+}
+
+main .user-registration .checkbox-group-wrapper .checkbox-wrapper label {
+  font-size: 15px;
+  color: #334155;
+  font-weight: 500;
+}
+
+/* Submit button */
+main .user-registration .submit-wrapper {
+  margin-top: 32px;
+  grid-column: span 12 !important;
+}
+
+main .user-registration .submit-wrapper button {
+  background: #2874F0;
+  color: #fff;
+  padding: 16px 60px;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(40, 116, 240, 0.2);
+}
+
+main .user-registration .submit-wrapper button:hover {
+  background: #0052cc;
+  box-shadow: 0 4px 12px rgba(40, 116, 240, 0.3);
+  transform: translateY(-1px);
+}
+
+main .user-registration .submit-wrapper button:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 4px rgba(40, 116, 240, 0.2);
+}
+
+/* Required field indicator */
+main .user-registration [data-required="true"] > label::after {
+  content: " *";
+  color: #ef4444;
+  font-weight: 600;
+}
+
+/* Select dropdown arrow */
+main .user-registration select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23334155' d='M10.293 3.293L6 7.586 1.707 3.293A1 1 0 00.293 4.707l5 5a1 1 0 001.414 0l5-5a1 1 0 10-1.414-1.414z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 40px;
+}
+
+/* Responsive: Mobile */
+@media (width <= 768px) {
+  main .user-registration {
+    padding: 40px 20px;
+  }
+
+  /* Stack all fields to single column on mobile */
+  main .user-registration .panel-wrapper > .field-wrapper[class*="col-"] {
+    grid-column: span 12 !important;
+  }
+
+  main .user-registration h2#heading-create-account {
+    font-size: 1.875rem;
+    margin-bottom: 32px;
+  }
+
+  main .user-registration h2#heading-better {
+    font-size: 1.125rem;
+    margin: 32px 0 0;
+  }
+
+  main .user-registration .checkbox-group-wrapper.horizontal {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  main .user-registration .submit-wrapper button {
+    width: 100%;
+    padding: 16px 32px;
+  }
+}
+
+@media (width <= 480px) {
+  main .user-registration {
+    padding: 30px 16px;
+  }
+
+  main .user-registration h2#heading-create-account {
+    font-size: 1.75rem;
+    margin-bottom: 28px;
+  }
+}
+
+/* Form validation states */
+.user-registration input.error,
+.user-registration select.error,
+.user-registration textarea.error {
+  border-color: #f44336 !important;
+  background-color: #ffebee !important;
+}
+
+.user-registration input.error:focus,
+.user-registration select.error:focus,
+.user-registration textarea.error:focus {
+  outline-color: #f44336;
+  border-color: #f44336;
+}
+
+/* Form messages */
+.user-registration .form-message {
+  padding: 15px;
+  margin: 20px 0;
+  border-radius: 4px;
+  text-align: center;
+  font-weight: bold;
+  animation: slideDown 0.3s ease-out;
+}
+
+.user-registration .form-message.success {
+  background-color: #4caf50;
+  color: white;
+}
+
+.user-registration .form-message.error {
+  background-color: #f44336;
+  color: white;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Disabled submit button */
+.user-registration button[type="submit"]:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Hide button config fields so they don't appear in HTML */
+.user-registration [data-aue-prop="buttoneventtype"],
+.user-registration [data-aue-prop="buttonwebhookurl"],
+.user-registration [data-aue-prop="buttonformid"],
+.user-registration [data-aue-prop="buttondata"] {
+  display: none !important;
+}
+.user-registration div:has(> [data-aue-prop="buttoneventtype"]),
+.user-registration div:has(> [data-aue-prop="buttonwebhookurl"]),
+.user-registration div:has(> [data-aue-prop="buttonformid"]),
+.user-registration div:has(> [data-aue-prop="buttondata"]) {
+  display: none !important;
+}

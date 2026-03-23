@@ -1,0 +1,109 @@
+/* Add External block – two variants (account / credit card), teal Submit */
+:root {
+  --add-external-teal: #0d9488;
+  --add-external-teal-hover: #0f766e;
+  --add-external-grey-border: #d1d5db;
+  --add-external-label: #374151;
+}
+
+main > .section:has(.add-external-block) > div {
+  max-width: 720px;
+}
+
+.add-external-block {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0 2rem 2rem;
+  font-family: var(--body-font-family, system-ui, sans-serif);
+  box-sizing: border-box;
+  background: #fff;
+}
+
+.add-external-config {
+  display: none !important;
+}
+
+.add-external-block .add-external-config-row {
+  display: none !important;
+}
+
+.add-external-block > div:not(.add-external-form-wrapper) {
+  display: none !important;
+}
+
+.add-external-block .add-external-heading {
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111;
+}
+
+.add-external-block .add-external-form-wrapper {
+  width: 100%;
+  min-width: 0;
+}
+
+/* Authorization section label – bold, like a sub-heading */
+.add-external-block .add-external-section-label {
+  font-weight: 700;
+  color: var(--add-external-label);
+  font-size: 1rem;
+  margin: 1rem 0 0.5rem 0;
+  padding: 0;
+}
+
+.add-external-block .add-external-form .field-label {
+  font-weight: 600;
+  color: var(--add-external-label);
+  font-size: 0.9375rem;
+  margin-bottom: 0.25rem;
+}
+
+.add-external-block .add-external-form input[type="text"],
+.add-external-block .add-external-form input[type="email"],
+.add-external-block .add-external-form select {
+  width: 100%;
+  max-width: 100%;
+  padding: 0.625rem 0.875rem;
+  border: 1px solid var(--add-external-grey-border);
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+  background: #fff;
+  box-sizing: border-box;
+}
+
+.add-external-block .add-external-form .add-external-submit-btn,
+.add-external-block .add-external-form .submit-wrapper {
+  grid-column: span 12;
+  display: flex;
+  justify-content: center;
+  margin-top: 1.25rem;
+}
+
+.add-external-block .add-external-form .add-external-submit-btn button,
+.add-external-block .add-external-form .submit-wrapper button {
+  padding: 0.75rem 1.5rem !important;
+  background: var(--add-external-teal) !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 9999px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.add-external-block .add-external-form .add-external-submit-btn button:hover,
+.add-external-block .add-external-form .submit-wrapper button:hover {
+  background: var(--add-external-teal-hover) !important;
+}
+
+.add-external-block .add-external-success-msg {
+  margin: 0 0 1rem 0;
+  padding: 0.75rem;
+  background: #ecfdf5;
+  color: #065f46;
+  border-radius: 8px;
+  font-size: 0.9375rem;
+}

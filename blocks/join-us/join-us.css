@@ -1,0 +1,247 @@
+/* Join Us block – adaptive form (same pattern as sign-in) */
+main .join-us {
+  width: 100%;
+  max-width: 480px;
+  margin: 60px auto;
+  padding: 40px 24px;
+  background: #f5f5f5;
+  border-radius: 12px;
+  font-family: var(--body-font-family, system-ui, sans-serif);
+}
+
+main .join-us .join-us-form {
+  --form-columns: 12;
+  --form-button-background-color: var(--link-color, #0563c1);
+  --form-button-background-hover-color: #0453a3;
+  --form-input-border-color: #ccc;
+  --form-label-color: #333;
+  --form-label-font-weight: 500;
+  --form-label-font-size: 16px;
+  --form-field-vert-gap: 18px;
+  --form-field-horz-gap: 24px;
+}
+
+main .join-us form {
+  display: block;
+}
+
+main .join-us .panel-wrapper {
+  display: block !important;
+  padding: 0 !important;
+  border: none !important;
+  margin: 0 !important;
+}
+
+main .join-us .heading-wrapper label {
+  display: none !important;
+}
+
+main .join-us .heading-wrapper {
+  margin: 0 0 24px !important;
+  padding: 0 !important;
+  text-align: center;
+}
+
+main .join-us h2#heading-join-us {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0;
+  padding: 0;
+  color: #1a1a1a;
+  line-height: 1.2;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+main .join-us .field-wrapper {
+  margin: 0 0 18px;
+}
+
+main .join-us label {
+  color: #333;
+  font-weight: 500;
+  font-size: 0.875rem;
+  margin-bottom: 0;
+  display: inline-block;
+}
+
+main .join-us input[type="text"],
+main .join-us input[type="email"],
+main .join-us input[type="tel"] {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  color: #1a1a1a;
+  background: #fff;
+  margin-top: 6px;
+  margin-bottom: 0;
+  box-sizing: border-box;
+}
+
+main .join-us input:focus {
+  outline: none;
+  border-color: var(--link-color, #0563c1);
+  box-shadow: 0 0 0 2px rgba(5, 99, 193, 0.15);
+}
+
+/* Consent checkbox as switch/toggle */
+main .join-us .field-wrapper.switch {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin: 4px 0 16px 0;
+}
+
+main .join-us .field-wrapper.switch input[type="checkbox"] {
+  width: 44px;
+  height: 24px;
+  min-width: 44px;
+  margin: 2px 0 0 0;
+  appearance: none;
+  background: #ccc;
+  border-radius: 12px;
+  cursor: pointer;
+  position: relative;
+  transition: background 0.2s;
+}
+
+main .join-us .field-wrapper.switch input[type="checkbox"]::before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s;
+}
+
+main .join-us .field-wrapper.switch input[type="checkbox"]:checked {
+  background: var(--link-color, #0563c1);
+}
+
+main .join-us .field-wrapper.switch input[type="checkbox"]:checked::before {
+  transform: translateX(20px);
+}
+
+main .join-us .field-wrapper.switch label {
+  flex: 1;
+  font-size: 0.8125rem;
+  color: #444;
+  line-height: 1.4;
+  cursor: pointer;
+}
+
+main .join-us .submit-wrapper {
+  margin-top: 8px;
+}
+
+main .join-us .submit-wrapper button {
+  width: 100%;
+  padding: 14px 24px;
+  background: var(--link-color, #0563c1);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+}
+
+main .join-us .submit-wrapper button:hover {
+  background: #0453a3;
+  transform: translateY(-1px);
+}
+
+/* Success overlay – on click of JOIN US */
+.join-us-success-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s, visibility 0.3s;
+}
+
+.join-us-success-overlay.join-us-success-overlay-visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.join-us-success-popup {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 24px;
+  background: #0d7d4a;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  max-width: 90%;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s, visibility 0.3s;
+}
+
+.join-us-success-popup.join-us-success-visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.join-us-success-icon {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  background: #fff;
+  border-radius: 50%;
+  position: relative;
+}
+
+.join-us-success-icon::after {
+  content: '';
+  position: absolute;
+  left: 10px;
+  top: 6px;
+  width: 8px;
+  height: 14px;
+  border: solid #0d7d4a;
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg);
+}
+
+.join-us-success-text {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.4;
+  color: #fff;
+  font-weight: 500;
+}
+main .join-us form {
+  display: block;
+  padding: 20px;
+}
+
+/* Hide button config fields so they don't appear in HTML (same as user-registration/sign-in) */
+.join-us [data-aue-prop="buttoneventtype"],
+.join-us [data-aue-prop="buttonwebhookurl"],
+.join-us [data-aue-prop="buttonformid"],
+.join-us [data-aue-prop="buttondata"] {
+  display: none !important;
+}
+.join-us div:has(> [data-aue-prop="buttoneventtype"]),
+.join-us div:has(> [data-aue-prop="buttonwebhookurl"]),
+.join-us div:has(> [data-aue-prop="buttonformid"]),
+.join-us div:has(> [data-aue-prop="buttondata"]) {
+  display: none !important;
+}

@@ -1,0 +1,103 @@
+/* Insurance block – single-step form, UE title, two-column layout, teal Submit */
+:root {
+  --insurance-teal: #0d9488;
+  --insurance-teal-hover: #0f766e;
+  --insurance-grey-border: #d1d5db;
+  --insurance-label: #374151;
+}
+
+main > .section:has(.insurance-block) > div {
+  max-width: 720px;
+}
+
+.insurance-block {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0 2rem 2rem;
+  font-family: var(--body-font-family, system-ui, sans-serif);
+  box-sizing: border-box;
+  background: #fff;
+}
+
+/* Config (UE / table) hidden */
+.insurance-config {
+  display: none !important;
+}
+
+.insurance-block .insurance-config-row {
+  display: none !important;
+}
+
+.insurance-block > div:not(.insurance-form-wrapper) {
+  display: none !important;
+}
+
+.insurance-block .insurance-heading {
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111;
+}
+
+.insurance-block .insurance-form-wrapper {
+  width: 100%;
+  min-width: 0;
+}
+
+/* Labels and inputs – match application-form look */
+.insurance-block .insurance-form .field-label {
+  font-weight: 600;
+  color: var(--insurance-label);
+  font-size: 0.9375rem;
+  margin-bottom: 0.25rem;
+}
+
+.insurance-block .insurance-form input[type="text"],
+.insurance-block .insurance-form input[type="email"],
+.insurance-block .insurance-form select {
+  width: 100%;
+  max-width: 100%;
+  padding: 0.625rem 0.875rem;
+  border: 1px solid var(--insurance-grey-border);
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+  background: #fff;
+  box-sizing: border-box;
+}
+
+/* Submit button – teal, right-aligned */
+.insurance-block .insurance-form .insurance-submit-btn,
+.insurance-block .insurance-form .submit-wrapper {
+  grid-column: span 12;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 0.5rem;
+}
+
+.insurance-block .insurance-form .insurance-submit-btn button,
+.insurance-block .insurance-form .submit-wrapper button {
+  padding: 0.75rem 1.5rem !important;
+  background: var(--insurance-teal) !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 9999px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.insurance-block .insurance-form .insurance-submit-btn button:hover,
+.insurance-block .insurance-form .submit-wrapper button:hover {
+  background: var(--insurance-teal-hover) !important;
+}
+
+.insurance-block .insurance-success-msg {
+  margin: 0 0 1rem 0;
+  padding: 0.75rem;
+  background: #ecfdf5;
+  color: #065f46;
+  border-radius: 8px;
+  font-size: 0.9375rem;
+}

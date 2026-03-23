@@ -1,0 +1,263 @@
+/* ============================================
+   Sign In Form Styling
+   ============================================ */
+
+main .sign-in {
+  width: 100%;
+  max-width: 480px;
+  margin: 60px auto;
+  padding: 60px 40px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+}
+
+main .sign-in .sign-in-form {
+  --form-columns: 12;
+  --form-button-background-color: #2874F0;
+  --form-button-background-hover-color: #0052cc;
+  --form-input-border-color: #cbd5e1;
+  --form-label-color: #1e293b;
+  --form-label-font-weight: 500;
+  --form-label-font-size: 16px;
+  --form-field-vert-gap: 24px;
+  --form-field-horz-gap: 24px;
+}
+
+/* Ensure form element is block */
+main .sign-in form {
+  display: block;
+}
+
+/* Ensure panel (fieldset) is block layout for single column */
+main .sign-in .panel-wrapper {
+  display: block !important;
+  padding: 0 !important;
+  border: none !important;
+  margin: 0 !important;
+}
+
+/* Hide the label in heading wrappers */
+main .sign-in .heading-wrapper label {
+  display: none !important;
+}
+
+/* Heading wrapper */
+main .sign-in .heading-wrapper {
+  margin: 0 0 32px !important;
+  padding: 0 !important;
+  text-align: center;
+}
+
+/* Main heading - "Sign in to your account" */
+main .sign-in h2#heading-sign-in {
+  font-size: 2rem;
+  font-weight: 400;
+  margin: 0;
+  padding: 0;
+  color: #1e293b;
+  line-height: 1.2;
+  text-align: center;
+}
+
+/* Field wrappers */
+main .sign-in .field-wrapper {
+  margin: 0 0 24px;
+}
+
+/* Field labels */
+main .sign-in label {
+  color: #334155;
+  font-weight: 500;
+  font-size: 15px;
+  margin-bottom: 0;
+  display: inline-block;
+}
+
+/* Input fields */
+main .sign-in input[type="text"],
+main .sign-in input[type="email"],
+main .sign-in input[type="password"] {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 15px;
+  color: #1e293b;
+  background: #fff;
+  transition: all 0.2s ease;
+  margin-top: 8px;
+  margin-bottom: 0;
+}
+
+main .sign-in input[type="text"]:focus,
+main .sign-in input[type="email"]:focus,
+main .sign-in input[type="password"]:focus {
+  outline: none;
+  border-color: #2874F0;
+  box-shadow: 0 0 0 3px rgba(40, 116, 240, 0.1);
+}
+
+main .sign-in input[type="text"]:hover,
+main .sign-in input[type="email"]:hover,
+main .sign-in input[type="password"]:hover {
+  border-color: #94a3b8;
+}
+
+/* Placeholder styling */
+main .sign-in input::placeholder {
+  color: #94a3b8;
+  font-size: 14px;
+}
+
+/* Submit button */
+main .sign-in .submit-wrapper {
+  margin-top: 32px;
+}
+
+main .sign-in .submit-wrapper button {
+  width: 100%;
+  background: #2874F0;
+  color: #fff;
+  padding: 16px 32px;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(40, 116, 240, 0.2);
+}
+
+main .sign-in .submit-wrapper button:hover {
+  background: #0052cc;
+  box-shadow: 0 4px 12px rgba(40, 116, 240, 0.3);
+  transform: translateY(-1px);
+}
+
+main .sign-in .submit-wrapper button:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 4px rgba(40, 116, 240, 0.2);
+}
+
+/* Required field indicator */
+main .sign-in [data-required="true"] > label::after {
+  content: " *";
+  color: #ef4444;
+  font-weight: 600;
+}
+
+/* Sign in links section */
+main .sign-in .sign-in-links {
+  margin-top: 40px;
+  text-align: center;
+}
+
+/* Divider */
+main .sign-in .sign-in-divider {
+  position: relative;
+  margin: 32px 0 24px;
+  text-align: center;
+}
+
+main .sign-in .sign-in-divider::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: #e2e8f0;
+}
+
+main .sign-in .sign-in-divider span {
+  position: relative;
+  display: inline-block;
+  padding: 0 16px;
+  background: #fff;
+  color: #64748b;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Create account link */
+main .sign-in .create-account-link {
+  display: inline-block;
+  width: 100%;
+  padding: 14px 32px;
+  border: 2px solid #2874F0;
+  border-radius: 6px;
+  color: #2874F0;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.2s ease;
+  background: #fff;
+}
+
+main .sign-in .create-account-link:hover {
+  background: #2874F0;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(40, 116, 240, 0.2);
+  transform: translateY(-1px);
+}
+
+main .sign-in .create-account-link:active {
+  transform: translateY(0);
+}
+
+/* Responsive: Mobile */
+@media (width <= 768px) {
+  main .sign-in {
+    margin: 40px 20px;
+    padding: 40px 24px;
+    border-radius: 8px;
+  }
+
+  main .sign-in h2#heading-sign-in {
+    font-size: 1.75rem;
+  }
+
+  main .sign-in .field-wrapper {
+    margin: 0 0 20px;
+  }
+
+  main .sign-in .sign-in-links {
+    margin-top: 32px;
+  }
+
+  main .sign-in .sign-in-divider {
+    margin: 24px 0 20px;
+  }
+}
+
+@media (width <= 480px) {
+  main .sign-in {
+    margin: 30px 16px;
+    padding: 30px 20px;
+  }
+
+  main .sign-in h2#heading-sign-in {
+    font-size: 1.5rem;
+  }
+}
+
+/* Hide button config fields so they don't appear in HTML */
+.sign-in [data-aue-prop="buttoneventtype"],
+.sign-in [data-aue-prop="buttonwebhookurl"],
+.sign-in [data-aue-prop="buttonformid"],
+.sign-in [data-aue-prop="buttondata"] {
+  display: none !important;
+}
+.sign-in div:has(> [data-aue-prop="buttoneventtype"]),
+.sign-in div:has(> [data-aue-prop="buttonwebhookurl"]),
+.sign-in div:has(> [data-aue-prop="buttonformid"]),
+.sign-in div:has(> [data-aue-prop="buttondata"]) {
+  display: none !important;
+}

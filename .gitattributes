@@ -1,0 +1,6 @@
+# Environment-specific files
+fstab.yaml merge=ours
+README.md merge=ours
+
+# Automation workflows
+.github/workflows/* merge=ours

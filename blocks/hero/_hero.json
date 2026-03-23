@@ -1,0 +1,219 @@
+{
+  "definitions": [
+    {
+      "title": "Hero",
+      "id": "hero",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block",
+            "template": {
+              "name": "Hero",
+              "model": "hero"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "hero",
+      "fields": [
+        {
+          "component": "reference",
+          "valueType": "string",
+          "name": "image",
+          "label": "Image",
+          "multi": false
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "imageAlt",
+          "label": "Alt",
+          "value": ""
+        },
+        {
+          "component": "richtext",
+          "name": "text",
+          "value": "",
+          "label": "Text",
+          "valueType": "string"
+        },
+        {
+              "component": "boolean",
+              "label": "Enable Underline in Title",
+              "description": "Enable underline in title",
+              "name": "enableunderline",
+              "value": "true",
+              "valueType": "boolean"
+        },
+        {
+          "component": "select",
+          "name": "herolayout",
+          "label": "Hero Layout Style",
+          "options": [
+            {
+              "name": "Default",
+              "value": "overlay"
+            },
+            {
+              "name": "Image Left",
+              "value": "image-left"
+            },
+            {
+              "name": "Image Right",
+              "value": "image-right"
+            },
+            {
+              "name": "Image Top",
+              "value": "image-top"
+            },
+            {
+              "name": "Image Bottom",
+              "value": "image-bottom"
+            },
+            {
+              "name": "Image-Background Text-Left",
+              "value": "image-background-text-left"
+            },
+            {
+              "name": "Image-Background Text-Right",
+              "value": "image-background-text-right"
+            }
+          ]
+        },
+        {
+          "component": "select",
+          "name": "ctastyle",
+          "label": "CTA Style",
+          "options": [
+            {
+              "name": "default",
+              "value": ""
+            },
+            {
+              "name": "Button",
+              "value": "button"
+            },
+            {
+              "name": "Button secondary",
+              "value": "button-secondary"
+            },
+            {
+              "name": "Link",
+              "value": "link"
+            }
+          ]
+        },
+        {
+          "component": "select",
+          "name": "backgroundstyle",
+          "label": "Background Style",
+          "options": [
+            {
+              "name": "Default",
+              "value": "default"
+            },
+            {
+              "name": "Theme Dark",
+              "value": "theme-dark"
+            },
+            {
+              "name": "Theme Light",
+              "value": "theme-light"
+            }
+          ]
+        },
+        {
+          "component": "select",
+          "name": "alignment",
+          "label": "Alignment",
+          "options": [
+            { "name": "Left", "value": "left" },
+            { "name": "Center", "value": "center" },
+            { "name": "Right", "value": "right" }
+          ]
+        },
+        {
+          "component": "select",
+          "name": "verticalalignment",
+          "label": "Vertical Alignment",
+          "options": [
+            { "name": "Top", "value": "top" },
+            { "name": "Middle", "value": "middle" },
+            { "name": "Bottom", "value": "bottom" }
+          ]
+        },
+        {
+          "component": "boolean",
+          "name": "isfullwidth",
+          "label": "Full Width",
+          "value": "false",
+          "valueType": "boolean"
+        },
+        {
+          "component": "text",
+          "name": "height",
+          "label": "Height",
+          "value": "",
+          "valueType": "string",
+          "description": "e.g. auto or 500px"
+        },
+        {
+          "component": "text",
+          "name": "color",
+          "label": "Text Color",
+          "value": "",
+          "valueType": "string",
+          "description": "e.g. #f9e322"
+        },
+        {
+          "component": "aem-content",
+          "name": "link",
+          "label": "Section Link",
+          "description": "Optional link for entire hero section"
+        },
+        {
+          "component": "text",
+          "name": "buttoneventtype",
+          "label": "Button Event Type",
+          "value": "",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "name": "buttonwebhookurl",
+          "label": "Button Webhook URL",
+          "value": "",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "name": "buttonformid",
+          "label": "Button Form ID",
+          "value": "",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "name": "buttondata",
+          "label": "Button Data",
+          "value": "",
+          "valueType": "string",
+          "description": "Comma-separated key,value pairs e.g. key1,value1,key2,value2"
+        },
+        {
+          "component": "text",
+          "name": "customStyles",
+          "label": "Custom Styles",
+          "value": "",
+          "valueType": "string",
+          "description": "Custom styles for the hero section"
+        }
+      ]
+    }
+  ],
+  "filters": []
+}

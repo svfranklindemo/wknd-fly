@@ -1,0 +1,91 @@
+version: 1
+
+indices:
+  site-en: &base-site
+    include:
+      - '/'
+      - '/en'
+      - '/en/**'
+    exclude:
+      - /en/search
+      - /en/nav
+      - /en/footer
+    target: /en/query-index.json
+    properties:
+      title:
+        select: main h1
+        value: textContent(el)
+      navTitle:
+        select: head > meta[property="og:title"]
+        value: attribute(el, "content")
+      description:
+        select: head > meta[name="description"]
+        value: attribute(el, "content")
+      body:
+        select: main
+        value: textContent(el)
+      tags:
+        select: head > meta[name="cq-tags"]
+        value: attribute(el, "content")
+      image:
+        select: head > meta[property="og:image"]
+        value: match(attribute(el, "content"), "^(https?:\/\/.*?(aem.live))+(.*)|^(.*)")
+      publishDate:
+        select: head > meta[name="published-time"]
+        value: parseTimestamp(attribute(el, "content"), "ddd, DD MMM YYYY hh:mm:ss GMT")
+      contentType:
+        select: head > meta[name="content_type"]
+        value: attribute(el, "content")
+      author:
+        select: head > meta[name="author"]
+        value: attribute(el, "content")
+      lastModified:
+        select: none
+        value: parseTimestamp(headers["last-modified"], "ddd, DD MMM YYYY hh:mm:ss GMT")
+      robots:
+        select: head > meta[name="robots"]
+        value: attribute(el, "content")
+
+  site-fr:
+    <<: *base-site
+    include:
+      - '/fr'
+      - '/fr/**'
+    target: /fr/query-index.json
+    exclude:
+      - /fr/search
+      - /fr/nav
+      - /fr/footer
+
+  site-es:
+    <<: *base-site
+    include:
+      - '/es'
+      - '/es/**'
+    target: /es/query-index.json
+    exclude:
+      - /es/search
+      - /es/nav
+      - /es/footer
+      
+  site-de:
+    <<: *base-site
+    include:
+      - '/de'
+      - '/de/**'
+    target: /de/query-index.json
+    exclude:
+      - /de/search
+      - /de/nav
+      - /de/footer
+
+  site-ja:
+    <<: *base-site
+    include:
+      - '/ja'
+      - '/ja/**'
+    exclude:
+      - /ja/nav
+      - /ja/search
+      - /ja/footer
+    target: /ja/query-index.json

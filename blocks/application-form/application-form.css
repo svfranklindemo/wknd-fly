@@ -1,0 +1,386 @@
+/* Application Form block – 3-step wizard, clean L&F: teal Next/Submit, grey Back, dots + "n/3 step" */
+:root {
+  --application-form-teal: #0d9488;
+  --application-form-teal-hover: #0f766e;
+  --application-form-grey: #e5e7eb;
+  --application-form-grey-border: #d1d5db;
+  --application-form-label: #374151;
+}
+
+main > .section:has(.application-form-block) > div {
+  max-width: 720px;
+}
+
+.application-form-block {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0 2rem 2rem;
+  font-family: var(--body-font-family, system-ui, sans-serif);
+  box-sizing: border-box;
+  background: #fff;
+}
+
+.application-form-block .application-form-heading {
+  margin-bottom: 0.5rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111;
+}
+
+.application-form-block .application-form-subtitle {
+  margin: 0 0 1rem 0;
+  font-size: 0.9375rem;
+  color: #555;
+  line-height: 1.5;
+}
+
+.application-form-block .application-form-wrapper {
+  width: 100%;
+  min-width: 0;
+}
+
+/* Place progress dots below title/subtitle: wizard uses display:contents so its
+   children (menu, panels, buttons) flow as form children after heading & subtitle */
+.application-form-block form {
+  display: flex;
+  flex-direction: column;
+}
+
+.application-form-block .application-form-wizard.wizard {
+  display: contents;
+}
+
+.application-form-block .application-form-subtitle {
+  margin-bottom: 1rem;
+}
+
+/* Progress dots: below subtitle; inactive = light grey border + white fill, active = teal filled */
+.application-form-block .application-form-wizard .wizard-menu-items,
+.application-form-block .wizard-menu-items {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding-bottom: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.application-form-block .application-form-wizard .wizard-menu-item,
+.application-form-block .wizard-menu-item {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid var(--application-form-grey-border);
+  padding: 0;
+  margin: 0;
+  text-indent: -9999px;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.application-form-block .application-form-wizard .wizard-menu-item::before,
+.application-form-block .wizard-menu-item::before {
+  display: none !important;
+}
+
+.application-form-block .application-form-wizard .wizard-menu-active-item,
+.application-form-block .wizard-menu-active-item {
+  background: var(--application-form-teal);
+  border-color: var(--application-form-teal);
+}
+
+.application-form-block .application-form-step-label {
+  font-size: 0.875rem;
+  color: var(--application-form-label);
+  margin: 0 1rem;
+  flex: 0 0 auto;
+  order: 2;
+}
+
+/* Button wrapper: Back (left), step label (center), Next (right); wrappers auto width */
+.application-form-block .application-form-wizard .wizard-button-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--application-form-grey);
+}
+
+.application-form-block .application-form-wizard .wizard-button-wrapper > .field-wrapper {
+  width: auto;
+  flex: 0 0 auto;
+}
+
+.application-form-block .application-form-wizard .wizard-button-prev,
+.application-form-block .application-form-wizard [id*="wizard-button-prev"] {
+  order: 1;
+}
+
+.application-form-block .application-form-wizard .wizard-button-prev button,
+.application-form-block .application-form-wizard [id*="wizard-button-prev"] button {
+  padding: 0.75rem 1.5rem;
+  background: var(--application-form-grey) !important;
+  color: var(--application-form-label) !important;
+  border: 1px solid var(--application-form-grey-border) !important;
+  border-radius: 9999px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  width: auto !important;
+}
+
+.application-form-block .application-form-wizard .wizard-button-next,
+.application-form-block .application-form-wizard [id*="wizard-button-next"] {
+  order: 3;
+}
+
+/* Submit in same row as Back / step label (moved into .wizard-button-wrapper by JS).
+   Hidden on steps 1–2; only visible on last step in place of Next. */
+.application-form-block .application-form-wizard .wizard-button-wrapper > .submit-wrapper {
+  order: 3;
+  width: auto !important;
+  flex: 0 0 auto;
+  margin-top: 0;
+  display: none;
+}
+
+.application-form-block .application-form-wizard .current-wizard-step.panel-wrapper:last-of-type ~ .wizard-button-wrapper > .submit-wrapper {
+  display: flex;
+}
+
+.application-form-block .application-form-wizard .wizard-button-next button,
+.application-form-block .application-form-wizard [id*="wizard-button-next"] button {
+  padding: 0.75rem 1.5rem !important;
+  background: var(--application-form-teal) !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 9999px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  width: auto !important;
+}
+
+.application-form-block .application-form-wizard .wizard-button-next button:hover,
+.application-form-block .application-form-wizard [id*="wizard-button-next"] button:hover {
+  background: var(--application-form-teal-hover) !important;
+}
+
+/* Inputs: rounded, light grey border */
+.application-form-block .application-form-wizard input[type="text"],
+.application-form-block .application-form-wizard input[type="email"],
+.application-form-block .application-form-wizard select {
+  width: 100%;
+  max-width: 100%;
+  padding: 0.625rem 0.875rem;
+  border: 1px solid var(--application-form-grey-border);
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+  background: #fff;
+  box-sizing: border-box;
+}
+
+.application-form-block .application-form-wizard .field-label {
+  font-weight: 600;
+  color: var(--application-form-label);
+  font-size: 0.9375rem;
+  margin-bottom: 0.25rem;
+}
+
+.application-form-block .application-form-wizard .panel-wrapper {
+  gap: 1.25rem;
+}
+
+/* Submit button: same teal oval as Next (when in button row, width auto from rule above) */
+.application-form-block .application-form-wizard .submit-wrapper {
+  max-width: none;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.application-form-block .application-form-wizard .submit-wrapper button{
+  width: auto !important;
+  padding: 0.75rem 1.5rem !important;
+  background: var(--application-form-teal) !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 9999px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.application-form-block .application-form-wizard .submit-wrapper button:hover,
+.application-form-block .application-form-submit-btn:hover {
+  background: var(--application-form-teal-hover) !important;
+}
+
+.application-form-header {
+  margin-bottom: 1.5rem;
+}
+
+.application-form-title {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.application-form-subtitle {
+  margin: 0;
+  font-size: 0.9375rem;
+  color: #555;
+  line-height: 1.5;
+}
+
+.application-form-main {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.application-form-section {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1.5rem 2rem;
+  text-align: left;
+}
+
+.application-form-section-title {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.application-form-description {
+  margin: 0 0 1rem 0;
+  font-size: 0.875rem;
+  color: #666;
+  line-height: 1.5;
+}
+
+.application-form-required {
+  color: #c00;
+}
+
+.application-form-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  text-align: left;
+  align-items: flex-start;
+}
+
+.application-form-fields label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.875rem;
+  color: #333;
+  width: 100%;
+  max-width: 400px;
+  text-align: left;
+}
+
+.application-form-fields input[type="text"],
+.application-form-fields input[type="email"],
+.application-form-fields input[type="tel"],
+.application-form-fields select {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.9375rem;
+  font-family: inherit;
+}
+
+.application-form-fields select {
+  appearance: none;
+  background-color: #fff;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  padding-right: 2rem;
+}
+
+.application-form-checkbox {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.9375rem;
+  cursor: pointer;
+  text-align: left;
+  max-width: 100%;
+}
+
+.application-form-checkbox input {
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+  margin-top: 0.2rem;
+}
+
+.application-form-checkbox a {
+  color: var(--link-color, #0563c1);
+}
+
+.application-form-submit-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.application-form-submit-btn {
+
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.application-form-submit-btn:hover {
+  filter: brightness(1.05);
+}
+
+.application-form-note {
+  margin: 0;
+  font-size: 0.875rem;
+  color: #666;
+}
+
+.application-form-success-msg {
+  margin: 0 0 0.5rem 0;
+  padding: 0.75rem 1rem;
+  background: #e8f5e9;
+  color: #2e7d32;
+  border-radius: 6px;
+  font-size: 0.9375rem;
+  font-weight: 500;
+}
+
+@media (max-width: 600px) {
+  .application-form-block {
+    padding: 0 1rem 2rem;
+  }
+  .application-form-section {
+    padding: 1rem 1.25rem;
+  }
+  .application-form-fields label {
+    max-width: none;
+  }
+}

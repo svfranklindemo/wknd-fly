@@ -1,0 +1,625 @@
+/* --------------------------
+   Base Hero Layout
+--------------------------- */
+.hero-container .hero-wrapper {
+  max-width: unset;
+  padding: 0;
+}
+
+.hero {
+  position: relative;
+  padding: 40px 24px;
+  min-height: 700px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* --------------------------
+   Headings & Paragraphs
+--------------------------- */
+.hero h1,
+.hero h2,
+.hero h3,
+.hero h4,
+.hero h5,
+.hero h6,
+.hero p {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  color: var(--text-light);
+  text-align: center;
+  font-family: var(--black-font-family);
+}
+
+/* Special underline (only for h1 by default) */
+.hero h1::after {
+  background-color: var(--main-accent-color);
+  content: "";
+  display: block;
+  height: 5px;
+  margin: 20px auto 30px;
+  width: 128px;
+  transition: width .4s ease-in-out;
+}
+
+/* Remove underline when class applied */
+.hero.removeunderline h1::after,
+.hero.removeunderline h2::after,
+.hero.removeunderline h3::after,
+.hero.removeunderline h4::after,
+.hero.removeunderline h5::after,
+.hero.removeunderline h6::after {
+  display: none;
+}
+
+/* UE Text Color – when set in editor, override all hero text */
+.hero.hero--custom-text-color h1,
+.hero.hero--custom-text-color h2,
+.hero.hero--custom-text-color h3,
+.hero.hero--custom-text-color h4,
+.hero.hero--custom-text-color h5,
+.hero.hero--custom-text-color h6,
+.hero.hero--custom-text-color p,
+.hero.hero--custom-text-color .button-container a {
+  color: var(--hero-text-color);
+}
+
+/* --------------------------
+   Hero Background Image
+--------------------------- */
+.hero picture {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  box-sizing: border-box;
+}
+
+.hero img {
+  object-fit: cover;
+  object-position: left;
+  width: 100%;
+  height: 100%;
+}
+
+/* --------------------------
+   Buttons
+--------------------------- */
+
+
+/* Primary CTA */
+.hero-wrapper .button-container.cta-button a.button {
+  background-color: var(--main-accent-color);
+  border: 2px solid var(--main-accent-color);
+}
+
+.hero-wrapper .button-container.cta-button a.button::after {
+  content: "\f105";
+  font-family: 'Font Awesome 5 Solid';
+  font-size: 20px;
+  margin-left: 8px;
+  transition: all 0.3s ease;
+  color: var(--text-light);
+}
+
+.hero-wrapper .button-container.cta-button a.button:hover {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  color: var(--text-light) !important;
+  border-color: var(--text-light) !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3) !important;
+  transform: translateY(-1px);
+}
+
+.hero-wrapper .button-container.cta-button a.button:hover::after {
+  color: var(--text-light) !important;
+  transform: translateX(2px);
+}
+
+/* Secondary CTA */
+.hero-wrapper .button-container.cta-button-secondary a.button {
+  background: transparent;
+  border: 2px solid var(--main-accent-color);
+  color: var(--text-light);
+}
+
+.hero-wrapper .button-container.cta-button-secondary a.button::after {
+  content: "\f105";
+  font-family: 'Font Awesome 5 Solid';
+  font-size: 20px;
+  margin-left: 8px;
+  transition: all 0.3s ease;
+  color: var(--text-light);
+}
+
+.hero-wrapper .button-container.cta-button-secondary a.button:hover {
+  background-color: var(--main-accent-color);
+  color: var(--text-light);
+}
+
+.hero-wrapper .button-container.cta-button-secondary a.button:hover::after {
+  color: var(--text-dark);
+  transform: translateX(2px);
+}
+
+/* Accessibility */
+.hero-wrapper .button-container a.button:focus {
+  outline: 2px solid var(--main-accent-color);
+  outline-offset: 2px;
+}
+
+/* Minimal variation */
+.hero .button-container.cta-minimal a.button::after {
+  margin-left: 4px;
+}
+
+/* --------------------------
+   Layout Variations
+--------------------------- */
+.hero.image-left,
+.hero.image-right,
+.hero.image-top,
+.hero.image-bottom {
+  gap: 40px;
+  padding: 0;
+  min-height: auto;
+}
+
+
+.hero.image-left {
+  flex-direction: row;
+  justify-content: flex-start;
+}
+.hero.image-right {
+  flex-direction: row-reverse;
+  justify-content: flex-start;
+}
+.hero.image-top {
+  flex-direction: column;
+}
+.hero.image-bottom {
+  flex-direction: column-reverse;
+}
+
+/* Image Background Text Left - Text overlaid on background image, left-aligned */
+.hero.image-background-text-left {
+  justify-content: flex-start;
+  align-items: center;
+  text-align: left;
+  padding: 60px 40px;
+}
+
+.hero.image-background-text-left > div {
+  text-align: left;
+  max-width: 600px;
+  margin: 0;
+}
+
+/* Image Background Text Right - Text overlaid on background image, right-aligned */
+.hero.image-background-text-right {
+  justify-content: flex-end;
+  align-items: center;
+  text-align: left;
+  padding: 60px 40px;
+}
+
+.hero.image-background-text-right > div {
+  text-align: left;
+  max-width: 600px;
+  margin: 0;
+}
+
+.hero.image-left picture,
+.hero.image-right picture,
+.hero.image-top picture,
+.hero.image-bottom picture {
+  position: relative;
+  z-index: 1;
+}
+
+.hero.image-left > div:first-child picture,
+.hero.image-right > div:first-child picture {
+  height: 100%;
+  width: 100%;
+}
+
+.hero.image-top picture,
+.hero.image-bottom picture {
+  width: 100%;
+  height: 400px;
+}
+
+/* Text align adjustments */
+.hero.image-left > div:first-child,
+.hero.image-right > div:first-child {
+  flex: 0 0 50%;
+}
+
+.hero.image-left > div:nth-child(2),
+.hero.image-right > div:nth-child(2) {
+  flex: 0 0 50%;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 40px;
+  box-sizing: border-box;
+}
+
+.hero.image-right > div:nth-child(2) {
+  padding-left: 80px;
+}
+
+picture {
+    line-height: 0;
+}
+/* Box shadow for layout variations */
+.hero.image-left,
+.hero.image-right,
+.hero.image-top,
+.hero.image-bottom {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+}
+.hero.image-left h2,
+.hero.image-left h3,
+.hero.image-left h4,
+.hero.image-left h5,
+.hero.image-left h6,
+.hero.image-left p,
+.hero.image-right h2,
+.hero.image-right h3,
+.hero.image-right h4,
+.hero.image-right h5,
+.hero.image-right h6,
+.hero.image-right p {
+  text-align: left;
+  margin: 0;
+  width: 100%;
+  max-width: none;
+  color: var(--text-color);
+    text-shadow: unset;
+}
+.hero.image-left h1,.hero.image-right h1{
+  color: var(--text-color);
+  text-shadow: unset;
+}
+
+.hero.image-background-text-left h1,
+.hero.image-background-text-left h2,
+.hero.image-background-text-left h3,
+.hero.image-background-text-left h4,
+.hero.image-background-text-left h5,
+.hero.image-background-text-left h6,
+.hero.image-background-text-left p {
+  text-align: left;
+  margin: 0 0 20px 0;
+  width: 100%;
+  max-width: none;
+  color: var(--text-light);
+}
+
+.hero.image-background-text-left .button-container {
+  text-align: left;
+  margin-top: 30px;
+}
+
+.hero.image-background-text-right h1,
+.hero.image-background-text-right h2,
+.hero.image-background-text-right h3,
+.hero.image-background-text-right h4,
+.hero.image-background-text-right h5,
+.hero.image-background-text-right h6,
+.hero.image-background-text-right p {
+  text-align: left;
+  margin: 0 0 20px 0;
+  width: 100%;
+  max-width: none;
+  color: var(--text-light);
+}
+
+.hero.image-background-text-right .button-container {
+  text-align: left;
+  margin-top: 30px;
+}
+
+.hero.image-top h1,
+.hero.image-top h2,
+.hero.image-top h3,
+.hero.image-top h4,
+.hero.image-top h5,
+.hero.image-top h6,
+.hero.image-top p,
+.hero.image-bottom h1,
+.hero.image-bottom h2,
+.hero.image-bottom h3,
+.hero.image-bottom h4,
+.hero.image-bottom h5,
+.hero.image-bottom h6,
+.hero.image-bottom p{
+  text-align: center;
+  max-width: none;
+  color: var(--text-color);
+    text-shadow: unset;
+}
+/* --------------------------
+   Responsive
+--------------------------- */
+@media (width >= 900px) {
+  .hero { padding: 40px 32px; }
+  .hero-wrapper a.button { padding: 14px 28px; font-size: 18px; }
+}
+
+@media (width < 1024px) {
+  .hero { min-height: 650px; }
+  
+  .hero.image-background-text-left {
+    padding: 50px 30px;
+  }
+  
+  .hero.image-background-text-right {
+    padding: 50px 30px;
+  }
+}
+
+@media (width < 768px) {
+  .hero { min-height: 600px; }
+
+  .hero.image-left,
+  .hero.image-right {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .hero.image-left picture,
+  .hero.image-right picture {
+    width: 100%;
+    height: 300px;
+    flex: none;
+  }
+
+  .hero.image-left > div:last-child,
+  .hero.image-right > div:last-child {
+    text-align: center;
+  }
+
+  .hero.image-left h2,
+  .hero.image-left h3,
+  .hero.image-left h4,
+  .hero.image-left h5,
+  .hero.image-left h6,
+  .hero.image-left p,
+  .hero.image-right h2,
+  .hero.image-right h3,
+  .hero.image-right h4,
+  .hero.image-right h5,
+  .hero.image-right h6,
+  .hero.image-right p {
+    text-align: center;
+    margin: 0 auto;
+  }
+
+  .hero.image-top picture,
+  .hero.image-bottom picture {
+    height: 250px;
+  }
+  
+  /* Mobile adjustments for image-background-text-left */
+  .hero.image-background-text-left {
+    padding: 40px 20px;
+    text-align: center;
+  }
+  
+  .hero.image-background-text-left h1,
+  .hero.image-background-text-left h2,
+  .hero.image-background-text-left h3,
+  .hero.image-background-text-left h4,
+  .hero.image-background-text-left h5,
+  .hero.image-background-text-left h6,
+  .hero.image-background-text-left p {
+    text-align: center;
+  }
+  
+  .hero.image-background-text-left .button-container {
+    text-align: center;
+  }
+  
+  /* Mobile adjustments for image-background-text-right */
+  .hero.image-background-text-right {
+    padding: 40px 20px;
+    text-align: center;
+  }
+  
+  .hero.image-background-text-right h1,
+  .hero.image-background-text-right h2,
+  .hero.image-background-text-right h3,
+  .hero.image-background-text-right h4,
+  .hero.image-background-text-right h5,
+  .hero.image-background-text-right h6,
+  .hero.image-background-text-right p,
+  .hero.image-background-text-right .button-container {
+    text-align: left;
+  }
+  
+  .hero.image-background-text-right .button-container {
+    text-align: center;
+  }
+}
+
+/* --------------------------
+   Background Style Variations
+--------------------------- */
+
+/* Theme Dark Background Style */
+.hero.theme-dark {
+  background: var(--dark-color);
+}
+
+.hero.theme-dark h1,
+.hero.theme-dark h2,
+.hero.theme-dark h3,
+.hero.theme-dark h4,
+.hero.theme-dark h5,
+.hero.theme-dark h6,
+.hero.theme-dark p {
+  color: var(--light-color);
+}
+
+.hero.theme-dark .button-container a.button {
+  color: var(--light-color);
+  border-color: var(--light-color);
+}
+
+/* Theme Light Background Style */
+.hero.theme-light {
+  background: var(--light-color);
+}
+
+.hero.theme-light h1,
+.hero.theme-light h2,
+.hero.theme-light h3,
+.hero.theme-light h4,
+.hero.theme-light h5,
+.hero.theme-light h6,
+.hero.theme-light p {
+  color: var(--dark-color);
+}
+
+.hero.theme-light .button-container a.button {
+  color: var(--dark-color);
+  border-color: var(--dark-color);
+}
+
+.hero.block.overlay div:nth-child(2),.hero.image-background-text-left div:nth-child(2),.hero.image-background-text-right div:nth-child(2) {
+  padding: 20px;
+  background: rgb(0 0 0 / 50%);
+}
+.hero.image-background-text-left div:nth-child(2){
+   margin-left: 15%; 
+}
+.hero.image-background-text-right div:nth-child(2){
+  margin-right: 15%;
+}
+
+/*button theme hero specific*/
+.hero.block.overlay .button-container.cta-link a.button,.hero.image-background-text-left .button-container.cta-link a.button,.hero.image-background-text-right .button-container.cta-link a.button {
+  color: var(--text-light);
+}
+
+.hero.block.overlay .button-container.cta-link a.button::after  ,.hero.image-background-text-left .button-container.cta-link a.button::after,.hero.image-background-text-right .button-container.cta-link a.button::after  {
+  color: var(--text-light);
+}
+
+/* --------------------------
+   Banner-like: Alignment, vertical alignment, full width
+   (UE Text options: alignment, vertical alignment, height, text color)
+--------------------------- */
+
+/* Alignment (horizontal) – whole text section */
+.hero.hero--alignment-left,
+.hero.hero--alignment-left h1,
+.hero.hero--alignment-left h2,
+.hero.hero--alignment-left h3,
+.hero.hero--alignment-left h4,
+.hero.hero--alignment-left h5,
+.hero.hero--alignment-left h6,
+.hero.hero--alignment-left p {
+  text-align: left;
+}
+
+.hero.hero--alignment-left .button-container {
+  justify-content: flex-start;
+  text-align: left;
+}
+
+.hero.hero--alignment-center,
+.hero.hero--alignment-center h1,
+.hero.hero--alignment-center h2,
+.hero.hero--alignment-center h3,
+.hero.hero--alignment-center h4,
+.hero.hero--alignment-center h5,
+.hero.hero--alignment-center h6,
+.hero.hero--alignment-center p {
+  text-align: center;
+}
+
+.hero.hero--alignment-center .button-container {
+  justify-content: center;
+  text-align: center;
+}
+
+.hero.hero--alignment-right,
+.hero.hero--alignment-right h1,
+.hero.hero--alignment-right h2,
+.hero.hero--alignment-right h3,
+.hero.hero--alignment-right h4,
+.hero.hero--alignment-right h5,
+.hero.hero--alignment-right h6,
+.hero.hero--alignment-right p {
+  text-align: right;
+}
+
+.hero.hero--alignment-right .button-container {
+  justify-content: flex-end;
+  text-align: right;
+}
+
+/* Vertical alignment – whole text section within hero */
+.hero.hero--verticalalignment-top {
+  align-items: flex-start;
+}
+
+.hero.hero--verticalalignment-middle {
+  align-items: center;
+}
+
+.hero.hero--verticalalignment-bottom {
+  align-items: flex-end;
+}
+
+/* Full width */
+.hero.hero--fullwidth {
+  width: 100vw;
+  max-width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  margin-right: calc(-50vw + 50%);
+  padding-left: 24px;
+  padding-right: 24px;
+  box-sizing: border-box;
+}
+
+/* Hide new button/CTA and UE Text style fields so they don't appear in HTML */
+.hero [data-aue-prop="eventType"],
+.hero [data-aue-prop="webhookUrl"],
+.hero [data-aue-prop="formId"],
+.hero [data-aue-prop="data"],
+.hero [data-aue-prop="alignment"],
+.hero [data-aue-prop="verticalalignment"],
+.hero [data-aue-prop="height"],
+.hero [data-aue-prop="color"],
+.hero [data-aue-prop="isfullwidth"],
+.hero [data-aue-prop="textUppercase"],
+.hero [data-aue-prop="backgroundcolor"],
+.hero [data-aue-prop="backgroundColor"],
+.hero [data-aue-prop="backgroundColorOnHover"],
+.hero [data-aue-prop="textColor"],
+.hero [data-aue-prop="textColorOnHover"],
+.hero [data-aue-prop="borderColor"],
+.hero [data-aue-prop="borderColorOnHover"],
+.hero [data-aue-prop="borderWidth"],
+.hero [data-aue-prop="customStyles"] {
+  display: none !important;
+}
+.hero div:has(> [data-aue-prop="eventType"]),
+.hero div:has(> [data-aue-prop="webhookUrl"]),
+.hero div:has(> [data-aue-prop="formId"]),
+.hero div:has(> [data-aue-prop="data"]),
+.hero div:has(> [data-aue-prop="alignment"]),
+.hero div:has(> [data-aue-prop="verticalalignment"]),
+.hero div:has(> [data-aue-prop="height"]),
+.hero div:has(> [data-aue-prop="color"]),
+.hero div:has(> [data-aue-prop="isfullwidth"]),
+.hero div:has(> [data-aue-prop="backgroundcolor"]),
+.hero div:has(> [data-aue-prop="customStyles"]) {
+  display: none !important;
+}

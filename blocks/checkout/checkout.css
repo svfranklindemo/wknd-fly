@@ -1,0 +1,354 @@
+/* Let the section container use full checkout width so no empty space on the right */
+main > .section:has(.checkout-block) > div {
+  max-width: 1400px;
+}
+
+/* Checkout block – Trip Summary layout (aligned with page, matches flights block width) */
+.checkout-block {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0 2rem 2rem;
+  font-family: var(--body-font-family, system-ui, sans-serif);
+  box-sizing: border-box;
+}
+
+/* Fill full width of block so no empty space on the right */
+.checkout-block .checkout-wrapper {
+  width: 100%;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2.5rem;
+  align-items: start;
+  box-sizing: border-box;
+}
+
+@media (max-width: 900px) {
+  .checkout-block .checkout-wrapper {
+    grid-template-columns: 1fr;
+  }
+  .checkout-block {
+    padding: 0 1.5rem 2rem;
+  }
+  .checkout-header {
+    margin: 0 -1.5rem 0;
+    padding: 1rem 1.5rem;
+  }
+}
+
+/* Header – full width of content area */
+.checkout-header {
+  background: var(--link-color, #0563c1);
+  color: #fff;
+  margin: 0 -2rem 0;
+  padding: 1rem 2rem;
+  border-radius: 0;
+}
+
+.checkout-title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+/* Main column – min-width 0 so grid column can shrink and layout fills width */
+.checkout-main {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.checkout-section {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1.5rem 2rem;
+  text-align: left;
+}
+
+.checkout-section-title {
+  margin: 0 0 1rem 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.checkout-description {
+  margin: 0 0 1rem 0;
+  font-size: 0.875rem;
+  color: #666;
+  line-height: 1.5;
+}
+
+.checkout-description a {
+  color: var(--link-color, #0563c1);
+}
+
+/* Trip table */
+.checkout-trip-table {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.checkout-trip-header {
+  display: grid;
+  grid-template-columns: 1fr 70px 120px 48px;
+  gap: 1rem;
+  padding: 0.75rem 0;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #666;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.checkout-trip-row {
+  display: grid;
+  grid-template-columns: 1fr 70px 120px 48px;
+  gap: 1rem;
+  align-items: center;
+  padding: 1.25rem 0;
+  border-bottom: 1px solid #eee;
+}
+
+.checkout-trip-row:last-child {
+  border-bottom: none;
+}
+
+.checkout-trip-name {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  min-width: 0;
+}
+
+.checkout-trip-image {
+  flex-shrink: 0;
+  width: 120px;
+  height: 80px;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #f0f0f0;
+}
+
+.checkout-trip-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.checkout-trip-route {
+  font-size: 0.9375rem;
+  color: #333;
+}
+
+.checkout-trip-qty {
+  font-size: 0.9375rem;
+  color: #333;
+}
+
+.checkout-trip-price {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.checkout-trip-remove {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.checkout-remove-btn {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: #fff;
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+  color: #666;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.checkout-remove-btn:hover {
+  background: #f5f5f5;
+  color: #c00;
+  border-color: #c00;
+}
+
+.checkout-empty-trip {
+  margin: 0;
+  padding: 1.5rem;
+  color: #666;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
+/* Upgrade & Preferences – left-aligned */
+.checkout-checkbox {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.9375rem;
+  cursor: pointer;
+  text-align: left;
+}
+
+.checkout-checkbox input {
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+}
+
+.checkout-prefs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.checkout-prefs label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.875rem;
+  min-width: 140px;
+}
+
+.checkout-prefs select {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.9375rem;
+}
+
+/* Forms – left-aligned (not centered) */
+.checkout-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  text-align: left;
+  align-items: flex-start;
+}
+
+.checkout-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.875rem;
+  color: #333;
+  width: 100%;
+  text-align: left;
+}
+
+.checkout-form input[type="text"],
+.checkout-form input[type="email"],
+.checkout-form input[type="tel"],
+.checkout-form select {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.9375rem;
+  font-family: inherit;
+}
+
+.checkout-form select {
+  appearance: none;
+  background-color: #fff;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  padding-right: 2rem;
+}
+
+/* Sidebar – Trip Total (proportional width, aligned with main content) */
+.checkout-sidebar {
+  position: sticky;
+  top: 1rem;
+  min-width: 0;
+}
+
+.checkout-total-box {
+  width: 100%;
+  background: #f8f9fa;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1.75rem 2rem;
+}
+
+.checkout-total-title {
+  margin: 0 0 1rem 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.checkout-total-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.35rem 0;
+  font-size: 0.9375rem;
+  color: #333;
+}
+
+.checkout-total-divider {
+  border: none;
+  border-top: 1px solid #ddd;
+  margin: 0.75rem 0;
+}
+
+.checkout-total-final {
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.checkout-confirm-btn {
+  width: 100%;
+  margin-top: 1.25rem;
+  padding: 0.875rem 1.25rem;
+  background: var(--link-color, #0563c1);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.checkout-confirm-btn:hover {
+  filter: brightness(1.05);
+}
+label.checkout-checkbox {
+  flex-direction: row;
+}
+
+@media (max-width: 600px) {
+  .checkout-block {
+    padding: 0 1rem 2rem;
+  }
+  .checkout-header {
+    margin: 0 -1rem 0;
+    padding: 1rem 1rem;
+  }
+  .checkout-trip-header,
+  .checkout-trip-row {
+    grid-template-columns: 1fr 50px 80px 40px;
+    font-size: 0.8125rem;
+  }
+  .checkout-trip-image {
+    width: 90px;
+    height: 60px;
+  }
+}

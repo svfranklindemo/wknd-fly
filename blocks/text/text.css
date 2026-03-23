@@ -1,0 +1,12 @@
+/* Text block – custom text color from UE */
+.text.text--custom-text-color h1,
+.text.text--custom-text-color h2,
+.text.text--custom-text-color h3,
+.text.text--custom-text-color h4,
+.text.text--custom-text-color h5,
+.text.text--custom-text-color h6,
+.text.text--custom-text-color p,
+.text.text--custom-text-color a,
+.text.text--custom-text-color li {
+  color: var(--text-block-text-color);
+}

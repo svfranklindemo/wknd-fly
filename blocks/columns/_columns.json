@@ -1,0 +1,112 @@
+{
+  "definitions": [
+    {
+      "title": "Columns",
+      "id": "columns",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/columns/v1/columns",
+            "template": {
+              "columns": "2",
+              "rows": "1",
+              "columnWidths": ""
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Column",
+      "id": "column",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "name": "Column",
+              "model": "column",
+              "itemAlignment": "vertical"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "columns",
+      "fields": [
+        {
+          "component": "text",
+          "valueType": "number",
+          "name": "columns",
+          "value": "",
+          "label": "Columns"
+        },
+        {
+          "component": "text",
+          "valueType": "number",
+          "name": "rows",
+          "value": "",
+          "label": "Rows"
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "columnWidths",
+          "value": "",
+          "label": "Column widths (%)",
+          "description": "Comma-separated width percentages per column, e.g. 20,80 or 33,33,34"
+        }
+      ]
+    },
+    {
+      "id": "column",
+      "fields": [
+        {
+          "component": "tab",
+          "label": "Basic",
+          "name": "tab-basic"
+        },
+        {
+          "component": "select",
+          "name": "itemAlignment",
+          "label": "Item Alignment",
+          "valueType": "string",
+          "value": "vertical",
+          "options": [
+            {
+              "name": "Vertical",
+              "value": "vertical"
+            },
+            {
+              "name": "Horizontal",
+              "value": "horizontal"
+            }
+          ],
+          "description": "Controls how items inside the column are aligned - vertically (stacked) or horizontally (side by side)"
+        }
+      ]
+    }
+  ],
+  "filters": [
+    {
+      "id": "columns",
+      "components": [
+        "column"
+      ]
+    },
+    {
+      "id": "column",
+      "components": [
+        "text",
+        "image",
+        "button",
+        "title",
+        "dm-asset",
+        "video"
+      ]
+    }
+  ]
+}

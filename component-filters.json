@@ -1,0 +1,120 @@
+[
+  {
+    "id": "main",
+    "components": [
+      "section"
+    ]
+  },
+  {
+    "id": "section",
+    "components": [
+      "accordion",
+      "action-button",
+      "button",
+      "cards",
+      "carousel",
+      "columns",
+      "contentfragment",
+      "dm-template",
+      "dynamic-media-image",
+      "fragment",
+      "hero",
+      "image",
+      "quote",
+      "teaser",
+      "text",
+      "title",
+      "video",
+      "search",
+      "separator",
+      "tabs",
+      "form",
+      "forex",
+      "embed-adaptive-form",
+      "find-a-doctor",
+      "flight-search",
+      "flights",
+      "user-registration",
+      "sign-in",
+      "membership",
+      "checkout",
+      "application-form",
+      "new-account",
+      "loan-calculator",
+      "insurance",
+      "add-external",
+      "confirmation",
+      "join-us"
+    ]
+  },
+  {
+    "id": "accordion",
+    "components": [
+      "accordion-item"
+    ]
+  },
+  {
+    "id": "cards",
+    "components": [
+      "card"
+    ]
+  },
+  {
+    "id": "carousel",
+    "components": [
+      "card"
+    ]
+  },
+  {
+    "id": "columns",
+    "components": [
+      "column"
+    ]
+  },
+  {
+    "id": "column",
+    "components": [
+      "button",
+      "image",
+      "text",      
+      "title",
+      "video"
+    ]
+  },
+  {
+    "id": "tabs",
+    "components": [
+      "tabs-item"
+    ]
+  },
+  {
+    "id": "form",
+    "components": [
+      "captcha",
+      "checkbox",
+      "checkbox-group",
+      "date-input",
+      "drop-down",
+      "email",
+      "file-input",
+      "form-accordion",
+      "form-button",
+      "form-fragment",
+      "form-image",
+      "form-modal",
+      "form-reset-button",
+      "form-submit-button",
+      "number-input",
+      "panel",
+      "password",
+      "plain-text",
+      "radio-group",
+      "rating",
+      "telephone-input",
+      "text-input",
+      "tnc",
+      "wizard",
+      "range"
+    ]
+  }
+]
