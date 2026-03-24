@@ -1296,6 +1296,10 @@ table {
   color: #034a94;
 }
 
+#consentModal .consentmodal-content p a[href="#"]::after {
+  content: none;
+}
+
 #consentModal .consentmodal-content > div {
   margin-top: 1.25rem;
   display: flex;
