@@ -69,6 +69,10 @@ function normalizeDemosystem4Email() {
   if (core.email === '') core.email = null;
 }
 
+function syncWindowDataLayer() {
+  window.dataLayer = _dataLayer;
+}
+
 function dispatchDataLayerEvent(eventType = 'initialized') {
   document.dispatchEvent(
     new CustomEvent('dataLayerUpdated', {
@@ -91,6 +95,8 @@ function processDataLayerQueue() {
         _dataLayer = { ..._dataLayer, ...updates };
       }
     });
+    normalizeDemosystem4Email();
+    syncWindowDataLayer();
     try {
       const now = Date.now().toString();
       localStorage.setItem(STORAGE_KEY, JSON.stringify(_dataLayer));
@@ -234,6 +240,7 @@ export function buildCustomDataLayer() {
     if (!_dataLayer.page) _dataLayer.page = {};
     _dataLayer.page.title = document.title || _dataLayer.page.title;
     _dataLayer.page.name = (document.title || '').toLowerCase() || _dataLayer.page.name;
+    syncWindowDataLayer();
 
     try {
       const now = Date.now().toString();
@@ -242,20 +249,6 @@ export function buildCustomDataLayer() {
     } catch (storageError) {
       console.warn('⚠ Could not persist dataLayer:', storageError.message);
     }
-
-    Object.defineProperty(window, 'dataLayer', {
-      get() {
-        return JSON.parse(JSON.stringify(_dataLayer));
-      },
-      set() {
-        console.error(
-          '❌ Direct assignment to window.dataLayer is not allowed. Use window.updateDataLayer() instead.'
-        );
-        throw new Error('Direct modification of dataLayer is prohibited. Use updateDataLayer() method.');
-      },
-      configurable: false,
-      enumerable: true,
-    });
 
     window._dataLayerReady = true;
     processDataLayerQueue();
@@ -266,10 +259,7 @@ export function buildCustomDataLayer() {
   } catch (error) {
     console.error('Error initializing dataLayer:', error);
     _dataLayer = getInitialDataLayerFromDataElements();
-    Object.defineProperty(window, 'dataLayer', {
-      get() { return JSON.parse(JSON.stringify(_dataLayer)); },
-      set() { console.error('❌ Direct assignment to window.dataLayer is not allowed.'); },
-    });
+    syncWindowDataLayer();
     window._dataLayerReady = true;
     processDataLayerQueue();
   }
@@ -291,6 +281,7 @@ window.updateDataLayer = function (updates, merge = true) {
     _dataLayer = { ..._dataLayer, ...updates };
   }
   normalizeDemosystem4Email();
+  syncWindowDataLayer();
   try {
     const now = Date.now().toString();
     localStorage.setItem(STORAGE_KEY, JSON.stringify(_dataLayer));
