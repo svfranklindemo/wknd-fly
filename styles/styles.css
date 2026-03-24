@@ -1241,6 +1241,7 @@ table {
   transform: translateX(-50%);
   max-width: 560px;
   width: 100%;
+  padding: 1.5rem 1.75rem;
   border-radius: 10px;
   background-color: #fff;
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
@@ -1250,14 +1251,15 @@ table {
 
 #consentModal .close {
   position: absolute;
-  top: 1rem;
-  right: 1rem;
+  top: 1.25rem;
+  right: 1.25rem;
   width: 32px;
   height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.25rem;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  padding-bottom: 4px;
+  font-size: 1.2rem;
   line-height: 1;
   color: #555;
   background-color: #e9ecef;
@@ -1265,6 +1267,7 @@ table {
   border-radius: 50%;
   cursor: pointer;
   transition: background-color 0.2s, color 0.2s;
+  transform: translateY(-1px);
 }
 
 #consentModal .close:hover {
@@ -1277,16 +1280,19 @@ table {
   font-size: 1rem;
   line-height: 1.5;
   color: #333;
-  margin: 0 2rem 0 0;
-  padding-right: 0.5rem;
+  margin: 0;
+  padding-right: 4rem;
 }
 
-#consentModal .consentmodal-content a[href="#"] {
+#consentModal .consentmodal-content p a[href="#"] {
+  display: inline-flex;
+  align-items: baseline;
   color: #0563c1;
   text-decoration: underline;
+  vertical-align: baseline;
 }
 
-#consentModal .consentmodal-content a[href="#"]:hover {
+#consentModal .consentmodal-content p a[href="#"]:hover {
   color: #034a94;
 }
 
@@ -1305,15 +1311,22 @@ table {
   font-size: 1rem;
   font-weight: 600;
   font-family: inherit;
-  text-decoration: none;
+  text-decoration: none !important;
   border: none;
   border-radius: 6px;
   cursor: pointer;
   transition: filter 0.2s, background-color 0.2s;
 }
 
+#consentModal .action_btn::after,
+#consentModal .action_btn:hover::after,
+#consentModal .action_btn:focus::after {
+  color: currentcolor;
+}
+
 #consentModal #allow.btn_1.action_btn {
-  background-color: #0563c1;
+  background-color: var(--main-accent-color);
+  border: 1px solid var(--main-accent-color);
   color: #fff;
   margin-right: 0;
 }
