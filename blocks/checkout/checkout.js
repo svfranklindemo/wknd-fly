@@ -271,7 +271,7 @@ function renderPassengerForm(mainCol) {
       <label>Gender <select name="gender"><option value="">Not Specified</option><option value="male">Male</option><option value="female">Female</option></select></label>
       <label>Frequent Flyer ID <input type="text" name="frequentFlyerId"></label>
       <label>Email Address <input type="email" name="email"></label>
-      <label>Phone Number <input type="text" name="phone" maxlength="20"></label>
+      <label>Phone Number <input type="text" name="phone"></label>
       <label class="checkout-checkbox"><input type="checkbox" name="wknd-club" checked> I want to sign up for WKND Fly Club</label>
       <label class="checkout-checkbox"><input type="checkbox" name="sms"> I want to get SMS with booking confirmation</label>
       <label class="checkout-checkbox"><input type="checkbox" name="promo"> I want to receive electronic mail with promotions and announcements</label>
@@ -492,7 +492,7 @@ export default async function decorate(block) {
 
 /** Restrict phone, card number, CVV to digits only (strip non-numeric on input) */
 function restrictNumericFieldsToDigits(block) {
-  const numericNames = ['phone', 'cardNumber', 'cvv'];
+  const numericNames = ['cardNumber', 'cvv'];
   numericNames.forEach((name) => {
     const el = block.querySelector(`[name="${name}"]`);
     if (!el || el.type === 'hidden') return;
