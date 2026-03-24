@@ -370,11 +370,13 @@ body.fly-theme header nav .nav-tools a[href*="sign"] {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 11px 29px !important;
+  padding: 10px !important;
+  padding-left: 25px !important;
+  text-align: center;
   color: #000 !important;
-  background-color: #cbe7f0;
-  border: none;
-  border-radius: 999px;
+  border: 1px solid rgb(0 0 0 / 40%);
+  background: transparent;
+  border-radius: 4px;
   font-size: 16px !important;
   line-height: 1.2;
   text-decoration: none !important;
@@ -494,6 +496,16 @@ body.wehealthcare-theme header nav .nav-sections ul > li > a{
 body.wehealthcare-theme .lang-switcher .lang-button{
   color: #000;
   border: 1px solid rgb(0 0 0 / 40%);
+}
+
+body.wehealthcare-theme a.sign-in-btn,
+body.fly-theme a.sign-in-btn {
+  text-align: center;
+  color: #000;
+  border: 1px solid rgb(0 0 0 / 40%);
+  align-items: center;
+  padding: 10px;
+  padding-left: 25px;
 }
 
 body.fly-theme header nav .nav-sections ul > li > a {
