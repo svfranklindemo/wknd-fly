@@ -1330,3 +1330,62 @@ table {
 #consentModal #disable.btn_3.action_btn:hover {
   filter: brightness(1.1);
 }
+
+#offer-bar {
+  background-color: #01153a;
+  color: #fff;
+  text-align: center;
+}
+
+#offer-bar h1 {
+  font-size: 2em;
+}
+
+#offer-bar h2,
+#offer-bar h3 {
+  font-size: 1.17em;
+}
+
+#offer-bar .Button--variant-cta {
+  margin-top: 10px;
+}
+
+#offer-bar .Button--variant-cta a {
+  display: inline-block;
+  text-decoration: none !important;
+}
+
+#offer-bar .Button--variant-cta a::after {
+  content: none;
+}
+
+#offer-bar .Button--variant-cta .spectrum-Button_e2d99e {
+  display: inline-block;
+  padding: 12px 24px !important;
+  margin: 10px 5px;
+  background-color: var(--main-accent-color) !important;
+  color: var(--text-light) !important;
+  border: 2px solid var(--main-accent-color) !important;
+  border-radius: 4px;
+  font-family: var(--heading-font-family);
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 1.2;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#offer-bar .Button--variant-cta .spectrum-Button_e2d99e:hover,
+#offer-bar .Button--variant-cta .spectrum-Button_e2d99e:focus {
+  background-color: transparent !important;
+  color: var(--main-accent-color) !important;
+  border-color: var(--main-accent-color) !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  transform: translateY(-1px);
+}
+
+#offer-bar .Button--variant-cta .spectrum-Button-label_e2d99e {
+  color: inherit;
+}
