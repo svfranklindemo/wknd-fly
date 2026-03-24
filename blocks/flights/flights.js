@@ -6,7 +6,7 @@ import { dispatchCustomEvent } from '../../scripts/custom-events.js';
 const AUTHOR_GRAPHQL_BASE_For_Search = 'https://author-p189874-e1977911.adobeaemcloud.com/graphql/execute.json/wknd-fly/flight-details-list';
 const PUBLISH_GRAPHQL_BASE_For_Search = 'https://275323-918sangriatortoise.adobeioruntime.net/api/v1/web/dx-excshell-1/flight-details-list';
 
-const AUTHOR_GRAPHQL_BASE_For_Destination = 'https://author-p189874-e1977911.adobeaemcloud.com/graphql/execute.json/wknd-fly/flight-details-list';
+const AUTHOR_GRAPHQL_BASE_For_Destination = 'https://author-p189874-e1977911.adobeaemcloud.com/graphql/execute.json/wknd-fly/flight-details-list-for-destination-page';
 const PUBLISH_GRAPHQL_BASE_For_Destination = 'https://275323-918sangriatortoise.adobeioruntime.net/api/v1/web/dx-excshell-1/flight-details-list';
 
 let selectButtonDataAttributes = {};
