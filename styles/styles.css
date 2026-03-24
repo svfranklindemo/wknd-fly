@@ -343,12 +343,14 @@ body.green-theme {
 .wehealthcare-theme {
   --main-accent-color: #00c4ff;
   --nav-text-color:#000000;
+  --light-color: #f6f6f6;
 }
 
 /* Fly theme (copy of wehealthcare – buttons, header, etc.) */
 .fly-theme {
   --main-accent-color: #00c4ff;
   --nav-text-color: #000000;
+  --light-color: #f6f6f6;
 }
 
 body.fly-theme header .nav-wrapper,
@@ -1327,7 +1329,7 @@ table {
 #consentModal .action_btn::after,
 #consentModal .action_btn:hover::after,
 #consentModal .action_btn:focus::after {
-  color: currentcolor;
+  content: none;
 }
 
 #consentModal #allow.btn_1.action_btn {
