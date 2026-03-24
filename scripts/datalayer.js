@@ -153,11 +153,6 @@ function getInitialDataLayerFromDataElements() {
       name: '',
     },
     options: {},
-    partnerData: {
-      Presence_of_premimum_credit_card: 'n',
-      VacationSpenders: 87,
-      PartnerID: "Partner456"
-    },
     payment: {
       nameOnCard: '',
       cardExpiration: '',
