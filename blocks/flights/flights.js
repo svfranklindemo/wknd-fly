@@ -68,6 +68,14 @@ function getDestinationCodeFromPath() {
   return codes && codes.length ? codes[0] : null;
 }
 
+// Best human-readable destination label from page content (prefer H1, then document.title)
+function getDestinationLabelFromPageTitle() {
+  if (typeof document === 'undefined') return '';
+  const h1Text = document.querySelector('h1')?.textContent?.trim() || '';
+  if (h1Text) return h1Text;
+  return (document.title || '').trim();
+}
+
 // Resolve from/to only when not on a destination page (destination page has no from/to)
 function resolveFromAndTo() {
   const urlParams = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : new URLSearchParams();
@@ -570,7 +578,9 @@ export default async function decorate(block) {
         return true;
       });
     }
-    displayFlightResults(flights, '', destinationLabel || 'destination', urlDate);
+    const noResultsToLabel = getDestinationLabelFromPageTitle() || destinationLabel || 'destination';
+    const toLabel = flights.length === 0 ? noResultsToLabel : (destinationLabel || 'destination');
+    displayFlightResults(flights, '', toLabel, urlDate);
     addBookNowBar(block);
     const selectedFromUrl = getSelectedFlights();
     if (selectedFromUrl.length > 0) {
