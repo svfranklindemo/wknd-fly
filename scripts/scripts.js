@@ -242,6 +242,45 @@ function decorateButtons(main) {
   libDecorateButtons(main);
 }
 
+export function decorateTitleAlignment(container) {
+  const scope = container || document;
+  const processed = new Set();
+  const wrappers = [];
+
+  scope.querySelectorAll('[data-aue-model="title"]').forEach((el) => wrappers.push(el));
+  scope.querySelectorAll('[data-aue-prop="alignment"]').forEach((el) => {
+    const wrapper = el.closest('[data-aue-resource]');
+    if (wrapper) wrappers.push(wrapper);
+  });
+
+  wrappers.forEach((wrapper) => {
+    if (!wrapper || processed.has(wrapper)) return;
+    processed.add(wrapper);
+
+    const titleEl = wrapper.querySelector('h1, h2, h3, h4, h5, h6, [data-aue-prop="title"]');
+    if (!titleEl) return;
+
+    const alignmentSource = wrapper.querySelector('[data-aue-prop="alignment"]');
+    const alignment = (
+      alignmentSource?.getAttribute('data-aue-value')
+      || alignmentSource?.getAttribute('value')
+      || alignmentSource?.textContent
+      || wrapper.getAttribute('data-alignment')
+      || wrapper.dataset?.alignment
+      || ''
+    ).trim().toLowerCase();
+
+    wrapper.classList.remove('title--alignment-left', 'title--alignment-center', 'title--alignment-right');
+    titleEl.classList.remove('title--alignment-left', 'title--alignment-center', 'title--alignment-right');
+
+    if (['left', 'center', 'right'].includes(alignment)) {
+      const alignmentClass = `title--alignment-${alignment}`;
+      wrapper.classList.add(alignmentClass);
+      titleEl.classList.add(alignmentClass);
+    }
+  });
+}
+
 /**
  * Decorates the main element.
  * @param {Element} main The main element
@@ -253,6 +292,7 @@ export function decorateMain(main) {
   decorateIcons(main);
   buildAutoBlocks(main);
   decorateSections(main);
+  decorateTitleAlignment(main);
   decorateBlocks(main);
   decorateDMImages(main);
 }

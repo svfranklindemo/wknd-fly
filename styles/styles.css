@@ -453,6 +453,46 @@ h1 {
   font-size: var(--heading-font-size-xxl);
 }
 
+.title--alignment-left,
+.title--alignment-left h1,
+.title--alignment-left h2,
+.title--alignment-left h3,
+.title--alignment-left h4,
+.title--alignment-left h5,
+.title--alignment-left h6,
+.title--alignment-left [data-aue-prop="title"] {
+  text-align: left;
+}
+
+.title--alignment-center,
+.title--alignment-center h1,
+.title--alignment-center h2,
+.title--alignment-center h3,
+.title--alignment-center h4,
+.title--alignment-center h5,
+.title--alignment-center h6,
+.title--alignment-center [data-aue-prop="title"] {
+  text-align: center;
+}
+
+.title--alignment-right,
+.title--alignment-right h1,
+.title--alignment-right h2,
+.title--alignment-right h3,
+.title--alignment-right h4,
+.title--alignment-right h5,
+.title--alignment-right h6,
+.title--alignment-right [data-aue-prop="title"] {
+  text-align: right;
+}
+
+[data-aue-model="title"] [data-aue-prop="alignment"],
+.title--alignment-left [data-aue-prop="alignment"],
+.title--alignment-center [data-aue-prop="alignment"],
+.title--alignment-right [data-aue-prop="alignment"] {
+  display: none;
+}
+
 h2 {
   font-size: var(--heading-font-size-xl);
 }

@@ -9,7 +9,7 @@ import {
   loadSections,
 } from './aem.js';
 import { decorateRichtext } from './editor-support-rte.js';
-import { decorateMain, decorateDMImages, decorateDMVideos } from './scripts.js';
+import { decorateMain, decorateDMImages, decorateDMVideos, decorateTitleAlignment } from './scripts.js';
 
 
 async function applyChanges(event) {
@@ -87,6 +87,7 @@ async function applyChanges(event) {
           decorateButtons(parentElement);
           decorateIcons(parentElement);
           decorateRichtext(parentElement);
+          decorateTitleAlignment(parentElement);
         }
         return true;
       }
