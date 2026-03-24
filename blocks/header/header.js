@@ -739,12 +739,21 @@ export default async function decorate(block) {
   const navTools = nav.querySelector('.nav-tools');
   if (navTools) {
     const contentWrapper = nav.querySelector('.nav-tools > div[class = "default-content-wrapper"]');
+    const targetContainer = contentWrapper || navTools;
     // Find the <li> that contains the Sign In link so we can replace it with the user profile
     const signInLi = nav.querySelector('.nav-sections a[href*="sign-in"]')?.closest('li');
     // Add User Profile in place of Sign In when logged in
     const isLoggedIn = localStorage.getItem("wkndfly_user_logged_in") === "true";
     if (isLoggedIn && signInLi) {
       createUserProfile(signInLi, langCode);
+    } else if (!targetContainer.querySelector('.sign-in-btn')) {
+      const signInLink = document.createElement('a');
+      signInLink.href = `/${langCode}/sign-in`;
+      signInLink.className = 'sign-in-btn';
+      signInLink.textContent = 'Sign in';
+      signInLink.title = 'Sign-In';
+      signInLink.setAttribute('aria-label', 'Sign In');
+      targetContainer.append(signInLink);
     }
 
     // Language switcher (minimal UI)
