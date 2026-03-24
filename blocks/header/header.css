@@ -365,6 +365,34 @@ header nav .nav-tools {
   gap: 10px;
 }
 
+body.fly-theme header nav .nav-tools .sign-in-btn,
+body.fly-theme header nav .nav-tools a[href*="sign"] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 11px 29px !important;
+  color: #000 !important;
+  background-color: #cbe7f0;
+  border: none;
+  border-radius: 999px;
+  font-size: 16px !important;
+  line-height: 1.2;
+  text-decoration: none !important;
+  white-space: nowrap;
+  transition: opacity 0.2s ease;
+}
+
+body.fly-theme header nav .nav-tools .sign-in-btn::after,
+body.fly-theme header nav .nav-tools a[href*="sign"]::after {
+  content: none !important;
+}
+
+body.fly-theme header nav .nav-tools .sign-in-btn:hover,
+body.fly-theme header nav .nav-tools a[href*="sign"]:hover {
+  opacity: 0.9;
+  text-decoration: none !important;
+}
+
 /* language switcher */
 .lang-switcher {
   position: relative;
