@@ -3,6 +3,8 @@
   margin: 0 auto;
   padding: 2rem 1rem;
   font-family: var(--body-font-family, system-ui, sans-serif);
+  padding-top:0;
+  padding-bottom: 0;
 }
 
 /* Search Form */
