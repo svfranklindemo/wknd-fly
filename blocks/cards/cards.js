@@ -6,7 +6,7 @@ export default async function decorate(block) {
 }
 */
 
-import { createOptimizedPicture } from '../../scripts/aem.js';
+import { createOptimizedPicture, toClassName } from '../../scripts/aem.js';
 import { moveInstrumentation } from '../../scripts/scripts.js';
 import { getSiteName, PATH_PREFIX } from '../../scripts/utils.js';
 import { isAuthorEnvironment } from '../../scripts/scripts.js';
@@ -15,22 +15,26 @@ export default function decorate(block) {
   const ul = document.createElement('ul');
   [...block.children].forEach((row) => {
     const li = document.createElement('li');
+
+    const getConfigValue = (propName, fallbackIndex) => {
+      const propEl = row.querySelector(`p[data-aue-prop="${propName}"]`) || row.querySelector(`[data-aue-prop="${propName}"]`);
+      if (propEl?.textContent?.trim()) return propEl.textContent.trim();
+      return row.children[fallbackIndex]?.querySelector?.('p')?.textContent?.trim()
+        || row.children[fallbackIndex]?.textContent?.trim()
+        || '';
+    };
     
     // Read card style from the third div (index 2)
-    const styleDiv = row.children[2];
-    const styleParagraph = styleDiv?.querySelector('p');
-    const cardStyle = styleParagraph?.textContent?.trim() || 'default';
+    const cardStyle = getConfigValue('style', 2) || 'default';
     if (cardStyle && cardStyle !== 'default') {
       li.className = cardStyle;
     }
 
-    // Read CTA style by attribute so it works regardless of column order (AEM authoring)
-    const ctaStyleEl = row.querySelector('p[data-aue-prop="ctastyle"]') || row.querySelector('[data-aue-prop="ctastyle"]');
-    const ctaStyle = ctaStyleEl?.textContent?.trim() || 'default';
+    // Read CTA style by prop when author metadata exists, or by the known config column on publish.
+    const ctaStyle = getConfigValue('ctastyle', 4) || 'default';
     
-    // Read image style by attribute so it works regardless of column order (AEM authoring)
-    const imageStyleParagraph = row.querySelector('p[data-aue-prop="imagestyle"]') || row.querySelector('[data-aue-prop="imagestyle"]');
-    const imageStyle = imageStyleParagraph?.textContent?.trim() || '';
+    // Read image style by prop when author metadata exists, or by the known config column on publish.
+    const imageStyle = getConfigValue('imagestyle', 3) || '';
 
     const getCell = (idx) => (row.children[idx]?.querySelector?.('p')?.textContent?.trim()
       || row.children[idx]?.textContent?.trim() || '').toString();
@@ -68,31 +72,14 @@ export default function decorate(block) {
     const buttonWebhookUrl = getCell(9);
     const buttonFormId = getCell(10);
     const buttonData = getCell(11);
-    
-    // Read custom styles by attribute so it works regardless of column order (AEM authoring)
-    let customStyles = '';
-    const customStylesParagraph = row.querySelector('p[data-aue-prop="customstyles"]') || row.querySelector('p[data-aue-prop="customStyles"]') || row.querySelector('[data-aue-prop="customstyles"]') || row.querySelector('[data-aue-prop="customStyles"]');
-    if (customStylesParagraph) {
-      customStyles = customStylesParagraph.textContent?.trim() || '';
-    }
-    
-    // Fallback: check the last div (in live environment where data-aue-prop is not present)
-    if (!customStyles) {
-      const allDivs = Array.from(row.children);
-      const lastDiv = allDivs[allDivs.length - 1];
-      if (lastDiv && lastDiv.classList.contains('cards-card-body')) {
-        const p = lastDiv.querySelector('p');
-        customStyles = p?.textContent?.trim() || lastDiv?.textContent?.trim() || '';
-      }
-    }
-    
-    // Final fallback: try index 12
-    if (!customStyles) {
-      customStyles = getCell(12);
-    }
+    // Read custom styles by data-aue-prop so it works regardless of column order (UE authoring)
+    const customStylesRaw = getConfigValue('customstyles', 12) || getCell(12) || '';
 
-    if (customStyles && String(customStyles).trim()) {
-      li.classList.add(String(customStyles).trim());
+    if (customStylesRaw) {
+      customStylesRaw.split(/[\s,]+/).forEach((part) => {
+        const cls = toClassName(part.trim());
+        if (cls) li.classList.add(cls);
+      });
     }
 
     li.classList.add(`cards-card--alignment-${alignment}`);
@@ -128,14 +115,11 @@ export default function decorate(block) {
       else if (index === 1) {
         div.className = 'cards-card-body';
       }
-      // Indices 2-12 - Card link, selectable, alignment, button actions, custom styles
-      else if (index >= 2 && index <= 12) {
+      // All other divs (config, or any extra from UE) - hidden so only image + body show in layout
+      else if (index >= 2) {
         div.className = 'cards-config';
-        div.style.display = 'none';
-      }
-      // Any other divs
-      else {
-        div.className = 'cards-card-body';
+        const p = div.querySelector('p');
+        if (p) p.style.display = 'none';
       }
     });
     
