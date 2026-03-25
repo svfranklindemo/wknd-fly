@@ -374,10 +374,13 @@ body.fly-theme p {
 body.fly-theme p strong {
   font-size: 15px !important;
 }
-
 body.fly-theme h1 {
+  font-size: 28px;
+}
+body.fly-theme .hero h1 {
   font-size: 45px;
 }
+
 
 body.fly-theme h2 {
   font-size: 23px;
@@ -392,8 +395,10 @@ body.fly-theme h4 {
 body.fly-theme h5 {
   font-size: 16px;
 }
-body.fly-theme .cta-button a.button- {
-  font-size: 16px;
+body.fly-theme .cta-button a.button {
+    font-size: 16px;
+    padding: 10px 24px !important;
+    border-radius: 25px;
 }
 
 body.fly-theme .cards > ul > li .cards-card-body p {
