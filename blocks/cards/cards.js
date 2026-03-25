@@ -70,8 +70,26 @@ export default function decorate(block) {
     const buttonData = getCell(11);
     
     // Read custom styles by attribute so it works regardless of column order (AEM authoring)
+    let customStyles = '';
     const customStylesParagraph = row.querySelector('p[data-aue-prop="customstyles"]') || row.querySelector('p[data-aue-prop="customStyles"]') || row.querySelector('[data-aue-prop="customstyles"]') || row.querySelector('[data-aue-prop="customStyles"]');
-    const customStyles = customStylesParagraph?.textContent?.trim() || getCell(12);
+    if (customStylesParagraph) {
+      customStyles = customStylesParagraph.textContent?.trim() || '';
+    }
+    
+    // Fallback: check the last div (in live environment where data-aue-prop is not present)
+    if (!customStyles) {
+      const allDivs = Array.from(row.children);
+      const lastDiv = allDivs[allDivs.length - 1];
+      if (lastDiv && lastDiv.classList.contains('cards-card-body')) {
+        const p = lastDiv.querySelector('p');
+        customStyles = p?.textContent?.trim() || lastDiv?.textContent?.trim() || '';
+      }
+    }
+    
+    // Final fallback: try index 12
+    if (!customStyles) {
+      customStyles = getCell(12);
+    }
 
     if (customStyles && String(customStyles).trim()) {
       li.classList.add(String(customStyles).trim());
