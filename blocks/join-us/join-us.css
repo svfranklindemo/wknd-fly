@@ -11,8 +11,8 @@ main .join-us {
 
 main .join-us .join-us-form {
   --form-columns: 12;
-  --form-button-background-color: var(--link-color, #0563c1);
-  --form-button-background-hover-color: #0453a3;
+  --form-button-background-color: var(--main-accent-color, #fb923c);
+  --form-button-background-hover-color: var(--main-accent-color, #fb923c);
   --form-input-border-color: #ccc;
   --form-label-color: #333;
   --form-label-font-weight: 500;
@@ -70,7 +70,7 @@ main .join-us input[type="text"],
 main .join-us input[type="email"],
 main .join-us input[type="tel"] {
   width: 100%;
-  padding: 12px 14px;
+  padding: 5px 14px;
   border: 1px solid #ccc;
   border-radius: 6px;
   font-size: 1rem;
@@ -139,26 +139,37 @@ main .join-us .field-wrapper.switch label {
 
 main .join-us .submit-wrapper {
   margin-top: 8px;
+  text-align: center;
 }
 
 main .join-us .submit-wrapper button {
-  width: 100%;
-  padding: 14px 24px;
-  background: var(--link-color, #0563c1);
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  font-size: 1rem;
+  width: auto;
+  padding: 10px 24px;
+  background: var(--main-accent-color, #fb923c);
+  color: var(--text-light, #fff);
+  border: 2px solid var(--main-accent-color, #fb923c);
+  border-radius: 20px;
+  font-size: 15px;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
   cursor: pointer;
-  transition: background 0.2s, transform 0.15s;
+  box-shadow: 0 2px 4px rgb(0 0 0 / 12%);
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s, transform 0.15s, box-shadow 0.2s;
 }
 
 main .join-us .submit-wrapper button:hover {
-  background: #0453a3;
+  background: transparent;
+  color: var(--main-accent-color, #fb923c);
+  border-color: var(--main-accent-color, #fb923c);
+  box-shadow: 0 4px 8px rgb(0 0 0 / 16%);
   transform: translateY(-1px);
+}
+
+main .join-us .submit-wrapper button:focus-visible {
+  outline: 3px solid rgb(251 146 60 / 28%);
+  outline-offset: 2px;
 }
 
 /* Success overlay – on click of JOIN US */
