@@ -72,8 +72,17 @@ export default function decorate(block) {
     const buttonWebhookUrl = getCell(9);
     const buttonFormId = getCell(10);
     const buttonData = getCell(11);
-    // Read custom styles by data-aue-prop so it works regardless of column order (UE authoring)
-    const customStylesRaw = getConfigValue('customstyles', 12) || getCell(12) || '';
+    
+    // Read custom styles by data-aue-prop, or from the LAST div (where custom styles always end up)
+    let customStylesRaw = getConfigValue('customstyles', 12);
+    if (!customStylesRaw) {
+      const allDivs = Array.from(row.children);
+      const lastDiv = allDivs[allDivs.length - 1];
+      if (lastDiv) {
+        const p = lastDiv.querySelector('p');
+        customStylesRaw = p?.textContent?.trim() || lastDiv?.textContent?.trim() || '';
+      }
+    }
 
     if (customStylesRaw) {
       customStylesRaw.split(/[\s,]+/).forEach((part) => {
