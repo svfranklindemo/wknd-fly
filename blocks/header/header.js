@@ -766,8 +766,9 @@ export default async function decorate(block) {
       if (signInLi) signInLi.classList.add('nav-auth-hidden');
       createUserProfile(targetContainer, langCode, true);
     } else if (!targetContainer.querySelector('.sign-in-btn')) {
+      const existingSignInHref = signInLi?.querySelector('a')?.getAttribute('href');
       const signInLink = document.createElement('a');
-      signInLink.href = `/${langCode}/sign-in`;
+      signInLink.href = existingSignInHref || `/${langCode}/sign-in`;
       signInLink.className = 'sign-in-btn';
       signInLink.textContent = 'Sign in';
       signInLink.title = 'Sign-In';

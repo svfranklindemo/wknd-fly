@@ -1434,7 +1434,7 @@ table {
 
 #offer-bar .Button--variant-cta .spectrum-Button_e2d99e {
   display: inline-block;
-  padding: 12px 24px !important;
+  padding: 10px 24px !important;
   margin: 10px 5px;
   background-color: var(--main-accent-color) !important;
   color: var(--text-light) !important;
@@ -1442,7 +1442,7 @@ table {
   border-radius: 4px;
   font-family: var(--heading-font-family);
   font-weight: 600;
-  font-size: 18px;
+  font-size: 15px;
   line-height: 1.2;
   text-align: center;
   cursor: pointer;
