@@ -512,7 +512,7 @@ function handleFlightSelect(flight) {
     updateDataLayerWithSelectedFlights(fullFlight);
     setTimeout(() => { window.location.href = getCheckoutPath(); }, 2000);
   } else {
-    document.dispatchEvent(new CustomEvent('flight.selected', { bubbles: true }));
+    dispatchCustomEvent('flight.selected');
     updateDataLayerWithSelectedFlights(fullFlight);
     setTimeout(() => { window.location.href = getCheckoutPath(); }, 2000);
   }
