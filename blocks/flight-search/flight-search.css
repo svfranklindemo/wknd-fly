@@ -1,5 +1,5 @@
 .flight-search {
-  max-width: 1400px;
+  max-width: 900px;
   margin: 0 auto;
   padding: 2rem 1rem;
   font-family: var(--body-font-family, system-ui, sans-serif);
@@ -20,9 +20,12 @@
   grid-template-columns: 1fr 1fr 1fr auto;
   gap: 1rem;
   align-items: end;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.5rem;
 }
-
+.section.flight-search-container {
+    background: #01153a;
+    margin-bottom: 0;
+}
 .flight-input-group {
   display: flex;
   flex-direction: column;
@@ -49,7 +52,7 @@
 
 .flight-input {
   width: 100%;
-  padding: 0.875rem 1rem;
+  padding: 0.45rem 1rem;
   border: none;
   background: transparent;
   font-size: 1rem;
@@ -127,7 +130,7 @@
 }
 
 .flight-search-button {
-  padding: 0.875rem 2rem;
+  padding: 0.7rem 2rem;
   background: var(--link-color, #0066cc);
   color: var(--text-color-light, #ffffff);
   border: none;
@@ -177,7 +180,9 @@
   text-transform: none;
   letter-spacing: normal;
 }
-
+.flight-option label:hover {
+  color: #ffea03;
+}
 /* Results */
 .flight-results {
   margin-top: 2rem;
