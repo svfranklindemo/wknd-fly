@@ -558,125 +558,53 @@ function handleSignOut(langCode) {
   // localStorage.removeItem('wkndfly_registered_user');
   // localStorage.removeItem('com.adobe.reactor.dataElements.Profile - Email');
 
-  // Clear dataLayer user information
-  if (window.updateDataLayer) {
+  // Reset dataLayer to canonical initial state from scripts/datalayer.js
+  if (typeof window.resetDataLayerToInitial === 'function') {
+    window.resetDataLayerToInitial();
+  } else if (window.updateDataLayer) {
     window.updateDataLayer({
-        project: {
-          id: 'wknd-fly',
-          currency: 'USD',
-        },
-        page: {
-          thumbnail: '',
-          name: 'home',
-          title: 'HOME',
-        },
-        product: {
-          id: '',
-          image: '',
-          name: '',
-          category: '',
-        },
-        cart: {
-          products: {},
-          productCount: 0,
-          subTotal: 0,
-          total: 0,
-        },
-        to: 'TQO',
-        from: 'WAW',
-        date: (() => {
-          const d = new Date();
-          const y = d.getUTCFullYear();
-          const m = String(d.getUTCMonth() + 1).padStart(2, '0');
-          const day = String(d.getUTCDate()).padStart(2, '0');
-          return `${y}-${m}-${day}T00:00:00Z`;
-        })(),
-        bookingReference: '',
-        flightLength: 0,
-        flightNumber: '',
-        ticketNumber: '',
-        itineraryNumber: '',
-        class: '',
-        upgradeWithPoints: 'n',
-        travelPreferences: {
-          seat: '',
-          seatSection: '',
-          meal: '',
-        },
-        wizard: {
-          name: '',
-        },
-        options: {
-          businessClass: 'n',
-          businessTrip: 'n',
-          familyTrip: 'n',
-          payWithPoints: 'n',
-        },
-        partnerData: {
-          Presence_of_premimum_credit_card: 'n',
-          VacationSpenders: 87,
-          PartnerID: "Partner456"
-        },
-        payment: {
-          nameOnCard: '',
-          cardExpiration: '',
-          cvv: '',
-          cardNumber: '',
-        },
-        smsConsent: 'n',
-        loyaltyConsent: 'n',
-        person: {
-          name: {
-            firstName: '',
-            middleName: '',
-            lastName: '',
-          },
-          gender: '',
-          birthDate: '',
-          isMember: 'n',
-        },
-        consents: {},
-        homeAddress: {
-          postalCode: '',
-          city: '',
-          street1: '',
-        },
-        profile: {
-          cookiePolicy: '',
-        },
-        _demosystem4: {
-          identification: {
-            core: {
-              ecid: '',
-              email: null,
-              loyaltyId: '',
-              isMember: 'n',
-            },
-          },
-          demoEnvironment: {
-            brandName: 'wknd-fly',
-          },
-          interactionDetails: {
-            core: {
-              channel: 'web',
-            },
+      project: { id: 'wknd-fly', currency: 'USD' },
+      page: { thumbnail: '', name: '', title: '' },
+      product: { id: '', image: '', name: '', category: '' },
+      cart: { products: {}, productCount: 0, subTotal: 0, total: 0 },
+      bookingReference: '',
+      flightLength: 0,
+      flightNumber: '',
+      ticketNumber: '',
+      itineraryNumber: '',
+      class: '',
+      upgradeWithPoints: 'n',
+      travelPreferences: { seat: '', seatSection: '', meal: '' },
+      wizard: { name: '' },
+      options: {},
+      payment: { nameOnCard: '', cardExpiration: '', cvv: '', cardNumber: '' },
+      smsConsent: 'n',
+      loyaltyConsent: 'n',
+      person: {
+        name: { firstName: '', middleName: '', lastName: '' },
+        gender: '',
+        birthDate: '',
+        isMember: 'n',
+      },
+      consents: {},
+      homeAddress: { postalCode: '', city: '', street1: '' },
+      profile: { cookiePolicy: '' },
+      _demosystem4: {
+        identification: {
+          core: {
+            ecid: '',
+            email: null,
+            loyaltyId: '',
+            isMember: 'n',
           },
         },
-        personalEmail: {
-          address: '',
-        },
-        mobilePhone: {
-          number: '',
-        },
-    });
+        demoEnvironment: { brandName: 'wknd-fly' },
+        interactionDetails: { core: { channel: 'web' } },
+      },
+      personalEmail: { address: '' },
+      mobilePhone: { number: '' },
+    }, false);
   }
-
-  // Dispatch sign-out event
-  const signOutEvent = new CustomEvent("user-signed-out", {
-    detail: { timestamp: new Date().toISOString() },
-    bubbles: true,
-  });
-  document.dispatchEvent(signOutEvent);
 
   // Redirect to home page
   const homeUrl = langCode === "en" ? "/" : `/${langCode}`;
