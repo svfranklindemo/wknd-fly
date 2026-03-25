@@ -68,7 +68,10 @@ export default function decorate(block) {
     const buttonWebhookUrl = getCell(9);
     const buttonFormId = getCell(10);
     const buttonData = getCell(11);
-    const customStyles = getCell(12);
+    
+    // Read custom styles by attribute so it works regardless of column order (AEM authoring)
+    const customStylesParagraph = row.querySelector('p[data-aue-prop="customstyles"]') || row.querySelector('p[data-aue-prop="customStyles"]') || row.querySelector('[data-aue-prop="customstyles"]') || row.querySelector('[data-aue-prop="customStyles"]');
+    const customStyles = customStylesParagraph?.textContent?.trim() || getCell(12);
 
     if (customStyles && String(customStyles).trim()) {
       li.classList.add(String(customStyles).trim());
