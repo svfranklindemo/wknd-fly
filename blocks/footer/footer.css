@@ -34,9 +34,9 @@ footer .footer a:hover {
   color: var(--main-accent-color);
 }
 
-/* Fly theme footer - black background to match wehealthcare theme */
+/* Fly theme footer - custom dark background */
 body.fly-theme footer {
-  background-color: #000;
+  background-color: #01153a;
   color: #ffffff;
 }
 
