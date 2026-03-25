@@ -1463,3 +1463,6 @@ table {
 #offer-bar .Button--variant-cta .spectrum-Button-label_e2d99e {
   color: inherit;
 }
+.hide-div {
+    visibility: hidden !important;
+}
