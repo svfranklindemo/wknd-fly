@@ -346,7 +346,7 @@ function displayFlightResults(flights, from, to, date) {
     return;
   }
 
-  const title = createElement('h2', 'flight-results-title');
+  const title = createElement('h1', 'flight-results-title');
   if (from) {
     const fromAirport = AIRPORTS.find((a) => a.code === from);
     const toAirport = AIRPORTS.find((a) => a.code === to);

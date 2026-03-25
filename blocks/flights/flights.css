@@ -14,7 +14,10 @@
 .flight-card > div > p[data-aue-prop] {
   display: none !important;
 }
+.flights-wrapper{
+text-align: center;
 
+}
 /* Results */
 .flight-results-title {
   font-size: 1.75rem;
