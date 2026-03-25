@@ -76,7 +76,7 @@ function syncCartDataLayerAfterFlightRemoval(removedFlightId) {
     total: subTotal,
   };
 
-  window.updateDataLayer({ cart: nextCart }, true);
+  window.updateDataLayer({ cart: nextCart }, false);
 }
 
 function formatPrice(price) {
