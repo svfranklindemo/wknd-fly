@@ -288,6 +288,38 @@ window.updateDataLayer = function (updates, merge = true) {
   dispatchDataLayerEvent('updated');
 };
 
+window.resetDataLayerToInitial = function (options = {}) {
+  const initialDataLayer = getInitialDataLayerFromDataElements();
+  const preserveEcid = options.preserveEcid !== false;
+  const updatePageContext = options.updatePageContext !== false;
+
+  window._dataLayerUpdating = true;
+  _dataLayer = JSON.parse(JSON.stringify(initialDataLayer));
+
+  if (preserveEcid) {
+    applyEcidToDataLayer();
+  }
+
+  if (updatePageContext) {
+    if (!_dataLayer.page) _dataLayer.page = {};
+    _dataLayer.page.title = document.title || _dataLayer.page.title;
+    _dataLayer.page.name = (document.title || '').toLowerCase() || _dataLayer.page.name;
+  }
+
+  normalizeDemosystem4Email();
+  syncWindowDataLayer();
+  try {
+    const now = Date.now().toString();
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(_dataLayer));
+    localStorage.setItem(STORAGE_TIMESTAMP_KEY, now);
+  } catch (storageError) {
+    console.warn('⚠ Could not persist dataLayer:', storageError.message);
+  }
+
+  window._dataLayerUpdating = false;
+  dispatchDataLayerEvent('replaced');
+};
+
 window.getDataLayerProperty = function (path) {
   if (!_dataLayer) return undefined;
   if (!path) return JSON.parse(JSON.stringify(_dataLayer));
