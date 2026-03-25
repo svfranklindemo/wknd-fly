@@ -34,14 +34,14 @@ footer .footer a:hover {
   color: var(--main-accent-color);
 }
 
-/* Fly theme footer - white background to match header */
+/* Fly theme footer - black background to match wehealthcare theme */
 body.fly-theme footer {
-  background-color: #fff;
-  color: #000000;
+  background-color: #000;
+  color: #ffffff;
 }
 
 body.fly-theme footer .footer a {
-  color: #000000;
+  color: #ffffff;
 }
 
 body.fly-theme footer .footer a:hover {
