@@ -429,20 +429,32 @@ async function applyCFTheme(themeCFReference) {
 
 
 /**
- * Creates user profile dropdown with sign-out option inside the Sign In <li>
- * @param {Element} container - The <li> that contained the Sign In link (will be cleared and hold the profile)
+ * Creates user profile dropdown with sign-out option
+ * @param {Element} container - Target container for the profile UI
  * @param {string} langCode - Current language code
+ * @param {boolean} inlineInTools - Whether the profile should render inside nav tools
  */
-function createUserProfile(container, langCode) {
+function createUserProfile(container, langCode, inlineInTools = false) {
   const firstName = window.getDataLayerProperty
     ? window.getDataLayerProperty("person.name.firstName")
     : null;
   const userName = firstName || "User";
 
-  // Use container as the <li>; clear it and set aria-expanded
-  const listItem = container;
-  listItem.replaceChildren();
-  listItem.setAttribute("aria-expanded", "false");
+  let host = container;
+  if (inlineInTools) {
+    container.querySelector('.sign-in-btn')?.remove();
+    host = container.querySelector('.user-profile-host');
+    if (!host) {
+      host = document.createElement('div');
+      host.className = 'user-profile-host';
+      const langSwitcher = container.querySelector('.lang-switcher');
+      container.insertBefore(host, langSwitcher || null);
+    }
+    host.replaceChildren();
+  } else {
+    host.replaceChildren();
+    host.setAttribute("aria-expanded", "false");
+  }
 
   // Create user profile container
   const userProfile = document.createElement("div");
@@ -499,7 +511,9 @@ function createUserProfile(container, langCode) {
     e.stopPropagation();
     const expanded = userButton.getAttribute("aria-expanded") === "true";
     userButton.setAttribute("aria-expanded", expanded ? "false" : "true");
-    listItem.setAttribute("aria-expanded", expanded ? "false" : "true");
+    if (!inlineInTools) {
+      host.setAttribute("aria-expanded", expanded ? "false" : "true");
+    }
     userMenu.style.display = expanded ? "none" : "block";
     userProfile.classList.toggle("open", !expanded);
   });
@@ -508,7 +522,9 @@ function createUserProfile(container, langCode) {
   document.addEventListener("click", (e) => {
     if (!userProfile.contains(e.target)) {
       userButton.setAttribute("aria-expanded", "false");
-      listItem.setAttribute("aria-expanded", "false");
+      if (!inlineInTools) {
+        host.setAttribute("aria-expanded", "false");
+      }
       userMenu.style.display = "none";
       userProfile.classList.remove("open");
     }
@@ -518,14 +534,16 @@ function createUserProfile(container, langCode) {
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") {
       userButton.setAttribute("aria-expanded", "false");
-      listItem.setAttribute("aria-expanded", "false");
+      if (!inlineInTools) {
+        host.setAttribute("aria-expanded", "false");
+      }
       userMenu.style.display = "none";
       userProfile.classList.remove("open");
     }
   });
 
   userProfile.append(userButton, userMenu);
-  listItem.append(userProfile);
+  host.append(userProfile);
 }
 
 /**
@@ -744,8 +762,9 @@ export default async function decorate(block) {
     const signInLi = nav.querySelector('.nav-sections a[href*="sign-in"]')?.closest('li');
     // Add User Profile in place of Sign In when logged in
     const isLoggedIn = localStorage.getItem("wkndfly_user_logged_in") === "true";
-    if (isLoggedIn && signInLi) {
-      createUserProfile(signInLi, langCode);
+    if (isLoggedIn) {
+      if (signInLi) signInLi.classList.add('nav-auth-hidden');
+      createUserProfile(targetContainer, langCode, true);
     } else if (!targetContainer.querySelector('.sign-in-btn')) {
       const signInLink = document.createElement('a');
       signInLink.href = `/${langCode}/sign-in`;

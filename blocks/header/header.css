@@ -25,6 +25,20 @@ header nav {
   display: flex;
 }
 
+header nav > .TopRibbon {
+  order: -1;
+  flex: 0 0 100vw;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+}
+
+header nav > .TopRibbon .default-content-wrapper {
+  max-width: 1264px;
+  margin: 0 auto;
+  padding: 12px 32px;
+}
+
 header nav[aria-expanded='true'] {
   grid-template:
     'hamburger brand' var(--nav-height)
@@ -39,7 +53,11 @@ header nav[aria-expanded='true'] {
     justify-content: space-between;
     gap: 0 32px;
     max-width: 1264px;
-    padding: 0 32px;
+    padding: 0 32px 22px;
+  }
+
+  header nav > .TopRibbon {
+    margin-bottom: 22px;
   }
 
   header nav[aria-expanded='true'] {
@@ -47,6 +65,18 @@ header nav[aria-expanded='true'] {
     overflow: visible;
     padding: 22px 32px;
     height: auto;
+  }
+}
+
+header nav:has(> .TopRibbon) {
+  flex-wrap: wrap;
+}
+
+@media (width >= 900px) {
+  header nav:has(> .TopRibbon) {
+    flex-wrap: wrap;
+    height: auto;
+    min-height: auto;
   }
 }
 
@@ -393,6 +423,52 @@ body.fly-theme header nav .nav-tools .sign-in-btn:hover,
 body.fly-theme header nav .nav-tools a[href*="sign"]:hover {
   opacity: 0.9;
   text-decoration: none !important;
+}
+
+header nav .nav-tools .user-profile-host {
+  display: inline-flex;
+  align-items: center;
+}
+
+header nav .nav-tools .user-profile-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: #000;
+  font: inherit;
+  cursor: pointer;
+}
+
+header nav .nav-tools .user-profile-btn .user-icon {
+  width: 20px;
+  height: 20px;
+}
+
+header nav .nav-tools .user-menu {
+  min-width: 140px;
+  padding: 8px 0;
+  background: #fff;
+  border: 1px solid rgb(0 0 0 / 10%);
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgb(0 0 0 / 12%);
+}
+
+header nav .nav-tools .sign-out-btn {
+  width: 100%;
+  padding: 10px 16px;
+  border: none;
+  background: transparent;
+  color: #000;
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+}
+
+header nav .nav-tools .sign-out-btn:hover {
+  background: rgb(0 0 0 / 4%);
 }
 
 /* language switcher */
