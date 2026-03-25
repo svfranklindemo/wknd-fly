@@ -744,6 +744,18 @@ main > .section > div {
   padding: 0 24px;
 }
 
+main .section[data-sec-alignment="left"] .default-content-wrapper {
+  text-align: left;
+}
+
+main .section[data-sec-alignment="center"] .default-content-wrapper {
+  text-align: center;
+}
+
+main .section[data-sec-alignment="right"] .default-content-wrapper {
+  text-align: right;
+}
+
 main > .section:first-of-type {
   margin-top: 0;
 }
