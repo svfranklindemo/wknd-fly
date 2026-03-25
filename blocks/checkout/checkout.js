@@ -43,6 +43,42 @@ function removeFlight(id) {
   setSelectedFlights(list);
 }
 
+function getFlightsTotal(flights) {
+  return flights.reduce((sum, f) => sum + (parseFloat(f.price) || 0), 0);
+}
+
+function syncCartDataLayerAfterFlightRemoval(removedFlightId) {
+  if (typeof window.updateDataLayer !== 'function') return;
+
+  const existingCart = typeof window.getDataLayerProperty === 'function'
+    ? (window.getDataLayerProperty('cart') || {})
+    : ((window.dataLayer && window.dataLayer.cart) || {});
+
+  const existingProducts = (existingCart && existingCart.products && typeof existingCart.products === 'object')
+    ? existingCart.products
+    : {};
+  const nextProducts = { ...existingProducts };
+  delete nextProducts[removedFlightId];
+
+  const productEntries = Object.values(nextProducts);
+  const subTotal = productEntries.reduce((sum, product) => {
+    const price = parseFloat(product?.price) || 0;
+    const quantity = parseInt(product?.quantity, 10) || 1;
+    return sum + (price * quantity);
+  }, 0);
+  const productCount = productEntries.length;
+
+  const nextCart = {
+    ...existingCart,
+    products: nextProducts,
+    productCount,
+    subTotal,
+    total: subTotal,
+  };
+
+  window.updateDataLayer({ cart: nextCart }, true);
+}
+
 function formatPrice(price) {
   const n = parseFloat(price);
   if (Number.isNaN(n)) return '$0.00';
@@ -151,6 +187,7 @@ function renderTripSummary(container, onRemove) {
     removeBtn.textContent = '×';
     removeBtn.onclick = () => {
       removeFlight(flight.id);
+      syncCartDataLayerAfterFlightRemoval(flight.id);
       onRemove();
     };
     removeCell.appendChild(removeBtn);
@@ -161,7 +198,7 @@ function renderTripSummary(container, onRemove) {
     table.appendChild(row);
   });
   container.appendChild(table);
-  return flights.reduce((sum, f) => sum + (parseFloat(f.price) || 0), 0);
+  return getFlightsTotal(flights);
 }
 
 function renderUpgradeAndPreferences(mainCol) {
