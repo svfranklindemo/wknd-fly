@@ -170,6 +170,18 @@
           "description": "Additional CSS class name(s) for this section (space-separated for multiple). Same as hero Custom Styles."
         },
         {
+          "component": "select",
+          "name": "sec-alignment",
+          "value": "",
+          "label": "Text Alignment",
+          "valueType": "string",
+          "options": [
+            { "name": "Left", "value": "left" },
+            { "name": "Center", "value": "center" },
+            { "name": "Right", "value": "right" }
+          ]
+        },
+        {
           "component": "text",
           "valueType": "string",
           "name": "sec-item-widths",

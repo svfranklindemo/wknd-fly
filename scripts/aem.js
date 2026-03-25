@@ -529,6 +529,8 @@ function decorateSections(main) {
       applySectionTextColor(section, meta['sec-color'] ?? meta['section-text-color']);
       // Custom class (same as hero Custom Styles)
       applySectionCustomClass(section, meta['sec-custom-styles'] ?? meta['custom-class']);
+      // Section text alignment from UE field
+      applySectionTextAlignment(section, meta['sec-alignment'] ?? meta['text-alignment']);
     }
     applySectionItemWidths(section);
   });
@@ -688,6 +690,16 @@ function applySectionTextColor(section, colorValue) {
   }
 }
 
+function applySectionTextAlignment(section, alignmentValue) {
+  const value = (alignmentValue ?? section.dataset.secAlignment ?? '').toString().trim().toLowerCase();
+  if (['left', 'center', 'right'].includes(value)) {
+    section.dataset.secAlignment = value;
+  } else {
+    delete section.dataset.secAlignment;
+    section.removeAttribute('data-sec-alignment');
+  }
+}
+
 function applySectionBackgroundImage(section, bgImagePath) {
   const existing = section.querySelector('picture.section-bg');
   if (existing) existing.remove();
@@ -724,6 +736,8 @@ function setupSectionItemWidthsUE() {
       applySectionTextColor(section, colorVal);
       const customClassVal = content['sec-custom-styles'] ?? content.secCustomStyles ?? content['custom-class'] ?? content.customClass ?? '';
       applySectionCustomClass(section, customClassVal);
+      const alignmentVal = content['sec-alignment'] ?? content.secAlignment ?? content['text-alignment'] ?? content.textAlignment ?? '';
+      applySectionTextAlignment(section, alignmentVal);
     }
     if (event.type === 'aue:content-patch') {
       const patch = event.detail?.patch;
@@ -739,6 +753,9 @@ function setupSectionItemWidthsUE() {
       }
       if (patch?.name === 'sec-custom-styles') {
         applySectionCustomClass(section, patch.value ?? '');
+      }
+      if (patch?.name === 'sec-alignment') {
+        applySectionTextAlignment(section, patch.value ?? '');
       }
     }
   };
