@@ -1411,12 +1411,13 @@ table {
 }
 
 #offer-bar h1 {
-  font-size: 2em;
+  font-size: 1.7em;
 }
 
 #offer-bar h2,
 #offer-bar h3 {
   font-size: 1.17em;
+  padding:0;
 }
 
 #offer-bar .Button--variant-cta {
