@@ -113,8 +113,7 @@ export default function decorate(block) {
       // Indices 2-12 - Card link, selectable, alignment, button actions, custom styles
       else if (index >= 2 && index <= 12) {
         div.className = 'cards-config';
-        const p = div.querySelector('p');
-        if (p) p.style.display = 'none';
+        div.style.display = 'none';
       }
       // Any other divs
       else {
