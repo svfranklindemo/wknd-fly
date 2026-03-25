@@ -34,6 +34,20 @@ footer .footer a:hover {
   color: var(--main-accent-color);
 }
 
+/* Fly theme footer - white background to match header */
+body.fly-theme footer {
+  background-color: #fff;
+  color: #000000;
+}
+
+body.fly-theme footer .footer a {
+  color: #000000;
+}
+
+body.fly-theme footer .footer a:hover {
+  color: var(--main-accent-color);
+}
+
 @media (width >= 900px) {
   footer .footer > div {
     padding: 50px 32px;
