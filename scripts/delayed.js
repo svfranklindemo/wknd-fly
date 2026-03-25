@@ -48,13 +48,37 @@ function openPopUp(popUrl) {
  */
 function embedCustomLibraries() {
   const externalLibs = getMetadata('js-files');
-  const libsArray = externalLibs?.split(',').map(url => url.trim());
+  const libsArray = externalLibs?.split(',').map((url) => url.trim()).filter(Boolean) || [];
+
+  const maybeMarkLaunchReady = (url) => {
+    const launchPattern = /(launch|satellite|reactor)/i;
+    if (window._launchReady === true) return;
+    if (window._satellite || launchPattern.test(url)) {
+      window._launchReady = true;
+      document.dispatchEvent(new CustomEvent('launchReady', { bubbles: true, detail: { src: url } }));
+      console.debug('[Launch] Ready signal from external script:', url);
+    }
+  };
 
   libsArray.forEach((url, index) => {
     //console.log(`Loading script ${index + 1}: ${url}`);
-    loadScript(`${url}`);
+    loadScript(`${url}`)
+      .then(() => maybeMarkLaunchReady(url))
+      .catch((error) => console.warn(`[Launch] Failed loading external script ${index + 1}:`, url, error));
   });
   
+}
+
+function watchLaunchReadiness(start = Date.now()) {
+  if (window._launchReady === true) return;
+  if (window._satellite) {
+    window._launchReady = true;
+    document.dispatchEvent(new CustomEvent('launchReady', { bubbles: true, detail: { src: 'head-launch-script' } }));
+    console.debug('[Launch] Ready detected from _satellite');
+    return;
+  }
+  if (Date.now() - start > 60000) return;
+  setTimeout(() => watchLaunchReadiness(start), 100);
 }
 
 /**
@@ -105,6 +129,7 @@ function buildTwitterLinks() {
 if (!window.location.hostname.includes('localhost')) {
   
   embedCustomLibraries();
+  watchLaunchReadiness();
   if (window.parent && !(window.parent.location.pathname.indexOf('/canvas/') > -1)) {
     loadAT();
   }
