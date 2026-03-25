@@ -1466,3 +1466,8 @@ table {
 .hide-div {
     visibility: hidden !important;
 }
+.fly-img img{
+    border-radius: 20px;
+    min-height: 220px;
+    max-height: 220px;
+}
