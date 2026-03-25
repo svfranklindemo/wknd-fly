@@ -25,7 +25,8 @@ export default function decorate(block) {
   const layoutStyle = config.herolayout ?? rowVal(4) ?? 'overlay';
   const ctaStyle = config.ctastyle ?? rowVal(5) ?? 'default';
   const backgroundStyle = config.backgroundstyle ?? rowVal(6) ?? 'default';
-  const textOverlayEnabled = (config.textoverlay ?? rowVal(18) ?? 'true').toString().toLowerCase() !== 'false';
+  const textOverlayValue = (config.textoverlay ?? block.querySelector('[data-aue-prop="textoverlay"]')?.textContent?.trim() ?? 'true').toString().toLowerCase();
+  const textOverlayEnabled = textOverlayValue !== 'false';
   const backgroundColor = (config.backgroundcolor ?? block.querySelector('[data-aue-prop="backgroundcolor"]')?.textContent?.trim() ?? '').toString().trim();
   if (backgroundColor) {
     const hex = /^[0-9a-fA-F]{3}$|^[0-9a-fA-F]{6}$/.test(backgroundColor) ? `#${backgroundColor}` : backgroundColor;
