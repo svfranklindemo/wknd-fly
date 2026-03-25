@@ -38,6 +38,7 @@ footer .footer a:hover {
 body.fly-theme footer {
   background-color: #01153a;
   color: #ffffff;
+  margin-top: auto;
 }
 
 body.fly-theme footer .footer a {
@@ -46,6 +47,32 @@ body.fly-theme footer .footer a {
 
 body.fly-theme footer .footer a:hover {
   color: var(--main-accent-color);
+}
+
+/* Fly theme - sticky footer layout */
+body.fly-theme {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+body.fly-theme main {
+  flex: 1;
+}
+
+/* WeHealthcare theme - sticky footer layout */
+body.wehealthcare-theme {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+body.wehealthcare-theme main {
+  flex: 1;
+}
+
+body.wehealthcare-theme footer {
+  margin-top: auto;
 }
 
 @media (width >= 900px) {

@@ -1520,3 +1520,6 @@ table {
     min-height: 220px;
     max-height: 220px;
 }
+.fly-img .cards > ul > li .cards-card-body p {
+    margin: 0 !important;
+}
