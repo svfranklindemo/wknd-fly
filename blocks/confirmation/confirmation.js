@@ -23,7 +23,7 @@ function resetCartFromDataLayer() {
       subTotal: 0,
       total: 0,
     },
-  }, true);
+  }, false);
 }
 
 function renderConfirmation(block, data) {
