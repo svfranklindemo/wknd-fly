@@ -17,7 +17,7 @@ main .join-us .join-us-form {
   --form-label-color: #333;
   --form-label-font-weight: 500;
   --form-label-font-size: 16px;
-  --form-field-vert-gap: 18px;
+  --form-field-vert-gap: 14px;
   --form-field-horz-gap: 24px;
 }
 
@@ -37,7 +37,7 @@ main .join-us .heading-wrapper label {
 }
 
 main .join-us .heading-wrapper {
-  margin: 0 0 24px !important;
+  margin: 0 0 20px !important;
   padding: 0 !important;
   text-align: center;
 }
@@ -55,7 +55,7 @@ main .join-us h2#heading-join-us {
 }
 
 main .join-us .field-wrapper {
-  margin: 0 0 18px;
+  margin: 0 0 14px;
 }
 
 main .join-us label {
@@ -76,7 +76,7 @@ main .join-us input[type="tel"] {
   font-size: 1rem;
   color: #1a1a1a;
   background: #fff;
-  margin-top: 6px;
+  margin-top: 4px;
   margin-bottom: 0;
   box-sizing: border-box;
 }
@@ -92,7 +92,7 @@ main .join-us .field-wrapper.switch {
   display: flex;
   align-items: flex-start;
   gap: 12px;
-  margin: 4px 0 16px 0;
+  margin: 2px 0 12px 0;
 }
 
 main .join-us .field-wrapper.switch input[type="checkbox"] {

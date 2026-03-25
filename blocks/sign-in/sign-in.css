@@ -20,7 +20,7 @@ main .sign-in .sign-in-form {
   --form-label-color: #1e293b;
   --form-label-font-weight: 500;
   --form-label-font-size: 16px;
-  --form-field-vert-gap: 24px;
+  --form-field-vert-gap: 16px;
   --form-field-horz-gap: 24px;
 }
 
@@ -44,7 +44,7 @@ main .sign-in .heading-wrapper label {
 
 /* Heading wrapper */
 main .sign-in .heading-wrapper {
-  margin: 0 0 32px !important;
+  margin: 0 0 24px !important;
   padding: 0 !important;
   text-align: center;
 }
@@ -62,7 +62,7 @@ main .sign-in h2#heading-sign-in {
 
 /* Field wrappers */
 main .sign-in .field-wrapper {
-  margin: 0 0 24px;
+  margin: 0 0 16px;
 }
 
 /* Field labels */
@@ -86,7 +86,7 @@ main .sign-in input[type="password"] {
   color: #1e293b;
   background: #fff;
   transition: all 0.2s ease;
-  margin-top: 8px;
+  margin-top: 6px;
   margin-bottom: 0;
 }
 
@@ -112,7 +112,7 @@ main .sign-in input::placeholder {
 
 /* Submit button */
 main .sign-in .submit-wrapper {
-  margin-top: 32px;
+  margin-top: 24px;
 }
 
 main .sign-in .submit-wrapper button {
@@ -151,14 +151,14 @@ main .sign-in [data-required="true"] > label::after {
 
 /* Sign in links section */
 main .sign-in .sign-in-links {
-  margin-top: 40px;
+  margin-top: 28px;
   text-align: center;
 }
 
 /* Divider */
 main .sign-in .sign-in-divider {
   position: relative;
-  margin: 32px 0 24px;
+  margin: 24px 0 16px;
   text-align: center;
 }
 
@@ -225,15 +225,15 @@ main .sign-in .create-account-link:active {
   }
 
   main .sign-in .field-wrapper {
-    margin: 0 0 20px;
+    margin: 0 0 16px;
   }
 
   main .sign-in .sign-in-links {
-    margin-top: 32px;
+    margin-top: 24px;
   }
 
   main .sign-in .sign-in-divider {
-    margin: 24px 0 20px;
+    margin: 20px 0 16px;
   }
 }
 

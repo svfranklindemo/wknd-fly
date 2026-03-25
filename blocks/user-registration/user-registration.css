@@ -23,7 +23,7 @@ main .user-registration .user-registration-form {
   --form-label-color: #1e293b;
   --form-label-font-weight: 500;
   --form-label-font-size: 16px;
-  --form-field-vert-gap: 24px;
+  --form-field-vert-gap: 16px;
   --form-field-horz-gap: 24px;
 }
 
@@ -31,7 +31,7 @@ main .user-registration .user-registration-form {
 main .user-registration .panel-wrapper {
   display: grid !important;
   grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
-  gap: 24px !important;
+  gap: 16px !important;
   padding: 0 !important;
   border: none !important;
   margin: 0 !important;
@@ -53,7 +53,7 @@ main .user-registration .heading-wrapper {
 main .user-registration h2#heading-create-account {
   font-size: 2.25rem;
   font-weight: 400;
-  margin: 0 0 40px;
+  margin: 0 0 32px;
   padding: 0;
   color: #1e293b;
   line-height: 1.2;
@@ -63,7 +63,7 @@ main .user-registration h2#heading-create-account {
 main .user-registration h2#heading-better {
   font-size: 1.25rem;
   font-weight: 600;
-  margin: 40px 0 0;
+  margin: 28px 0 0;
   padding: 0;
   color: #1e293b;
   letter-spacing: 0.05em;
@@ -95,7 +95,7 @@ main .user-registration select {
   color: #1e293b;
   background: #fff;
   transition: all 0.2s ease;
-  margin-top: 8px;
+  margin-top: 6px;
   margin-bottom: 0;
 }
 
@@ -149,7 +149,7 @@ main .user-registration .checkbox-wrapper {
   align-items: center;
   gap: 10px;
   margin: 0;
-  padding: 16px 0;
+  padding: 10px 0;
 }
 
 main .user-registration .checkbox-wrapper label {
@@ -169,11 +169,11 @@ main .user-registration .checkbox-wrapper input[type="checkbox"] {
 
 /* Communication preferences */
 main .user-registration .checkbox-group-wrapper {
-  padding: 24px;
+  padding: 18px;
   border: 1px solid #e2e8f0;
   border-radius: 8px;
   background: #f8fafc;
-  margin: 16px 0;
+  margin: 12px 0;
   grid-column: span 12 !important;
 }
 
@@ -182,7 +182,7 @@ main .user-registration .checkbox-group-wrapper legend {
   font-weight: 600;
   color: #1e293b;
   padding: 0 !important;
-  margin: 0 0 16px !important;
+  margin: 0 0 12px !important;
   float: none !important;
   width: 100% !important;
   border: none !important;
@@ -191,7 +191,7 @@ main .user-registration .checkbox-group-wrapper legend {
 main .user-registration .checkbox-group-wrapper.horizontal {
   display: flex !important;
   flex-wrap: wrap;
-  gap: 32px;
+  gap: 20px;
 }
 
 main .user-registration .checkbox-group-wrapper.horizontal legend {
@@ -216,7 +216,7 @@ main .user-registration .checkbox-group-wrapper .checkbox-wrapper label {
 
 /* Submit button */
 main .user-registration .submit-wrapper {
-  margin-top: 32px;
+  margin-top: 24px;
   grid-column: span 12 !important;
 }
 

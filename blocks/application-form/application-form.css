@@ -8,14 +8,14 @@
 }
 
 main > .section:has(.application-form-block) > div {
-  max-width: 720px;
+  background: #fff;
 }
 
 .application-form-block {
   width: 100%;
-  max-width: 100%;
+  max-width: 720px;
   margin: 0 auto;
-  padding: 0 2rem 2rem;
+  padding: 0 2rem 1.25rem;
   font-family: var(--body-font-family, system-ui, sans-serif);
   box-sizing: border-box;
   background: #fff;
@@ -26,10 +26,12 @@ main > .section:has(.application-form-block) > div {
   font-size: 1.5rem;
   font-weight: 700;
   color: #111;
+  text-align: center;
+  width: 100%;
 }
 
 .application-form-block .application-form-subtitle {
-  margin: 0 0 1rem 0;
+  margin: 0 0 0.75rem 0;
   font-size: 0.9375rem;
   color: #555;
   line-height: 1.5;
@@ -62,8 +64,8 @@ main > .section:has(.application-form-block) > div {
   align-items: center;
   justify-content: center;
   gap: 10px;
-  padding-bottom: 1.25rem;
-  margin-bottom: 0.5rem;
+  padding-bottom: 0.75rem;
+  margin-bottom: 0.25rem;
 }
 
 .application-form-block .application-form-wizard .wizard-menu-item,
@@ -105,9 +107,9 @@ main > .section:has(.application-form-block) > div {
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 1rem;
-  margin-top: 1.5rem;
-  padding-top: 1.25rem;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  padding-top: 0.875rem;
   border-top: 1px solid var(--application-form-grey);
 }
 
@@ -144,9 +146,19 @@ main > .section:has(.application-form-block) > div {
 .application-form-block .application-form-wizard .wizard-button-wrapper > .submit-wrapper {
   order: 3;
   width: auto !important;
-  flex: 0 0 auto;
+  flex: 0 0 auto !important;
   margin-top: 0;
   display: none;
+}
+
+.application-form-block .application-form-wizard .wizard-button-wrapper > .submit-wrapper,
+.application-form-block .application-form-wizard .wizard-button-wrapper > .submit-wrapper.field-wrapper {
+  grid-column: unset;
+}
+
+.application-form-block .application-form-wizard .wizard-button-wrapper > .submit-wrapper button {
+  width: auto !important;
+  min-width: auto !important;
 }
 
 .application-form-block .application-form-wizard .current-wizard-step.panel-wrapper:last-of-type ~ .wizard-button-wrapper > .submit-wrapper {
@@ -194,7 +206,7 @@ main > .section:has(.application-form-block) > div {
 }
 
 .application-form-block .application-form-wizard .panel-wrapper {
-  gap: 1.25rem;
+  gap: 0.875rem;
 }
 
 /* Submit button: same teal oval as Next (when in button row, width auto from rule above) */
@@ -204,8 +216,9 @@ main > .section:has(.application-form-block) > div {
   justify-content: flex-end;
 }
 
-.application-form-block .application-form-wizard .submit-wrapper button{
+.application-form-block .application-form-wizard .submit-wrapper button {
   width: auto !important;
+  min-width: auto !important;
   padding: 0.75rem 1.5rem !important;
   background: var(--application-form-teal) !important;
   color: #fff !important;

@@ -8,12 +8,12 @@
     --button-primary-hover-color: #035fe6;
     --form-font-size-m: 22px;
     --form-font-size-s: 18px;
-    --form-font-size-xs: 16px;
+    --form-font-size-xs: 14px;
     --form-background-color: var(--background-color-primary);
     --form-padding: 0 10px;
     --form-columns: 12;
     --form-field-horz-gap: 40px;
-    --form-field-vert-gap: 20px;
+    --form-field-vert-gap: 14px;
     --form-invalid-border-color: #ff5f3f;
     --form-input-padding: 0.75rem 0.6rem;
     --form-input-font-size: 1rem;
@@ -22,11 +22,11 @@
     --form-input-border-color: var(--border-color);
     --form-input-background-color: var(--background-color-primary);
     --form-paragraph-color: var(--label-color);
-    --form-paragraph-margin: 0 0 0.9rem;
+    --form-paragraph-margin: 0 0 0.6rem;
     --form-paragraph-font-style: none;
-    --form-paragraph-font-size: var(--form-font-size-s);
+    --form-paragraph-font-size: var(--form-font-size-xs);
     --form-label-color: var(--label-color);
-    --form-label-font-size: var(--form-font-size-s);
+    --form-label-font-size: var(--form-font-size-xs);
     --form-label-font-weight: 400;
     --form-title-font-weight: 600;
     --form-fieldset-border: 0;
@@ -56,7 +56,7 @@
     --form-wizard-padding-bottom: 160px;
     --form-wizard-step-legend-padding: 10px;
     --form-wizard-step-legend-font-size: 1.1rem;
-    --form-field-gap: 5px;
+    --form-field-gap: 0;
     
     /* Card styling variables */
     --form-card-border-color: #e0e0e0;
@@ -69,6 +69,83 @@
     --form-card-selected-background: #F5F9FF;
     --form-card-selected-shadow: 0 0 0 1px var(--button-primary-color);
     --form-card-transition: all 0.15s ease-in-out;
+}
+
+body.securbank-theme {
+    --button-primary-color: var(--main-accent-color);
+    --button-primary-hover-color: var(--main-accent-hover, var(--link-hover-color));
+    --form-button-background-color: var(--main-accent-color);
+    --form-button-background-hover-color: var(--main-accent-hover, var(--link-hover-color));
+}
+
+body.securbank-theme main .form button[type='submit'],
+body.securbank-theme main .form .button,
+body.securbank-theme main .sign-in .submit-wrapper button,
+body.securbank-theme main .membership button[type='submit'],
+body.securbank-theme main .create-account .submit-wrapper button,
+body.securbank-theme main .user-registration .submit-wrapper button,
+body.securbank-theme main .child-account-application .submit-wrapper button,
+body.securbank-theme main .name-change-request .submit-wrapper button,
+body.securbank-theme main .set-up-auto-save .submit-wrapper button,
+body.securbank-theme main .transfer-funds .submit-wrapper button,
+body.securbank-theme main .join-us .submit-wrapper button,
+body.securbank-theme main .insurance-block .insurance-form .submit-wrapper button,
+body.securbank-theme main .add-external-block .add-external-form .submit-wrapper button,
+body.securbank-theme main .application-form-block .application-form-wizard .wizard-button-next button,
+body.securbank-theme main .application-form-block .application-form-wizard .submit-wrapper button,
+body.securbank-theme main .new-account-block .new-account-wizard .wizard-button-next button,
+body.securbank-theme main .new-account-block .new-account-wizard .submit-wrapper button,
+body.securbank-theme main .loan-preapproval-form-block .loan-preapproval-form-wizard .wizard-button-next button,
+body.securbank-theme main .loan-preapproval-form-block .loan-preapproval-form-wizard .submit-wrapper button,
+body.securbank-theme main .loan-calculator button[type='submit'] {
+    background: var(--main-accent-color) !important;
+    background-color: var(--main-accent-color) !important;
+    border-color: var(--main-accent-color) !important;
+    color: var(--text-light, #fff) !important;
+}
+
+body.securbank-theme main .form button[type='submit']:hover,
+body.securbank-theme main .form .button:hover,
+body.securbank-theme main .sign-in .submit-wrapper button:hover,
+body.securbank-theme main .membership button[type='submit']:hover,
+body.securbank-theme main .create-account .submit-wrapper button:hover,
+body.securbank-theme main .user-registration .submit-wrapper button:hover,
+body.securbank-theme main .child-account-application .submit-wrapper button:hover,
+body.securbank-theme main .name-change-request .submit-wrapper button:hover,
+body.securbank-theme main .set-up-auto-save .submit-wrapper button:hover,
+body.securbank-theme main .transfer-funds .submit-wrapper button:hover,
+body.securbank-theme main .join-us .submit-wrapper button:hover,
+body.securbank-theme main .insurance-block .insurance-form .submit-wrapper button:hover,
+body.securbank-theme main .add-external-block .add-external-form .submit-wrapper button:hover,
+body.securbank-theme main .application-form-block .application-form-wizard .wizard-button-next button:hover,
+body.securbank-theme main .application-form-block .application-form-wizard .submit-wrapper button:hover,
+body.securbank-theme main .new-account-block .new-account-wizard .wizard-button-next button:hover,
+body.securbank-theme main .new-account-block .new-account-wizard .submit-wrapper button:hover,
+body.securbank-theme main .loan-preapproval-form-block .loan-preapproval-form-wizard .wizard-button-next button:hover,
+body.securbank-theme main .loan-preapproval-form-block .loan-preapproval-form-wizard .submit-wrapper button:hover,
+body.securbank-theme main .loan-calculator button[type='submit']:hover {
+    background: var(--main-accent-hover, var(--link-hover-color)) !important;
+    background-color: var(--main-accent-hover, var(--link-hover-color)) !important;
+    border-color: var(--main-accent-hover, var(--link-hover-color)) !important;
+}
+
+body.securbank-theme main .application-form-block .application-form-wizard .wizard-button-wrapper > .submit-wrapper,
+body.securbank-theme main .new-account-block .new-account-wizard .wizard-button-wrapper > .submit-wrapper,
+body.securbank-theme main .loan-preapproval-form-block .loan-preapproval-form-wizard .wizard-button-wrapper > .submit-wrapper {
+    width: auto !important;
+    max-width: none !important;
+    min-width: auto !important;
+    flex: 0 0 auto !important;
+}
+
+body.securbank-theme main .application-form-block .application-form-wizard .wizard-button-wrapper > .submit-wrapper button,
+body.securbank-theme main .new-account-block .new-account-wizard .wizard-button-wrapper > .submit-wrapper button,
+body.securbank-theme main .loan-preapproval-form-block .loan-preapproval-form-wizard .wizard-button-wrapper > .submit-wrapper button {
+    width: auto !important;
+    max-width: none !important;
+    min-width: auto !important;
+    padding: 0.75rem 1.5rem !important;
+    white-space: nowrap;
 }
 
 * {
@@ -167,8 +244,8 @@ main .form select {
     padding: var(--form-input-padding);
     font-size: var(--form-input-font-size);
     max-width: unset;
-    margin-top: .5rem;
-    margin-bottom: 1rem;
+    margin-top: 0.35rem;
+    margin-bottom: 0.5rem;
     border-radius: 0.25rem;
 }
 
@@ -222,6 +299,20 @@ main .form fieldset.radio-group-wrapper legend {
     font-weight: var(--form-label-font-weight);
     font-size: var(--form-label-font-size);
     color: var(--form-label-color);
+}
+
+main .form .heading-wrapper {
+    text-align: center;
+}
+
+main .form .heading-wrapper > label {
+    display: none !important;
+}
+
+main .form .heading-wrapper > :is(h1, h2, h3, h4, h5, h6) {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 main .form form .wizard > legend{
@@ -550,7 +641,7 @@ main .form form .wizard  {
   border: var(--form-wizard-border) solid var(--form-wizard-border-color);
   background-color: var( --form-wizard-background-color);
   gap: unset;
-  padding: 20px var(--form-wizard-padding);
+  padding: 12px var(--form-wizard-padding);
 }
 
 main .form form .wizard > fieldset > legend{
@@ -563,9 +654,10 @@ main .form form .wizard > fieldset:not(.current-wizard-step){
 
 main .form form .wizard .wizard-button-wrapper{
     display: flex;
-    justify-content: end;
+    justify-content: center;
+    align-items: center;
     gap: 50px;
-    margin: var(--form-wizard-padding) 0;
+    margin: 0.75rem 0 0;
     width: 100%;
     grid-column: span 12;
 }
