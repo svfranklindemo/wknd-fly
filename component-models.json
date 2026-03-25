@@ -1114,12 +1114,12 @@
         "valueType": "string"
       },
       {
-            "component": "boolean",
-            "label": "Enable Underline in Title",
-            "description": "Enable underline in title",
-            "name": "enableunderline",
-            "value": "true",
-            "valueType": "boolean"
+        "component": "boolean",
+        "label": "Enable Underline in Title",
+        "description": "Enable underline in title",
+        "name": "enableunderline",
+        "value": "true",
+        "valueType": "boolean"
       },
       {
         "component": "select",
@@ -1203,9 +1203,18 @@
         "name": "alignment",
         "label": "Alignment",
         "options": [
-          { "name": "Left", "value": "left" },
-          { "name": "Center", "value": "center" },
-          { "name": "Right", "value": "right" }
+          {
+            "name": "Left",
+            "value": "left"
+          },
+          {
+            "name": "Center",
+            "value": "center"
+          },
+          {
+            "name": "Right",
+            "value": "right"
+          }
         ]
       },
       {
@@ -1213,9 +1222,18 @@
         "name": "verticalalignment",
         "label": "Vertical Alignment",
         "options": [
-          { "name": "Top", "value": "top" },
-          { "name": "Middle", "value": "middle" },
-          { "name": "Bottom", "value": "bottom" }
+          {
+            "name": "Top",
+            "value": "top"
+          },
+          {
+            "name": "Middle",
+            "value": "middle"
+          },
+          {
+            "name": "Bottom",
+            "value": "bottom"
+          }
         ]
       },
       {
@@ -1283,6 +1301,14 @@
         "value": "",
         "valueType": "string",
         "description": "Custom styles for the hero section"
+      },
+      {
+        "component": "boolean",
+        "name": "textoverlay",
+        "label": "Text Overlay",
+        "value": "true",
+        "valueType": "boolean",
+        "description": "Keep the hero text overlay enabled. Turn off for transparent text background and darker image."
       }
     ]
   },

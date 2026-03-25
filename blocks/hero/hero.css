@@ -273,7 +273,6 @@ picture {
 .hero.image-right h5,
 .hero.image-right h6,
 .hero.image-right p {
-  text-align: left;
   margin: 0;
   width: 100%;
   max-width: none;
@@ -494,6 +493,19 @@ picture {
   padding: 20px;
   background: rgb(0 0 0 / 50%);
 }
+
+.hero.block.overlay.hero--text-overlay-off div:nth-child(2),
+.hero.image-background-text-left.hero--text-overlay-off div:nth-child(2),
+.hero.image-background-text-right.hero--text-overlay-off div:nth-child(2) {
+  background: transparent;
+}
+
+.hero.block.overlay.hero--text-overlay-off picture,
+.hero.image-background-text-left.hero--text-overlay-off picture,
+.hero.image-background-text-right.hero--text-overlay-off picture {
+  filter: brightness(.65);
+}
+
 .hero.image-background-text-left div:nth-child(2){
    margin-left: 15%; 
 }
@@ -607,7 +619,8 @@ picture {
 .hero [data-aue-prop="borderColor"],
 .hero [data-aue-prop="borderColorOnHover"],
 .hero [data-aue-prop="borderWidth"],
-.hero [data-aue-prop="customStyles"] {
+.hero [data-aue-prop="customStyles"],
+.hero [data-aue-prop="textoverlay"] {
   display: none !important;
 }
 .hero div:has(> [data-aue-prop="eventType"]),
@@ -620,6 +633,7 @@ picture {
 .hero div:has(> [data-aue-prop="color"]),
 .hero div:has(> [data-aue-prop="isfullwidth"]),
 .hero div:has(> [data-aue-prop="backgroundcolor"]),
-.hero div:has(> [data-aue-prop="customStyles"]) {
+.hero div:has(> [data-aue-prop="customStyles"]),
+.hero div:has(> [data-aue-prop="textoverlay"]) {
   display: none !important;
 }
