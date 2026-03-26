@@ -29,7 +29,7 @@ const AIRPORTS = [
   { code: 'TQO', city: 'Tulum', country: 'Mexico' },
 ];
 
-// Trip / checkout: persist selected flights across pages (sessionStorage)
+// Trip / checkout: persist selected flights across pages/tabs (localStorage)
 const TRIP_STORAGE_KEY = 'wknd-fly-selected-flights';
 
 // Normalize string for matching URL slug to country (e.g. "United States" -> "unitedstates")
@@ -230,8 +230,14 @@ export function getCheckoutPath() {
 
 export function getSelectedFlights() {
   try {
-    const raw = sessionStorage.getItem(TRIP_STORAGE_KEY);
-    return raw ? JSON.parse(raw) : [];
+    const localRaw = localStorage.getItem(TRIP_STORAGE_KEY);
+    if (localRaw) return JSON.parse(localRaw);
+    // Backward compatibility: migrate older sessionStorage data once.
+    const sessionRaw = sessionStorage.getItem(TRIP_STORAGE_KEY);
+    if (!sessionRaw) return [];
+    const parsed = JSON.parse(sessionRaw);
+    localStorage.setItem(TRIP_STORAGE_KEY, JSON.stringify(parsed));
+    return parsed;
   } catch {
     return [];
   }
@@ -241,13 +247,13 @@ export function addFlightToTrip(flight) {
   const list = getSelectedFlights();
   const id = flight.id || `trip-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
   list.push({ ...flight, id });
-  sessionStorage.setItem(TRIP_STORAGE_KEY, JSON.stringify(list));
+  localStorage.setItem(TRIP_STORAGE_KEY, JSON.stringify(list));
   return id;
 }
 
 export function removeFlightFromTrip(id) {
   const list = getSelectedFlights().filter((f) => f.id !== id);
-  sessionStorage.setItem(TRIP_STORAGE_KEY, JSON.stringify(list));
+  localStorage.setItem(TRIP_STORAGE_KEY, JSON.stringify(list));
 }
 
 function updateBookNowBar(barEl) {

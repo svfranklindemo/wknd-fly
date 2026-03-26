@@ -2,7 +2,7 @@ import { dispatchCustomEvent } from '../../scripts/custom-events.js';
 import { readBlockConfig } from '../../scripts/aem.js';
 /**
  * Checkout block – consolidates selected flights from the flights block and shows Trip Summary.
- * Selected flights are stored in sessionStorage (wknd-fly-selected-flights) when user clicks Select on any flight.
+ * Selected flights are stored in localStorage (wknd-fly-selected-flights) when user clicks Select on any flight.
  * Book Now on the flights block redirects to the checkout page where this block is authored.
  * Confirm Purchase saves booking to sessionStorage and redirects to the confirmation page.
  */
@@ -27,15 +27,21 @@ function getConfirmationPath() {
 
 function getSelectedFlights() {
   try {
-    const raw = sessionStorage.getItem(TRIP_STORAGE_KEY);
-    return raw ? JSON.parse(raw) : [];
+    const localRaw = localStorage.getItem(TRIP_STORAGE_KEY);
+    if (localRaw) return JSON.parse(localRaw);
+    // Backward compatibility: migrate older sessionStorage data once.
+    const sessionRaw = sessionStorage.getItem(TRIP_STORAGE_KEY);
+    if (!sessionRaw) return [];
+    const parsed = JSON.parse(sessionRaw);
+    localStorage.setItem(TRIP_STORAGE_KEY, JSON.stringify(parsed));
+    return parsed;
   } catch {
     return [];
   }
 }
 
 function setSelectedFlights(list) {
-  sessionStorage.setItem(TRIP_STORAGE_KEY, JSON.stringify(list));
+  localStorage.setItem(TRIP_STORAGE_KEY, JSON.stringify(list));
 }
 
 function removeFlight(id) {

@@ -85,6 +85,7 @@ function renderConfirmation(block, data) {
 export default async function decorate(block) {
   const data = getBookingData();
   renderConfirmation(block, data);
+  localStorage.removeItem('wknd-fly-selected-flights');
   sessionStorage.removeItem('wknd-fly-selected-flights');
   sessionStorage.removeItem('wknd-fly-booking-confirmation');
   resetCartFromDataLayer();
