@@ -320,8 +320,10 @@ function displayFlightResults(flights, from, to, date) {
     console.error('Flights block not found!');
     return;
   }
+
+  const safeFlights = Array.isArray(flights) ? flights : [];
   
-  console.log('Displaying flights:', flights.length, flights);
+  console.log('Displaying flights:', safeFlights.length, safeFlights);
   
   // Clear existing content but preserve hidden config divs
   const hiddenDivs = Array.from(block.children).filter(child => child.style.display === 'none');
@@ -332,7 +334,7 @@ function displayFlightResults(flights, from, to, date) {
     block.appendChild(div);
   });
   
-  if (flights.length === 0) {
+  if (safeFlights.length === 0) {
     const noResults = createElement('div', 'flight-no-results');
     const msg = from
       ? `No flights found for ${from} to ${to}${date ? ` on ${formatDate(date)}` : ''}`
@@ -363,7 +365,7 @@ function displayFlightResults(flights, from, to, date) {
   
   const resultsList = createElement('div', 'flight-results-list');
   const dateForDataLayer = date != null ? (typeof date === 'string' && /^\d{4}-\d{2}-\d{2}/.test(date) ? date.slice(0, 10) : (() => { try { const d = new Date(date); return isNaN(d.getTime()) ? '' : d.toISOString().slice(0, 10); } catch (e) { return ''; } })()) : '';
-  flights.forEach((flight) => {
+  safeFlights.forEach((flight) => {
     const flightWithDate = { ...flight, date: dateForDataLayer, flightLength: flight.flightLength || '' };
     const flightCard = createElement('div', 'flight-card');
 
@@ -445,7 +447,7 @@ function buildCartFromSelectedFlights(flights) {
     };
     subTotal += price;
   });
-  const productCount = flights.length;
+  const productCount = (flights || []).length;
   return {
     products,
     productCount,
@@ -597,9 +599,6 @@ export default async function decorate(block) {
       flights = await fetchFlightsFromGraphQL(resolved.from, resolved.to);
     } catch (_) {
       // keep flights = []
-    }
-    if (flights.length === 0) {
-      flights = SAMPLE_FLIGHTS[route] || [];
     }
     displayFlightResults(flights, resolved.from, resolved.to, urlDate);
     addBookNowBar(block);
