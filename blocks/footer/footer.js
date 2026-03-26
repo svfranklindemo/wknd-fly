@@ -6,6 +6,20 @@ import {
   getLanguage, getSiteName, TAG_ROOT, PATH_PREFIX, fetchLanguageNavigation,
 } from '../../scripts/utils.js';
 
+function fireAdobeFooterBeacon() {
+  const pageName = getMetadata('pagename') || document.title || '';
+  const pageUrl = window.location.href;
+
+  if (!pageName || !pageUrl || window.__securFooterAdobeBeaconSent) {
+    return;
+  }
+
+  window.__securFooterAdobeBeaconSent = true;
+
+  const beacon = new Image();
+  beacon.src = `https://ssharedservices.sc.omtrdc.net/b/ss/adbess-livedemosysprod/1/JS-2.27.0-LGPQ/s02884369101364?AQB=1&ndh=1&pf=1&t=24%2F2%2F2026%2014%3A4%3A36%202%20-330&mid=43862339102679297631836999049016014710&aamlh=12&ce=UTF-8&pageName=${encodeURIComponent(pageName)}&g=${encodeURIComponent(pageUrl)}&r=${encodeURIComponent(document.referrer || '')}&cc=USD&events=event1&aamb=RKhpRz8krg2tLO6pguXWp5olkAcUniQYPHaMWWgdJ3xzPWQmdj0y&c2=${encodeURIComponent(pageUrl)}&v3=livedemo&v8=livedemo%40adobe.com&v20=${encodeURIComponent(pageName)}&v21=Live%20Demos%20Website&v250=Live%20Demo%3A%20Page%20View&s=1728x1117&c=30&j=1.6&v=N&k=Y&bw=1728&bh=421&mcorgid=60306A9C56F40F607F000101%40AdobeOrg&AQE=1`;
+}
+
 /**
  * loads and decorates the footer
  * @param {Element} block The footer block element
@@ -43,4 +57,5 @@ export default async function decorate(block) {
   while (fragment.firstElementChild) footer.append(fragment.firstElementChild);
 
   block.append(footer);
+  fireAdobeFooterBeacon();
 }
