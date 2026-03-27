@@ -182,6 +182,14 @@ export default function decorate(block) {
     img.setAttribute('loading', img.getAttribute('loading') || 'lazy');
     img.setAttribute('decoding', img.getAttribute('decoding') || 'async');
   });
+
+  if (block.closest('.destinations-section')) {
+    const firstDestinationCardImage = ul.querySelector('li.image-top .cards-card-image picture > img');
+    if (firstDestinationCardImage) {
+      firstDestinationCardImage.setAttribute('loading', 'eager');
+      firstDestinationCardImage.setAttribute('fetchpriority', 'high');
+    }
+  }
   
   // Final cleanup after image optimization: ensure compact-style is only on image containers
   ul.querySelectorAll('li').forEach((li) => {
