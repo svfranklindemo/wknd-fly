@@ -175,6 +175,20 @@
   border-radius: 4px;
   flex-direction: column;
 }
+
+.destinations-section .cards > ul > li.image-top .cards-card-image,
+.destinations-section .cards > ul > li.image-top .cards-card-image picture,
+.destinations-section .cards > ul > li.image-top .cards-card-image img {
+  height: 240px;
+}
+
+.destinations-section .cards > ul > li.image-top .cards-card-image {
+  overflow: hidden;
+}
+
+.destinations-section .cards > ul > li.image-top .cards-card-image img {
+  object-fit: cover;
+}
 .cards > ul > li.image-top .cards-card-body h1 {
   margin: 0;
   font-size: 22px;
