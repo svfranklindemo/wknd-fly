@@ -15,6 +15,9 @@
   justify-content: center;
 }
 
+.fly-hero-section.hero {
+     min-height: 500px !important;
+}
 /* --------------------------
    Headings & Paragraphs
 --------------------------- */
