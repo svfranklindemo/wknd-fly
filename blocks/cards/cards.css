@@ -183,18 +183,10 @@
 }
 
 .destinations-section .cards > ul > li.image-top .cards-card-image {
-  aspect-ratio: 544 / 240;
   overflow: hidden;
 }
 
-.destinations-section .cards > ul > li.image-top .cards-card-image picture {
-  display: block;
-  width: 100%;
-}
-
 .destinations-section .cards > ul > li.image-top .cards-card-image img {
-  display: block;
-  width: 100%;
   object-fit: cover;
 }
 .cards > ul > li.image-top .cards-card-body h1 {
