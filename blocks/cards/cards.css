@@ -126,17 +126,6 @@
   position: relative;
   display: block;
 }
-
-.cards > ul > li:not(.image-left):not(.image-right) .cards-card-image {
-  aspect-ratio: 16 / 9;
-  overflow: hidden;
-}
-
-.cards > ul > li .cards-card-image picture {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
 .cards > ul > li .cards-card-body {
   display: block;
   background-color: var(--background-color);
