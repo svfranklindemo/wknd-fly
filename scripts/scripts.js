@@ -231,7 +231,11 @@ function decorateButtons(main) {
             { ...n, ...formatObj }
           ));
         }
-        const picture = createOptimizedPicture(deliveryUrl, altText, false, breakpoints);
+        const picture = createOptimizedPicture(deliveryUrl, altText, false, breakpoints, null, {
+          width: img.getAttribute('width'),
+          height: img.getAttribute('height'),
+          decoding: img.getAttribute('decoding') || 'async',
+        });
         img.parentElement.replaceWith(picture);
       } catch (error) {
         img.setAttribute('style', 'border:5px solid red');

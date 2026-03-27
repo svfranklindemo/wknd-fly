@@ -13,6 +13,11 @@ export default function decorate(block) {
       true,
       [{ media: '(min-width: 600px)', width: '2000' }, { width: '750' }],
       'high',
+      {
+        width: heroImage.getAttribute('width'),
+        height: heroImage.getAttribute('height'),
+        decoding: heroImage.getAttribute('decoding') || 'async',
+      },
     );
     heroImage.closest('picture')?.replaceWith(optimizedPicture);
   }

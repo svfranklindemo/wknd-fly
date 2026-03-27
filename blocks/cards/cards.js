@@ -179,7 +179,11 @@ export default function decorate(block) {
     ul.append(li);
   });
   ul.querySelectorAll('picture > img').forEach((img) => {
-    const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
+    const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }], null, {
+      width: img.getAttribute('width'),
+      height: img.getAttribute('height'),
+      decoding: img.getAttribute('decoding') || 'async',
+    });
     moveInstrumentation(img, optimizedPic.querySelector('img'));
     img.closest('picture').replaceWith(optimizedPic);
   });

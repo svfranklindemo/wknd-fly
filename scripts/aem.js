@@ -310,6 +310,7 @@ function createOptimizedPicture(
   eager = false,
   breakpoints = [{ media: '(min-width: 600px)', width: '2000' }, { width: '750' }],
   fetchpriority = null,
+  attributes = {},
 ) {
   const url = new URL(src, window.location.href);
   const picture = document.createElement('picture');
@@ -339,6 +340,10 @@ function createOptimizedPicture(
         img.setAttribute('fetchpriority', fetchpriority || 'high');
       }
       img.setAttribute('alt', alt);
+      if (attributes.width) img.setAttribute('width', attributes.width);
+      if (attributes.height) img.setAttribute('height', attributes.height);
+      if (attributes.sizes) img.setAttribute('sizes', attributes.sizes);
+      if (attributes.decoding) img.setAttribute('decoding', attributes.decoding);
       picture.appendChild(img);
       img.setAttribute('src', `${pathname}?width=${br.width}&format=${ext}&optimize=medium`);
     }
