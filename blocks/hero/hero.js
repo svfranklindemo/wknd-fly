@@ -1,12 +1,22 @@
-import { getMetadata } from '../../scripts/aem.js';
-import { isAuthorEnvironment, moveInstrumentation } from '../../scripts/scripts.js';
-import { readBlockConfig } from '../../scripts/aem.js';
+import { createOptimizedPicture, readBlockConfig } from '../../scripts/aem.js';
 
 /**
  *
  * @param {Element} block
  */
 export default function decorate(block) {
+  const heroImage = block.querySelector('picture > img');
+  if (heroImage) {
+    const optimizedPicture = createOptimizedPicture(
+      heroImage.currentSrc || heroImage.src,
+      heroImage.alt,
+      true,
+      [{ media: '(min-width: 600px)', width: '2000' }, { width: '750' }],
+      'high',
+    );
+    heroImage.closest('picture')?.replaceWith(optimizedPicture);
+  }
+
   const config = readBlockConfig(block) || {};
 
   /* Value from nth row (same approach as lines 39–46): row = :scope > div:nth-child(n), value from first cell */
