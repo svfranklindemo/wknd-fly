@@ -175,6 +175,20 @@
   border-radius: 4px;
   flex-direction: column;
 }
+
+.cards > ul > li.image-top .cards-card-image,
+.cards > ul > li.image-bottom .cards-card-image {
+  min-height: 255px;
+  max-height: 255px;
+  overflow: hidden;
+}
+
+.cards > ul > li.image-top .cards-card-image picture,
+.cards > ul > li.image-bottom .cards-card-image picture {
+  display: block;
+  min-height: 255px;
+}
+
 .cards > ul > li.image-top .cards-card-body h1 {
   margin: 0;
   font-size: 22px;
