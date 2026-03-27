@@ -196,6 +196,10 @@ function decorateSectionImages(doc) {
  * @param {Element} main The container element
  */
 function decorateButtons(main) {
+  const firstLikelyLCPImage = main.querySelector(
+    '.default-content-wrapper > p.auto-image-container > picture > img, .default-content-wrapper > p > picture > img',
+  );
+
   main.querySelectorAll('img').forEach((img) => {
     let altT = decodeURIComponent(img.alt);
 
@@ -203,6 +207,14 @@ function decorateButtons(main) {
       try {
         altT = JSON.parse(altT);
         const { altText, deliveryUrl } = altT;
+
+        if (img === firstLikelyLCPImage) {
+          img.setAttribute('alt', altText || '');
+          img.setAttribute('loading', 'eager');
+          img.setAttribute('fetchpriority', 'high');
+          return;
+        }
+
         const url = new URL(deliveryUrl);
         const imgName = url.pathname.substring(url.pathname.lastIndexOf('/') + 1);
         const block = whatBlockIsThis(img);
