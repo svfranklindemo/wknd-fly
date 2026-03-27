@@ -348,6 +348,7 @@ async function loadEager(doc) {
   const main = doc.querySelector('main');
   if (main) {
     decorateMain(main);
+    adjustAutoImages(main);
     document.body.classList.add('appear');
     await loadSection(main.querySelector('.section'), waitForFirstImage);
   }
@@ -909,11 +910,10 @@ function whatBlockIsThis(element) {
  * @param {Element} main The container element
  */
 function adjustAutoImages(main) {
-  const pictureElement = main.querySelector('div > p > picture');
-  if (pictureElement) {
+  main.querySelectorAll('div > p > picture').forEach((pictureElement) => {
     const pElement = pictureElement.parentElement;
-    pElement.className = 'auto-image-container';
-  }
+    if (pElement) pElement.classList.add('auto-image-container');
+  });
 }
 
 /**

@@ -682,6 +682,22 @@ main img {
   height: auto;
 }
 
+main .auto-image-container {
+  margin: 0;
+  line-height: 0;
+}
+
+main .auto-image-container picture {
+  display: block;
+  width: 100%;
+}
+
+main .auto-image-container img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 .icon {
   display: inline-block;
   height: 24px;
