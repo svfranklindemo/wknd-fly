@@ -9,10 +9,13 @@ const PUBLISH_GRAPHQL_BASE_For_Search = 'https://275323-918sangriatortoise.adobe
 const AUTHOR_GRAPHQL_BASE_For_Destination = 'https://author-p189874-e1977911.adobeaemcloud.com/graphql/execute.json/wknd-fly/flight-details-list-for-destination-page';
 const PUBLISH_GRAPHQL_BASE_For_Destination = 'https://275323-918sangriatortoise.adobeioruntime.net/api/v1/web/dx-excshell-1/flight-details-list';
 
+const AUTHOR_GRAPHQL_BASE_For_Dropdown = 'https://author-p189874-e1977911.adobeaemcloud.com/graphql/execute.json/wknd-fly/flight-source-dropdown';
+const PUBLISH_GRAPHQL_BASE_For_Dropdown = 'https://publish-p189874-e1977911.adobeaemcloud.com/graphql/execute.json/wknd-fly/flight-source-dropdown';
+
 let selectButtonDataAttributes = {};
 
 // Sample airport data (shared with flight-search)
-const AIRPORTS = [
+const FALLBACK_AIRPORTS = [
   { code: 'WAW', city: 'Warsaw', country: 'Poland' },
   { code: 'LHR', city: 'London', country: 'United Kingdom' },
   { code: 'CDG', city: 'Paris', country: 'France' },
@@ -28,6 +31,7 @@ const AIRPORTS = [
   { code: 'DEL', city: 'Delhi', country: 'India' },
   { code: 'TQO', city: 'Tulum', country: 'Mexico' },
 ];
+let airportsData = [...FALLBACK_AIRPORTS];
 
 // Trip / checkout: persist selected flights across pages/tabs (localStorage)
 const TRIP_STORAGE_KEY = 'wknd-fly-selected-flights';
@@ -43,14 +47,14 @@ function isDestinationPage() {
   return pathname.includes('/en/destinations/');
 }
 
-// If on destination page: return country name from path (slug matched to AIRPORTS countries), else null
+// If on destination page: return country name from path (slug matched to airport countries), else null
 function getDestinationFromPath() {
   const pathname = (typeof window !== 'undefined' && window.location.pathname) || '';
   const match = pathname.match(/\/en\/destinations\/([^/]+)/i);
   if (!match) return null;
   const slug = slugify(match[1] || '').replaceAll('.html', '');
   if (!slug) return null;
-  const countries = [...new Set(AIRPORTS.map((a) => a.country))];
+  const countries = [...new Set(airportsData.map((a) => a.country))];
   const country = countries.find((c) => slugify(c) === slug);
   return country ?? slug;
 }
@@ -59,7 +63,7 @@ function getDestinationFromPath() {
 function getDestinationCodesFromPath() {
   const country = getDestinationFromPath();
   if (!country) return null;
-  const codes = AIRPORTS.filter((a) => a.country === country).map((a) => a.code);
+  const codes = airportsData.filter((a) => a.country === country).map((a) => a.code);
   return codes.length ? codes : null;
 }
 
@@ -211,6 +215,93 @@ async function fetchFlightsForDestination(destination) {
     return [];
   }
 }
+
+function normalizeContentFragmentPath(path, isAuthor) {
+  if (!path || typeof path !== 'string') return '';
+  let normalizedPath = path.trim();
+  if (typeof window !== 'undefined' && window.location?.origin) {
+    normalizedPath = normalizedPath.replace(window.location.origin, '');
+  }
+  if (isAuthor) {
+    normalizedPath = normalizedPath.replace(/\.html$/i, '');
+  }
+  return normalizedPath;
+}
+
+function findGraphQLItems(data) {
+  if (!data || typeof data !== 'object') return [];
+  const queue = [data];
+  while (queue.length) {
+    const current = queue.shift();
+    if (!current || typeof current !== 'object') continue;
+    if (Array.isArray(current?.items)) return current.items;
+    Object.values(current).forEach((value) => {
+      if (value && typeof value === 'object') queue.push(value);
+    });
+  }
+  return [];
+}
+
+function parseAirportMappingString(value) {
+  if (!value || typeof value !== 'string') return null;
+  const codeMatch = value.match(/code\s*:\s*['"]([^'"]+)['"]/i);
+  const cityMatch = value.match(/city\s*:\s*['"]([^'"]+)['"]/i);
+  const countryMatch = value.match(/country\s*:\s*['"]([^'"]+)['"]/i);
+  const code = (codeMatch?.[1] || '').trim().toUpperCase();
+  if (!code) return null;
+  return {
+    code,
+    city: (cityMatch?.[1] || code).trim(),
+    country: (countryMatch?.[1] || '').trim(),
+  };
+}
+
+function mapGraphQLItemToAirport(item) {
+  if (!item || typeof item !== 'object') return null;
+  const code = (item.airportCode ?? item.code ?? item.iataCode ?? item.shortCode ?? '').toString().trim().toUpperCase();
+  if (!code) return null;
+  const city = (item.airportCity ?? item.city ?? item.airportName ?? item.name ?? code).toString().trim() || code;
+  const country = (item.airportCountry ?? item.country ?? item.region ?? '').toString().trim();
+  return { code, city, country };
+}
+
+function extractAirportsFromDropdownPayload(payload) {
+  const mapping = payload?.data?.flightDestinationDropdownByPath?.item?.destination_mapping;
+  if (Array.isArray(mapping)) {
+    return mapping
+      .map((entry) => parseAirportMappingString(entry))
+      .filter(Boolean);
+  }
+  const items = findGraphQLItems(payload?.data);
+  return items
+    .map((item) => mapGraphQLItemToAirport(item))
+    .filter(Boolean);
+}
+
+async function fetchAirportsFromGraphQL(contentFragmentPath) {
+  if (!contentFragmentPath) return [];
+  const isAuthor = isAuthorEnvironment();
+  try {
+    const url = `${isAuthor ? AUTHOR_GRAPHQL_BASE_For_Dropdown : PUBLISH_GRAPHQL_BASE_For_Dropdown};path=${contentFragmentPath};ts=${Date.now()}`;
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    });
+    if (!response.ok) return [];
+    const payload = await response.json();
+    if (payload?.errors?.length) return [];
+    const airports = extractAirportsFromDropdownPayload(payload);
+    const seenCodes = new Set();
+    return airports.filter((airport) => {
+        if (!airport || seenCodes.has(airport.code)) return false;
+        seenCodes.add(airport.code);
+        return true;
+      });
+  } catch (e) {
+    console.warn('Airport dropdown GraphQL fetch failed:', e);
+    return [];
+  }
+}
 // Live: site-relative path. Author: derive from current path (path up to /en/ + checkout.html)
 const LIVE_CHECKOUT_PATH = '/en/checkout';
 
@@ -326,10 +417,8 @@ function displayFlightResults(flights, from, to, date) {
     console.error('Flights block not found!');
     return;
   }
-
-  const safeFlights = Array.isArray(flights) ? flights : [];
   
-  console.log('Displaying flights:', safeFlights.length, safeFlights);
+  console.log('Displaying flights:', flights.length, flights);
   
   // Clear existing content but preserve hidden config divs
   const hiddenDivs = Array.from(block.children).filter(child => child.style.display === 'none');
@@ -340,7 +429,7 @@ function displayFlightResults(flights, from, to, date) {
     block.appendChild(div);
   });
   
-  if (safeFlights.length === 0) {
+  if (flights.length === 0) {
     const noResults = createElement('div', 'flight-no-results');
     const msg = from
       ? `No flights found for ${from} to ${to}${date ? ` on ${formatDate(date)}` : ''}`
@@ -356,8 +445,8 @@ function displayFlightResults(flights, from, to, date) {
 
   const title = createElement('h1', 'flight-results-title');
   if (from) {
-    const fromAirport = AIRPORTS.find((a) => a.code === from);
-    const toAirport = AIRPORTS.find((a) => a.code === to);
+    const fromAirport = airportsData.find((a) => a.code === from);
+    const toAirport = airportsData.find((a) => a.code === to);
     title.textContent = `One-Way connections from ${fromAirport?.city || from} to ${toAirport?.city || to}`;
   } else {
     title.textContent = `Flights to ${to}`;
@@ -371,7 +460,7 @@ function displayFlightResults(flights, from, to, date) {
   
   const resultsList = createElement('div', 'flight-results-list');
   const dateForDataLayer = date != null ? (typeof date === 'string' && /^\d{4}-\d{2}-\d{2}/.test(date) ? date.slice(0, 10) : (() => { try { const d = new Date(date); return isNaN(d.getTime()) ? '' : d.toISOString().slice(0, 10); } catch (e) { return ''; } })()) : '';
-  safeFlights.forEach((flight) => {
+  flights.forEach((flight) => {
     const flightWithDate = { ...flight, date: dateForDataLayer, flightLength: flight.flightLength || '' };
     const flightCard = createElement('div', 'flight-card');
 
@@ -529,27 +618,29 @@ function handleFlightSelect(flight) {
 // Main decorate function
 export default async function decorate(block) {
   const config = readBlockConfig(block) || {};
+  const isAuthor = isAuthorEnvironment();
 
   let flightDropdownContentFragmentPath = null;
   if(config.flightdropdowncontentfragment || config['flightdropdowncontentfragment']) {
     flightDropdownContentFragmentPath = config.flightdropdowncontentfragment ?? config['flightdropdowncontentfragment'];
-    if(isAuthorEnvironment()) {
-      flightDropdownContentFragmentPath = flightDropdownContentFragmentPath.replace(window.location.origin, '');
-      flightDropdownContentFragmentPath = flightDropdownContentFragmentPath.replace('.html', '');
-    } else {
-      flightDropdownContentFragmentPath = flightDropdownContentFragmentPath.replace(window.location.origin, '');
-    }
+    flightDropdownContentFragmentPath = normalizeContentFragmentPath(flightDropdownContentFragmentPath, isAuthor);
   }
 
   let flightListContentFragmentPath = null;
   if(config.flightlistcontentfragment || config['flightlistcontentfragment']) {
     flightListContentFragmentPath = config.flightlistcontentfragment ?? config['flightlistcontentfragment'];
-    if(isAuthorEnvironment()) {
-      flightListContentFragmentPath = flightListContentFragmentPath.replace(window.location.origin, '');
-      flightListContentFragmentPath = flightListContentFragmentPath.replace('.html', '');
+    flightListContentFragmentPath = normalizeContentFragmentPath(flightListContentFragmentPath, isAuthor);
+  }
+
+  if (flightDropdownContentFragmentPath) {
+    const fetchedAirports = await fetchAirportsFromGraphQL(flightDropdownContentFragmentPath);
+    if (fetchedAirports.length > 0) {
+      airportsData = fetchedAirports;
     } else {
-      flightListContentFragmentPath = flightListContentFragmentPath.replace(window.location.origin, '');
+      airportsData = [...FALLBACK_AIRPORTS];
     }
+  } else {
+    airportsData = [...FALLBACK_AIRPORTS];
   }
 
   // Apply button config as data attributes for analytics/webhooks

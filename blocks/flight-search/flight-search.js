@@ -4,8 +4,11 @@ import { dispatchCustomEvent } from '../../scripts/custom-events.js';
 import { isAuthorEnvironment } from '../../scripts/scripts.js';
 import { getPathDetails } from '../../scripts/utils.js';
 
+const AUTHOR_GRAPHQL_BASE_For_Dropdown = 'https://author-p189874-e1977911.adobeaemcloud.com/graphql/execute.json/wknd-fly/flight-source-dropdown';
+const PUBLISH_GRAPHQL_BASE_For_Dropdown = 'https://publish-p189874-e1977911.adobeaemcloud.com/graphql/execute.json/wknd-fly/flight-source-dropdown';
+
 // Sample airport data
-const AIRPORTS = [
+const FALLBACK_AIRPORTS = [
   { code: 'WAW', city: 'Warsaw', country: 'Poland' },
   { code: 'LHR', city: 'London', country: 'United Kingdom' },
   { code: 'CDG', city: 'Paris', country: 'France' },
@@ -21,6 +24,7 @@ const AIRPORTS = [
   { code: 'DEL', city: 'Delhi', country: 'India' },
   { code: 'TQO', city: 'Tulum', country: 'Mexico' },
 ];
+let airportsData = [...FALLBACK_AIRPORTS];
 
 // Utility functions
 function createElement(tag, className, content) {
@@ -48,6 +52,93 @@ function formatDate(date) {
 function getTodayDate() {
   const today = new Date();
   return formatDate(today);
+}
+
+function normalizeContentFragmentPath(path, isAuthor) {
+  if (!path || typeof path !== 'string') return '';
+  let normalizedPath = path.trim();
+  if (typeof window !== 'undefined' && window.location?.origin) {
+    normalizedPath = normalizedPath.replace(window.location.origin, '');
+  }
+  if (isAuthor) {
+    normalizedPath = normalizedPath.replace(/\.html$/i, '');
+  }
+  return normalizedPath;
+}
+
+function findGraphQLItems(data) {
+  if (!data || typeof data !== 'object') return [];
+  const queue = [data];
+  while (queue.length) {
+    const current = queue.shift();
+    if (!current || typeof current !== 'object') continue;
+    if (Array.isArray(current?.items)) return current.items;
+    Object.values(current).forEach((value) => {
+      if (value && typeof value === 'object') queue.push(value);
+    });
+  }
+  return [];
+}
+
+function parseAirportMappingString(value) {
+  if (!value || typeof value !== 'string') return null;
+  const codeMatch = value.match(/code\s*:\s*['"]([^'"]+)['"]/i);
+  const cityMatch = value.match(/city\s*:\s*['"]([^'"]+)['"]/i);
+  const countryMatch = value.match(/country\s*:\s*['"]([^'"]+)['"]/i);
+  const code = (codeMatch?.[1] || '').trim().toUpperCase();
+  if (!code) return null;
+  return {
+    code,
+    city: (cityMatch?.[1] || code).trim(),
+    country: (countryMatch?.[1] || '').trim(),
+  };
+}
+
+function mapGraphQLItemToAirport(item) {
+  if (!item || typeof item !== 'object') return null;
+  const code = (item.airportCode ?? item.code ?? item.iataCode ?? item.shortCode ?? '').toString().trim().toUpperCase();
+  if (!code) return null;
+  const city = (item.airportCity ?? item.city ?? item.airportName ?? item.name ?? code).toString().trim() || code;
+  const country = (item.airportCountry ?? item.country ?? item.region ?? '').toString().trim();
+  return { code, city, country };
+}
+
+function extractAirportsFromDropdownPayload(payload) {
+  const mapping = payload?.data?.flightDestinationDropdownByPath?.item?.destination_mapping;
+  if (Array.isArray(mapping)) {
+    return mapping
+      .map((entry) => parseAirportMappingString(entry))
+      .filter(Boolean);
+  }
+  const items = findGraphQLItems(payload?.data);
+  return items
+    .map((item) => mapGraphQLItemToAirport(item))
+    .filter(Boolean);
+}
+
+async function fetchAirportsFromGraphQL(contentFragmentPath) {
+  if (!contentFragmentPath) return [];
+  const isAuthor = isAuthorEnvironment();
+  try {
+    const url = `${isAuthor ? AUTHOR_GRAPHQL_BASE_For_Dropdown : PUBLISH_GRAPHQL_BASE_For_Dropdown};path=${contentFragmentPath};ts=${Date.now()}`;
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    });
+    if (!response.ok) return [];
+    const payload = await response.json();
+    if (payload?.errors?.length) return [];
+    const airports = extractAirportsFromDropdownPayload(payload);
+    const seenCodes = new Set();
+    return airports.filter((airport) => {
+        if (!airport || seenCodes.has(airport.code)) return false;
+        seenCodes.add(airport.code);
+        return true;
+      });
+  } catch (e) {
+    console.warn('Airport dropdown GraphQL fetch failed:', e);
+    return [];
+  }
 }
 
 // Create airport dropdown
@@ -165,11 +256,11 @@ function createFlightSearchForm(fromDefault = DEFAULT_FROM, toDefault = DEFAULT_
   const searchRow = createElement('div', 'flight-search-row');
   
   // From dropdown (default WAW)
-  const fromGroup = createAirportDropdown(AIRPORTS, fromDefault, 'From', 'flight-from');
+  const fromGroup = createAirportDropdown(airportsData, fromDefault, 'From', 'flight-from');
   searchRow.appendChild(fromGroup);
   
   // To dropdown (default TQO)
-  const toGroup = createAirportDropdown(AIRPORTS, toDefault, 'To', 'flight-to');
+  const toGroup = createAirportDropdown(airportsData, toDefault, 'To', 'flight-to');
   searchRow.appendChild(toGroup);
   
   // Date picker
@@ -363,6 +454,7 @@ function setupClickOutside() {
 // Main decorate function
 export default async function decorate(block) {
   const config = readBlockConfig(block) || {};
+  const isAuthor = isAuthorEnvironment();
   /* Hide button config rows (index >= 7) on published/live, same as hero/cards */
   [...block.children].forEach((row, index) => {
     if (index >= 7) row.style.display = 'none';
@@ -377,6 +469,23 @@ export default async function decorate(block) {
     block.classList.add(String(customStyles).trim());
   }
   
+  let flightDropdownContentFragmentPath = null;
+  if(config.flightdropdowncontentfragment || config['flightdropdowncontentfragment']) {
+    flightDropdownContentFragmentPath = config.flightdropdowncontentfragment ?? config['flightdropdowncontentfragment'];
+    flightDropdownContentFragmentPath = normalizeContentFragmentPath(flightDropdownContentFragmentPath, isAuthor);
+  }
+
+  if (flightDropdownContentFragmentPath) {
+    const fetchedAirports = await fetchAirportsFromGraphQL(flightDropdownContentFragmentPath);
+    if (fetchedAirports.length > 0) {
+      airportsData = fetchedAirports;
+    } else {
+      airportsData = [...FALLBACK_AIRPORTS];
+    }
+  } else {
+    airportsData = [...FALLBACK_AIRPORTS];
+  }
+
   // Check for URL parameters to pre-fill form (override defaults when present)
   const urlParams = new URLSearchParams(window.location.search);
   const fromParam = urlParams.get('from');
@@ -399,17 +508,6 @@ export default async function decorate(block) {
     if (buttonData && String(buttonData).trim()) searchButton.dataset.buttonData = String(buttonData).trim();
   }
 
-  let flightDropdownContentFragmentPath = null;
-  if(config.flightdropdowncontentfragment || config['flightdropdowncontentfragment']) {
-    flightDropdownContentFragmentPath = config.flightdropdowncontentfragment ?? config['flightdropdowncontentfragment'];
-    if(isAuthorEnvironment()) {
-      flightDropdownContentFragmentPath = flightDropdownContentFragmentPath.replace(window.location.origin, '');
-      flightDropdownContentFragmentPath = flightDropdownContentFragmentPath.replace('.html', '');
-    } else {
-      flightDropdownContentFragmentPath = flightDropdownContentFragmentPath.replace(window.location.origin, '');
-    }
-  }
-
   // Setup click outside handler
   setupClickOutside();
   // Update datalayer when user changes From/To dropdowns, date, or option checkboxes
@@ -420,4 +518,3 @@ export default async function decorate(block) {
     if (dateInput) dateInput.value = dateParam;
   }
 }
-
