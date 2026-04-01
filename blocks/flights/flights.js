@@ -3,16 +3,19 @@ import { isAuthorEnvironment } from '../../scripts/scripts.js';
 import { readBlockConfig } from '../../scripts/aem.js';
 import { dispatchCustomEvent } from '../../scripts/custom-events.js';
 
-const AUTHOR_GRAPHQL_BASE_For_Search = 'https://author-p189874-e1977911.adobeaemcloud.com/graphql/execute.json/wknd-fly/flight-details-list';
+const AUTHOR_GRAPHQL_BASE_For_Search = 'https://author-p189874-e1977911.adobeaemcloud.com/graphql/execute.json/wknd-fly/flight-details-list-with-path';
 const PUBLISH_GRAPHQL_BASE_For_Search = 'https://275323-918sangriatortoise.adobeioruntime.net/api/v1/web/dx-excshell-1/flight-details-list';
 
-const AUTHOR_GRAPHQL_BASE_For_Destination = 'https://author-p189874-e1977911.adobeaemcloud.com/graphql/execute.json/wknd-fly/flight-details-list-for-destination-page';
+const AUTHOR_GRAPHQL_BASE_For_Destination = 'https://author-p189874-e1977911.adobeaemcloud.com/graphql/execute.json/wknd-fly/flight-details-list-for-destination-page-with-path';
 const PUBLISH_GRAPHQL_BASE_For_Destination = 'https://275323-918sangriatortoise.adobeioruntime.net/api/v1/web/dx-excshell-1/flight-details-list';
 
 const AUTHOR_GRAPHQL_BASE_For_Dropdown = 'https://author-p189874-e1977911.adobeaemcloud.com/graphql/execute.json/wknd-fly/flight-source-dropdown';
 const PUBLISH_GRAPHQL_BASE_For_Dropdown = 'https://275323-918sangriatortoise.adobeioruntime.net/api/v1/web/dx-excshell-1/flight-source-dropdown';
 
+const DEFAULT_FLIGHT_LIST_CONTENT_FRAGMENT_PATH = '/content/dam/wknd-fly/en/fragments/flight-details';
+
 let selectButtonDataAttributes = {};
+let flightListPathForGraphQL = DEFAULT_FLIGHT_LIST_CONTENT_FRAGMENT_PATH;
 
 // Sample airport data (shared with flight-search)
 const FALLBACK_AIRPORTS = [
@@ -167,8 +170,8 @@ async function fetchFlightsFromGraphQL(from, to) {
   const isAuthor = isAuthorEnvironment();
   try {
     const url = isAuthor
-      ? `${AUTHOR_GRAPHQL_BASE_For_Search};from=${encodeURIComponent(fromCode)};to=${encodeURIComponent(toCode)};ts=${Date.now()}`
-      : `${PUBLISH_GRAPHQL_BASE_For_Search}?environment=p189874-e1977911&endpoint=flight-details-list&from=${encodeURIComponent(fromCode)}&to=${encodeURIComponent(toCode)}&time=${Date.now()}`;
+      ? `${AUTHOR_GRAPHQL_BASE_For_Search};from=${encodeURIComponent(fromCode)};to=${encodeURIComponent(toCode)};path=${flightListPathForGraphQL};ts=${Date.now()}`
+      : `${PUBLISH_GRAPHQL_BASE_For_Search}?environment=p189874-e1977911&endpoint=flight-details-list&from=${encodeURIComponent(fromCode)}&to=${encodeURIComponent(toCode)}&path=${flightListPathForGraphQL}&time=${Date.now()}`;
     const response = await fetch(url, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
@@ -195,8 +198,8 @@ async function fetchFlightsForDestination(destination) {
   const encoded = encodeURIComponent(String(destination).trim());
   try {
     const url = isAuthor
-      ? `${AUTHOR_GRAPHQL_BASE_For_Destination};to=${encoded};ts=${Date.now()}`
-      : `${PUBLISH_GRAPHQL_BASE_For_Destination}?environment=p189874-e1977911&endpoint=flight-details-list-for-destination-page&to=${encoded}&time=${Date.now()}`;
+      ? `${AUTHOR_GRAPHQL_BASE_For_Destination};to=${encoded};path=${flightListPathForGraphQL};ts=${Date.now()}`
+      : `${PUBLISH_GRAPHQL_BASE_For_Destination}?environment=p189874-e1977911&endpoint=flight-details-list-for-destination-page&to=${encoded}&path=${flightListPathForGraphQL}&time=${Date.now()}`;
     const response = await fetch(url, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
@@ -633,6 +636,7 @@ export default async function decorate(block) {
     flightListContentFragmentPath = config.flightlistcontentfragment ?? config['flightlistcontentfragment'];
     flightListContentFragmentPath = normalizeContentFragmentPath(flightListContentFragmentPath, isAuthor);
   }
+  flightListPathForGraphQL = flightListContentFragmentPath || DEFAULT_FLIGHT_LIST_CONTENT_FRAGMENT_PATH;
 
   if (flightDropdownContentFragmentPath) {
     const fetchedAirports = await fetchAirportsFromGraphQL(flightDropdownContentFragmentPath);
