@@ -7,19 +7,22 @@ import { createOptimizedPicture, readBlockConfig } from '../../scripts/aem.js';
 export default function decorate(block) {
   const heroImage = block.querySelector('picture > img');
   if (heroImage) {
-    const optimizedPicture = createOptimizedPicture(
-      heroImage.currentSrc || heroImage.src,
-      heroImage.alt,
-      true,
-      [{ media: '(min-width: 600px)', width: '2000' }, { width: '750' }],
-      'high',
-      {
-        width: heroImage.getAttribute('width'),
-        height: heroImage.getAttribute('height'),
-        decoding: heroImage.getAttribute('decoding') || 'async',
-      },
-    );
-    heroImage.closest('picture')?.replaceWith(optimizedPicture);
+    const src = heroImage.currentSrc || heroImage.src;
+    if (!src.includes('demo-system-next.s3.amazonaws.com')) {
+      const optimizedPicture = createOptimizedPicture(
+        src,
+        heroImage.alt,
+        true,
+        [{ media: '(min-width: 600px)', width: '2000' }, { width: '750' }],
+        'high',
+        {
+          width: heroImage.getAttribute('width'),
+          height: heroImage.getAttribute('height'),
+          decoding: heroImage.getAttribute('decoding') || 'async',
+        },
+      );
+      heroImage.closest('picture')?.replaceWith(optimizedPicture);
+    }
   }
 
   const config = readBlockConfig(block) || {};
