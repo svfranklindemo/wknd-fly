@@ -8,7 +8,7 @@ export default function decorate(block) {
   const heroImage = block.querySelector('picture > img');
   if (heroImage) {
     const src = heroImage.currentSrc || heroImage.src;
-    if (!src.includes('demo-system-next.s3.amazonaws.com')) {
+    if (!src.includes('https://demo-system-next')) {
       const optimizedPicture = createOptimizedPicture(
         src,
         heroImage.alt,
