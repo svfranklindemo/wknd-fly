@@ -166,6 +166,7 @@ function prefillEmail(form) {
  * Fetches the profile for an email from the Adobe Profile API
  * @param {string} email - Email to look up
  * @returns {Promise<object|null>} Profile entity, or null if not found
+ * @throws {Error} If the profile lookup fails
  */
 async function checkProfileViaAPI(email) {
   try {
@@ -173,7 +174,7 @@ async function checkProfileViaAPI(email) {
     const { orgid, sandboxname } = await fetchPlaceholders();
     if (!orgid || !sandboxname) {
       console.warn("Profile API: orgId/sandboxName missing in placeholders");
-      return null;
+      throw new Error('Profile API configuration is missing');
     }
 
     const url = `${PROFILE_API_BASE_URL}/${encodeURIComponent(email)}`
@@ -181,16 +182,19 @@ async function checkProfileViaAPI(email) {
     const response = await fetch(url);
     if (!response.ok) {
       console.warn("Profile API request failed:", response.status);
-      return null;
+      throw new Error(`Profile API request failed: ${response.status}`);
     }
 
     const data = await response.json();
+    if (data?.status !== 'success') {
+      throw new Error('Profile API returned an unsuccessful response');
+    }
     // A missing profile still returns status "success" with an empty result
     const [profile] = Object.values(data?.result || {});
-    return data?.status === "success" && profile?.entity ? profile.entity : null;
+    return profile?.entity || null;
   } catch (error) {
     console.error("Error checking profile via API:", error);
-    return null;
+    throw error;
   }
 }
 
@@ -291,11 +295,17 @@ function attachSignInHandler(block) {
       return;
     }
 
-    const profile = await checkProfileViaAPI(enteredEmail);
-    if (profile) applyProfile(profile);
-
-    // Sign-in successful - Load user data from registration
+    // Load the profile before marking sign-in successful
     try {
+      const profile = await checkProfileViaAPI(enteredEmail);
+      if (!profile) {
+        // eslint-disable-next-line no-use-before-define
+        showErrorMessage(form, 'Profile not found. Check if the profile identified'
+          + ' by provided email exists in Platform.');
+        return;
+      }
+      applyProfile(profile);
+
       // Set authentication flag in localStorage
       localStorage.setItem("wkndfly_user_logged_in", "true");
 
