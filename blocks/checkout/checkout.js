@@ -529,8 +529,8 @@ export default async function decorate(block) {
 
   restrictNumericFieldsToDigits(block);
   formatBirthDateInput(block);
-  attachCheckoutDataLayerListeners(block);
   fillFormDataFromDataLayer(block);
+  attachCheckoutDataLayerListeners(block);
 }
 
 /** Restrict phone, card number, CVV to digits only (strip non-numeric on input) */
