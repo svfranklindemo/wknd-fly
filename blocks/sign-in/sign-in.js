@@ -1,12 +1,22 @@
 import { isAuthorEnvironment } from "../../scripts/scripts.js";
 import { readBlockConfig } from "../../scripts/aem.js";
 import { dispatchCustomEvent } from "../../scripts/custom-events.js";
+import { fetchPlaceholders } from "../../scripts/placeholders.js";
 
-// Adobe Profile API Configuration
-const PROFILE_API_CONFIG = {
-  baseUrl: "https://dsn.adobe.com/api/v2/profile/email",
-  orgId: "0E061E2D61F93F260A495FD6@AdobeOrg",
-  sandboxName: "public-luma",
+const PROFILE_API_BASE_URL = "https://dsn.adobe.com/api/v2/profile/email";
+const REGISTERED_USER_KEY = "wkndfly_registered_user";
+
+// Registered-user field -> profile (XDM) path
+const PROFILE_FIELD_PATHS = {
+  firstName: "person.name.firstName",
+  lastName: "person.name.lastName",
+  email: "personalEmail.address",
+  phone: "mobilePhone.number",
+  streetAddress: "homeAddress.street1",
+  city: "homeAddress.city",
+  state: "homeAddress.state",
+  zipCode: "homeAddress.postalCode",
+  country: "homeAddress.country",
 };
 
 function applyButtonConfigToSubmitButton(block, config) {
@@ -153,43 +163,84 @@ function prefillEmail(form) {
 }
 
 /**
- * Checks if user profile exists via Adobe Profile API
- * @param {string} email - Email to check
- * @returns {Promise<{exists: boolean, profile: object|null}>} Profile check result
+ * Fetches the profile for an email from the Adobe Profile API
+ * @param {string} email - Email to look up
+ * @returns {Promise<object|null>} Profile entity, or null if not found
  */
 async function checkProfileViaAPI(email) {
   try {
-    const encodedEmail = encodeURIComponent(email);
-    const url = `${
-      PROFILE_API_CONFIG.baseUrl
-    }/${encodedEmail}?orgId=${encodeURIComponent(
-      PROFILE_API_CONFIG.orgId
-    )}&sandboxName=${PROFILE_API_CONFIG.sandboxName}`;
+    // fetchPlaceholders lowercases keys: orgId -> orgid, sandboxName -> sandboxname
+    const { orgid, sandboxname } = await fetchPlaceholders();
+    if (!orgid || !sandboxname) {
+      console.warn("Profile API: orgId/sandboxName missing in placeholders");
+      return null;
+    }
 
-    const response = await fetch(url, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
+    const url = `${PROFILE_API_BASE_URL}/${encodeURIComponent(email)}`
+      + `?orgId=${encodeURIComponent(orgid)}&sandboxName=${encodeURIComponent(sandboxname)}`;
+    const response = await fetch(url);
     if (!response.ok) {
       console.warn("Profile API request failed:", response.status);
-      return { exists: false, profile: null };
+      return null;
     }
 
     const data = await response.json();
-
-    // Check if response has status "success" and result object
-    if (data.status === "success" && data.result) {
-      return { exists: true, profile: data.result };
-    }
-
-    return { exists: false, profile: null };
+    // A missing profile still returns status "success" with an empty result
+    const [profile] = Object.values(data?.result || {});
+    return data?.status === "success" && profile?.entity ? profile.entity : null;
   } catch (error) {
     console.error("Error checking profile via API:", error);
-    return { exists: false, profile: null };
+    return null;
   }
+}
+
+/**
+ * Mirrors the storage and data-layer writes done at registration for an existing profile
+ * @param {object} entity - Profile entity from the API
+ */
+function applyProfile(entity) {
+  const user = {};
+  Object.entries(PROFILE_FIELD_PATHS).forEach(([field, path]) => {
+    const value = path.split(".").reduce((node, key) => node?.[key], entity);
+    if (value) user[field] = value;
+  });
+  // identityMap is the source of truth for email
+  user.email = entity.identityMap?.email?.[0]?.id;
+  if (!user.email) return;
+
+  let stored = {};
+  try {
+    stored = JSON.parse(localStorage.getItem(REGISTERED_USER_KEY) || "{}");
+  } catch (e) {
+    // Ignore JSON parse errors
+  }
+  const base = stored.email?.toLowerCase() === user.email.toLowerCase() ? stored : {};
+  localStorage.setItem(REGISTERED_USER_KEY, JSON.stringify({
+    ...base,
+    ...user,
+    registeredAt: base.registeredAt || new Date().toISOString(),
+    userId: base.userId || generateUserId(),
+  }));
+  localStorage.setItem("com.adobe.reactor.dataElements.Profile - Email", user.email);
+  if (typeof window._satellite?.setVar === "function") {
+    window._satellite.setVar("Profile - Email", user.email);
+  }
+
+  if (typeof window.updateDataLayer === "function") {
+    const updates = { _demosystem4: { identification: { core: { email: user.email } } } };
+    Object.entries(PROFILE_FIELD_PATHS).forEach(([field, path]) => {
+      if (!user[field]) return;
+      const keys = path.split(".");
+      const last = keys.pop();
+      const parent = keys.reduce((node, key) => (node[key] = node[key] || {}), updates);
+      parent[last] = user[field];
+    });
+    window.updateDataLayer(updates);
+  }
+}
+
+function generateUserId() {
+  return `user_${Date.now()}_${Math.random().toString(36).slice(2, 11)}`;
 }
 
 /**
@@ -240,76 +291,8 @@ function attachSignInHandler(block) {
       return;
     }
 
-    // Check localStorage for registered user
-    const REGISTERED_EMAIL_KEY =
-      "com.adobe.reactor.dataElements.Profile - Email";
-    let registeredEmail = localStorage.getItem(REGISTERED_EMAIL_KEY);
-
-    // Clean the stored email: remove asterisks, quotes, and trim whitespace
-    if (registeredEmail) {
-      registeredEmail = registeredEmail
-        .replace(/[\*\"\']/g, "") // Remove asterisks and quotes
-        .trim();
-    }
-
-    // If localStorage doesn't have valid email, check via API as fallback
-    // if (!registeredEmail || !isValidEmail(registeredEmail)) {
-    //   console.log("LocalStorage check failed, trying API fallback...");
-
-    //   // Show loading state
-    //   const submitButton = form.querySelector('button[type="submit"]');
-    //   const originalButtonText = submitButton.textContent;
-    //   submitButton.disabled = true;
-    //   submitButton.textContent = "Checking...";
-
-    //   try {
-    //     const { exists, profile } = await checkProfileViaAPI(enteredEmail);
-
-    //     // Restore button state
-    //     submitButton.disabled = false;
-    //     submitButton.textContent = originalButtonText;
-
-    //     if (!exists || !profile) {
-    //       showErrorMessage(
-    //         form,
-    //         "No account found. Please create an account first."
-    //       );
-    //       return;
-    //     }
-
-    //     // Profile found via API, proceed with login
-    //     console.log("Profile found via API:", profile);
-    //   } catch (error) {
-    //     // Restore button state
-    //     submitButton.disabled = false;
-    //     submitButton.textContent = originalButtonText;
-
-    //     console.error("API fallback error:", error);
-    //     showErrorMessage(
-    //       form,
-    //       "No account found. Please create an account first."
-    //     );
-    //     return;
-    //   }
-    // } else {
-    //   // LocalStorage has valid email, check if it matches
-    //   // Debug logging (can be removed later)
-    //   console.log("Sign-in validation:", {
-    //     entered: enteredEmail,
-    //     registered: registeredEmail,
-    //     match: enteredEmail.toLowerCase() === registeredEmail.toLowerCase(),
-    //   });
-
-    //   // Check if entered email matches registered email (case-insensitive)
-    //   if (enteredEmail.toLowerCase() !== registeredEmail.toLowerCase()) {
-    //     showErrorMessage(
-    //       form,
-    //       "Email not found. Please check your email or create an account."
-    //     );
-    //     emailInput.focus();
-    //     return;
-    //   }
-    // }
+    const profile = await checkProfileViaAPI(enteredEmail);
+    if (profile) applyProfile(profile);
 
     // Sign-in successful - Load user data from registration
     try {
